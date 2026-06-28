@@ -1,8 +1,8 @@
-# Codex ⚡ — Learn to Code with AI
+# Syntaxia ⚡ — Learn to Code with AI
 
 <div align="center">
 
-![Codex Banner](https://img.shields.io/badge/Codex-Learn%20to%20Code-5B6BF8?style=for-the-badge&logo=lightning&logoColor=white)
+![Syntaxia Banner](https://img.shields.io/badge/Syntaxia-Learn%20to%20Code-5B6BF8?style=for-the-badge&logo=lightning&logoColor=white)
 ![Languages](https://img.shields.io/badge/Languages-20%2B-10B981?style=for-the-badge)
 ![AI Powered](https://img.shields.io/badge/AI%20Powered-Claude%20API-A855F7?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-F59E0B?style=for-the-badge)
@@ -48,8 +48,8 @@ Lesson Flow → Learn → Code → Quiz → Earn XP
 ### Option 1 — Just open the file
 ```bash
 # Download or clone the repo
-git clone https://github.com/YOUR_USERNAME/codex.git
-cd codex
+git clone https://github.com/YOUR_USERNAME/Syntaxia.git
+cd Syntaxia
 
 # Serve it locally (required for AI Tutor)
 npx serve .
@@ -67,11 +67,11 @@ npx serve .
 
 ## 🔑 API Key Setup
 
-Codex uses the **Anthropic Claude API** for the AI Tutor. You need your own API key.
+Syntaxia uses the **Anthropic Claude API** for the AI Tutor. You need your own API key.
 
 **Step 1** — Get a free key at [console.anthropic.com](https://console.anthropic.com)
 
-**Step 2** — Open Codex in your browser
+**Step 2** — Open Syntaxia in your browser
 
 **Step 3** — Go to **Profile → ⚙️ Settings** → paste your key → Save
 
@@ -82,7 +82,7 @@ Your key is stored in your browser's `localStorage` only — it never leaves you
 ## 📁 Project Structure
 
 ```
-codex/
+Syntaxia/
 ├── index.html          # The entire app — single file, no dependencies
 ├── api/
 │   └── chat.js         # Vercel serverless function (optional, for deployment)
@@ -200,7 +200,7 @@ MIT License — free to use, modify, and distribute.
 
 <div align="center">
 
-Built with ❤️ and ⚡ by **Codex**  
+Built with ❤️ and ⚡ by **Syntaxia**  
 Powered by [Anthropic Claude](https://anthropic.com)
 
 </div>
