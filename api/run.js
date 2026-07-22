@@ -37,7 +37,11 @@ export function validateInput(language, code, runtimes) {
 }
 
 const EXEC_URL =
-  process.env.EXEC_URL || 'https://ce.judge0.com/submissions/?base64=false&wait=true';
+  process.env.EXEC_URL || 'https://ce.judge0.com/submissions/?base64_encoded=true&wait=true';
+
+// Judge0 returns stdout/stderr/compile_output base64-encoded when base64_encoded=true
+// (required: gcc/javac emit non-UTF-8 bytes that otherwise 400 the request).
+const b64d = (s) => (s ? Buffer.from(s, 'base64').toString('utf8') : '');
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -56,16 +60,16 @@ export default async function handler(req, res) {
       method: 'POST',
       signal: controller.signal,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ language_id: languageId, source_code: code }),
+      body: JSON.stringify({ language_id: languageId, source_code: Buffer.from(code, 'utf8').toString('base64') }),
     });
     const data = await execRes.json().catch(() => ({}));
     if (!execRes.ok) {
       return res.status(502).json({ error: 'Execution service error' });
     }
     const statusId = data.status?.id;
-    const stderr = [data.compile_output, data.stderr].filter(Boolean).join('\n');
+    const stderr = [b64d(data.compile_output), b64d(data.stderr)].filter(Boolean).join('\n');
     return res.status(200).json({
-      stdout: data.stdout || '',
+      stdout: b64d(data.stdout),
       stderr,
       exitCode: statusId === 3 ? 0 : 1, // 3 = Accepted in Judge0
     });
