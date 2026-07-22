@@ -1,0 +1,62 @@
+/* Custom cursor (Phase 2) + compiler output panel (Phase 1) — net-new styles. */
+
+/* ── CUSTOM CURSOR ── */
+.syn-cursor-on,
+.syn-cursor-on * {
+  cursor: none !important;
+}
+/* Keep the text caret usable inside inputs/textareas. */
+.syn-cursor-on input,
+.syn-cursor-on textarea {
+  cursor: text !important;
+}
+.syn-cursor-dot,
+.syn-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent, #b7ff5a);
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-100px, -100px);
+  will-change: transform;
+}
+.syn-cursor-ring {
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: 1.5px solid rgba(183, 255, 90, 0.55);
+}
+@media (prefers-reduced-motion: reduce) {
+  .syn-cursor-dot,
+  .syn-cursor-ring {
+    display: none !important;
+  }
+}
+
+/* ── COMPILER OUTPUT PANEL ── */
+.code-out {
+  background: #040408;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: #4ade80;
+  margin-top: 10px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  min-height: 40px;
+}
+.code-out.err {
+  color: #ff6b6b;
+}
+iframe.code-out {
+  width: 100%;
+  min-height: 180px;
+  background: #fff;
+  border-radius: 8px;
+}

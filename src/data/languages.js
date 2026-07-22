@@ -1,0 +1,22 @@
+// Auto-extracted from syntaxia.html
+export const LANGS=[
+  {id:'python', n:'Python',    ico:'🐍', c:'#3B82F6', bg:'rgba(59,130,246,.12)',  codrs:'1.74M', ext:'py'},
+  {id:'javascript',n:'JavaScript',ico:'🟨',c:'#EAB308',bg:'rgba(234,179,8,.12)',  codrs:'253K',  ext:'js'},
+  {id:'html',   n:'HTML',      ico:'🌐', c:'#F97316', bg:'rgba(249,115,22,.12)',  codrs:'264K',  ext:'html'},
+  {id:'css',    n:'CSS',       ico:'🎨', c:'#A855F7', bg:'rgba(168,85,247,.12)',  codrs:'132K',  ext:'css'},
+  {id:'java',   n:'Java',      ico:'☕', c:'#F59E0B', bg:'rgba(245,158,11,.12)',  codrs:'220K',  ext:'java'},
+  {id:'sql',    n:'SQL',       ico:'🗄️', c:'#00B4D8', bg:'rgba(0,180,216,.12)',   codrs:'132K',  ext:'sql'},
+  {id:'typescript',n:'TypeScript',ico:'🔷',c:'#3B82F6',bg:'rgba(59,130,246,.12)', codrs:'98K',   ext:'ts'},
+  {id:'go',     n:'Go',        ico:'🐹', c:'#06B6D4', bg:'rgba(6,182,212,.12)',   codrs:'22K',   ext:'go'},
+  {id:'rust',   n:'Rust',      ico:'🦀', c:'#EF4444', bg:'rgba(239,68,68,.12)',   codrs:'17K',   ext:'rs'},
+  {id:'cpp',    n:'C++',       ico:'💙', c:'#2563EB', bg:'rgba(37,99,235,.12)',   codrs:'219K',  ext:'cpp'},
+  {id:'csharp', n:'C#',        ico:'💚', c:'#22C55E', bg:'rgba(34,197,94,.12)',   codrs:'112K',  ext:'cs'},
+  {id:'swift',  n:'Swift',     ico:'🦅', c:'#F97316', bg:'rgba(249,115,22,.12)',  codrs:'16K',   ext:'swift'},
+  {id:'kotlin', n:'Kotlin',    ico:'🎯', c:'#A855F7', bg:'rgba(168,85,247,.12)',  codrs:'45K',   ext:'kt'},
+  {id:'ruby',   n:'Ruby',      ico:'💎', c:'#EF4444', bg:'rgba(239,68,68,.12)',   codrs:'32K',   ext:'rb'},
+  {id:'php',    n:'PHP',       ico:'🐘', c:'#818CF8', bg:'rgba(129,140,248,.12)', codrs:'30K',   ext:'php'},
+  {id:'dart',   n:'Dart',      ico:'🎪', c:'#06B6D4', bg:'rgba(6,182,212,.12)',   codrs:'18K',   ext:'dart'},
+  {id:'lua',    n:'Lua',       ico:'🌙', c:'#818CF8', bg:'rgba(129,140,248,.12)', codrs:'56K',   ext:'lua'},
+  {id:'r',      n:'R',         ico:'📊', c:'#3B82F6', bg:'rgba(59,130,246,.12)',  codrs:'16K',   ext:'r'},
+  {id:'phaser', n:'Phaser',    ico:'⚡', c:'#10B981', bg:'rgba(16,185,129,.12)',  codrs:'12K',   ext:'phr'},
+];

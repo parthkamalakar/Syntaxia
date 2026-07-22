@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Syntaxia ⚡ — Learn to Code</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+<div id="xpb"><div style="background:linear-gradient(135deg,#F59E0B,#EF4444);border-radius:99px;padding:12px 30px;color:#fff;font-weight:900;font-size:27px;box-shadow:0 0 45px rgba(245,158,11,.7);"></div></div>
+<div id="toast"></div>
+
+<!-- LANDING -->
+<div id="landing">
+  <div class="bgt bgt1">Syntaxia ⚡ Syntaxia ⚡ Syntaxia ⚡ Syntaxia ⚡ Syntaxia ⚡</div>
+  <div class="bgt bgt2">Syntaxia ⚡ Syntaxia ⚡ Syntaxia ⚡ Syntaxia ⚡ Syntaxia ⚡</div>
+  <div id="orb">
+    <div class="orb-ball"><div class="orb-hi"></div><div class="orb-rim"></div></div>
+    <div class="orb-ring"></div><div class="orb-glow"></div>
+  </div>
+  <nav id="l-nav">
+    <div class="l-logo"><div class="l-logo-ico">⚡</div>Syntaxia</div>
+    <div class="l-links">
+      <button class="l-link" onclick="go('home')">Learn</button>
+      <button class="l-link" onclick="go('courses')">Courses</button>
+      <button class="l-link" onclick="go('mission')">Mission Lab</button>
+      <button class="l-link" onclick="go('leaderboard')">Leagues</button>
+      <button class="l-link" onclick="go('profile')">Profile</button>
+    </div>
+    <div class="l-lang">EN</div>
+  </nav>
+  <div id="l-main">
+    <div class="l-tag">Seeking the optimal path from curiosity to working code</div>
+    <div class="l-box">
+      <textarea id="l-inp" placeholder="Tell Syntaxia what you want to build, fix, or understand."></textarea>
+      <button class="l-send" id="l-send">↑</button>
+    </div>
+    <div class="l-ctas">
+      <button class="l-cta" onclick="go('home')">Start Learning</button>
+      <button class="l-cta" onclick="go('courses')">Browse Courses</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <nav id="anav">
+    <div class="a-logo" onclick="nav('home')">Syn<span>taxia</span> ⚡</div>
+    <button class="alink on" data-p="home" onclick="nav('home')">🏠 Home</button>
+    <button class="alink" data-p="courses" onclick="nav('courses')">📚 Courses</button>
+    <button class="alink" data-p="mission" onclick="nav('mission')">🧭 Mission Lab</button>
+    <button class="alink" data-p="leaderboard" onclick="nav('leaderboard')">🏆 Leagues</button>
+    <button class="alink" data-p="profile" onclick="nav('profile')">👤 Profile</button>
+    <div class="a-right">
+      <div class="astat">🔥 <span id="n-str">0</span></div>
+      <div class="astat">⚡ <span id="n-xp">0</span> XP</div>
+      <button onclick="showSettings()" title="Settings" style="width:34px;height:34px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;" onmouseover="this.style.background='rgba(255,255,255,.18)';this.style.borderColor='rgba(255,255,255,.25)'" onmouseout="this.style.background='rgba(255,255,255,.07)';this.style.borderColor='rgba(255,255,255,.1)'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=user&backgroundColor=0b0c10" style="width:30px;height:30px;border-radius:50%;border:2px solid #5B6BF8;" onclick="nav('profile')"/>
+    </div>
+  </nav>
+  <div id="app-body">
+    <div id="wrap">
+      <div id="pg-home" class="pg on"><div class="pi" id="home-pi"></div></div>
+      <div id="pg-courses" class="pg"><div class="pi" id="courses-pi"></div></div>
+      <div id="pg-mission" class="pg"><div class="pi" id="mission-pi"></div></div>
+      <div id="pg-course" class="pg"><div class="pi" id="course-pi"></div></div>
+      <div id="pg-lesson" class="pg"><div class="pi" id="lesson-pi"></div></div>
+      <div id="pg-leaderboard" class="pg"><div class="pi" id="lb-pi"></div></div>
+      <div id="pg-profile" class="pg"><div class="pi" id="profile-pi"></div></div>
+    </div>
+
+    <!-- INLINE AI PANEL -->
+    <div id="ai-panel">
+      <div id="ai-panel-hdr">
+        <div class="aip-ico">🤖</div>
+        <div style="flex:1;">
+          <div style="font-weight:800;font-size:14px;">AI Tutor</div>
+          <div style="font-size:11px;color:#8B5CF6;display:flex;align-items:center;gap:5px;">
+            <span style="width:6px;height:6px;background:#22C55E;border-radius:50%;display:inline-block;animation:dd 2s infinite;"></span>
+            <span id="ai-sub">Ready to help</span>
+          </div>
+        </div>
+        <button onclick="clearAIChat()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:4px 9px;color:rgba(255,255,255,.4);font-size:11px;font-weight:700;" title="Clear chat">↺</button>
+      </div>
+      <div id="ai-panel-msgs"></div>
+      <div id="ai-panel-chips"></div>
+      <div id="ai-panel-bar">
+        <input id="api-inp" placeholder="Ask anything…" onkeydown="if(event.key==='Enter')aiSend()" oninput="updAIBtn()"/>
+        <button id="api-sbtn" onclick="aiSend()">↑</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="moverlay" id="settings-m">
+  <div class="mbox">
+    <button class="mclose" onclick="closeM('settings-m')">✕</button>
+    <div class="mtit">⚙️ Settings</div>
+    <div class="msub">Customize Syntaxia</div>
+    <div style="margin-bottom:14px;">
+      <div style="font-weight:700;font-size:13px;margin-bottom:8px;">👤 Display Name</div>
+      <input id="name-inp" class="minp" style="margin:0;" value="You" placeholder="Your name"/>
+    </div>
+    <button class="mprim" onclick="saveSettings()">Save Settings</button>
+  </div>
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
