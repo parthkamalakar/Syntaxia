@@ -4,7 +4,7 @@ const MAX_MESSAGE_CHARS = 4000;
 const MAX_TOTAL_CHARS = 16000;
 const REQUEST_TIMEOUT_MS = 15000;
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ error: 'Method not allowed' });

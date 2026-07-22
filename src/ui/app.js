@@ -2,14 +2,16 @@
 import { LANGS } from '../data/languages.js';
 import { LESSONS } from '../data/courses.js';
 import { LEAGUES, BADGES, LB, MISSIONS } from '../data/gamification.js';
-import P, { saveP } from '../state.js';
+import P, { saveP, recordActivity, todayISO } from '../state.js';
 import { SYS_GEN, SYS_LES } from '../features/ai.js';
+import { runCodeForLesson, matchesExpected } from '../features/compiler.js';
 
 
 // ─── UI STATE ─────────────────────────────────
 let curLang=null, curLesson=null, lesStep='learn', lesCode='', lesRan=false;
 let qSel=null, qSub=false;
 let lbTab='rookie';
+let lastRun=null;
 
 // ─── HELPERS ───────────────────────────────────
 function av(seed){return 'https://api.dicebear.com/7.x/avataaars/svg?seed='+seed+'&backgroundColor=0b0c10';}
@@ -290,7 +292,7 @@ function renderLesBody(){
           <textarea class="ced" id="ced">${escaped}</textarea>
         </div>
         <button class="run-btn" onclick="runCode()">▶ Run Code</button>
-        ${lesRan?`<div class="outbox">${les.out}</div><div class="sban">✅ Output matches! Well done!</div><button onclick="setStep('quiz')" style="width:100%;background:${l.c};color:#fff;border:none;border-radius:12px;padding:13px;font-weight:800;font-size:14px;margin-top:8px;">Take the Quiz →</button>`:''}
+        ${lesRan&&lastRun?runPanel(lastRun,les,l.c):''}
         <div class="hint-row">
           <button class="hint-btn" onclick="openAI(true)">🤖 Ask AI for a hint</button>
           <button class="sol-btn" onclick="showSol()">👁 Show Solution</button>
@@ -333,10 +335,37 @@ function renderLesBody(){
   }
 }
 
-function runCode(){
-  const ed=document.getElementById('ced');if(ed)lesCode=ed.target?ed.target.value:document.getElementById('ced').value;
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function attr(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;');}
+function passedRun(r,les){if(!r)return false;if(r.rendered||r.previewOnly)return true;return r.exitCode===0&&matchesExpected(r.stdout,les.out);}
+function runPanel(r,les,color){
+  if(r.previewOnly){
+    return '<div class="sban" style="background:#0D2010;">📄 Reference output (live execution needs a database/runtime):</div>'+
+      '<pre class="code-out">'+esc(les.out||'(no expected output)')+'</pre>'+
+      '<button onclick="setStep(\'quiz\')" style="width:100%;background:'+color+';color:#fff;border:none;border-radius:12px;padding:13px;font-weight:800;font-size:14px;margin-top:8px;">Take the Quiz →</button>';
+  }
+  if(r.rendered){
+    return '<div class="sban" style="background:#031A0F;">🖼️ Live preview rendered</div>'+
+      '<iframe class="code-out" sandbox="allow-scripts" srcdoc="'+attr(r.rendered)+'"></iframe>'+
+      '<button onclick="setStep(\'quiz\')" style="width:100%;background:'+color+';color:#fff;border:none;border-radius:12px;padding:13px;font-weight:800;font-size:14px;margin-top:8px;">Take the Quiz →</button>';
+  }
+  const ok=r.exitCode===0,matched=ok&&matchesExpected(r.stdout,les.out);
+  const body=(r.stdout?esc(r.stdout):'')+(r.stderr?'\n'+esc(r.stderr):'');
+  let out='<pre class="code-out '+(ok?'':'err')+'">'+(body||'(no output)')+'</pre>';
+  if(les.out){
+    out+=matched?'<div class="sban">✅ Output matches! Well done!</div>':'<div class="sban" style="background:#1A0505;border-color:#EF4444;color:#F87171;">Output doesn\'t match yet — expected:\n'+esc(les.out)+'</div>';
+  }else{
+    out+=ok?'<div class="sban">✅ Ran successfully!</div>':'<div class="sban" style="background:#1A0505;border-color:#EF4444;color:#F87171;">⚠️ Fix the errors and run again.</div>';
+  }
+  out+='<button onclick="setStep(\'quiz\')" style="width:100%;background:'+color+';color:#fff;border:none;border-radius:12px;padding:13px;font-weight:800;font-size:14px;margin-top:8px;">Take the Quiz →</button>';
+  return out;
+}
+async function runCode(){
+  const ed=document.getElementById('ced');if(ed)lesCode=ed.value;
   const starter=(curLesson.starter||'').trim();
   if(!lesCode.trim()||lesCode.trim()===starter){toast('✏️ Write your code first!');return;}
+  const btn=document.querySelector('.run-btn');if(btn){btn.disabled=true;btn.textContent='Running…';}
+  lastRun=await runCodeForLesson(curLang?curLang.id:'javascript',lesCode);
   lesRan=true;renderLesBody();
 }
 function showSol(){
@@ -349,9 +378,13 @@ function selQ(i){if(qSub)return;qSel=i;renderLesBody();}
 function subQ(){if(qSel===null)return;qSub=true;renderLesBody();}
 function claimXP(){
   const les=curLesson;
-  if(!P.done[les.id]){
-    P.done[les.id]=true;P.xp+=les.xp;saveP();
-    showXP(les.xp);toast('Progress saved.');
+  const passed=passedRun(lastRun,les);
+  if(!P.done[les.id]&&(!les.out||passed)){
+    P.done[les.id]=true;P.xp+=les.xp;
+    recordActivity(P,todayISO());saveP();
+    showXP(les.xp);toast('Progress saved. 🔥 Streak updated!');updNav();
+  }else if(les.out&&!passed){
+    toast('Output doesn\'t match yet — no XP this time. Keep trying!');
   }
   setTimeout(()=>openCourse(curLang),350);
 }
