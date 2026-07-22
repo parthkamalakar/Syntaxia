@@ -5,6 +5,7 @@ import { LEAGUES, BADGES, LB, MISSIONS } from '../data/gamification.js';
 import P, { saveP, recordActivity, todayISO } from '../state.js';
 import { SYS_GEN, SYS_LES } from '../features/ai.js';
 import { runCodeForLesson, matchesExpected } from '../features/compiler.js';
+import { avatarURL, AVATAR_STYLES, BG_COLORS, AVATAR_MOUTH, AVATAR_EYES, AVATAR_EYEBROWS, AVATAR_TOP, randomAvatarConfig } from '../features/avatar.js';
 
 
 // ─── UI STATE ─────────────────────────────────
@@ -34,6 +35,7 @@ function updNav(){
   document.getElementById('n-str').textContent=P.str;
   document.getElementById('n-xp').textContent=x;
   LB.find(u=>u.me).xp=x;
+  const navAv=document.getElementById('nav-avatar'); if(navAv) navAv.src=userAvatarURL();
 }
 
 // ─── LANDING ───────────────────────────────────
@@ -414,7 +416,7 @@ function renderLB(){
     const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1);
     const row=document.createElement('div');row.className='lbr'+(u.me?' me':'');
     row.innerHTML=`<div class="lb-rank">${medal.length>2?medal:'<span style="font-size:18px;">'+medal+'</span>'}</div>
-    <img src="${av(u.av)}" class="lb-av"/><div style="flex:1;"><div style="font-size:14px;font-weight:700;">${u.me?'⭐ You':u.c+' '+u.n}</div><div style="font-size:12px;color:rgba(255,255,255,.35);">🔥 ${u.str} day streak</div></div><div class="lb-pts">${u.xp.toLocaleString()} XP</div>`;
+    <img src="${u.me?userAvatarURL():av(u.av)}" class="lb-av"/><div style="flex:1;"><div style="font-size:14px;font-weight:700;">${u.me?'⭐ You':u.c+' '+u.n}</div><div style="font-size:12px;color:rgba(255,255,255,.35);">🔥 ${u.str} day streak</div></div><div class="lb-pts">${u.xp.toLocaleString()} XP</div>`;
     panel.appendChild(row);
   });
   if(!show.length)panel.innerHTML+=`<div style="padding:30px;text-align:center;color:rgba(255,255,255,.3);">No coders in this league yet. Be the first!</div>`;
@@ -444,7 +446,7 @@ function renderProfile(){
   <div class="pl">
     <div>
       <div class="pcard" style="margin-bottom:12px;">
-        <img src="${av('user123')}" class="pav"/>
+        <img src="${userAvatarURL()}" class="pav"/>
         <div class="pname" id="pname">You</div>
         <div class="ph">@syntaxia_learner</div>
         <div class="psg">
@@ -633,6 +635,59 @@ function updAIBtn(){
   inp.style.borderColor=inp.value?'#8B5CF6':'rgba(255,255,255,.08)';
 }
 
+// ─── AVATAR BUILDER ───────────────────────────
+function userAvatarURL(){return avatarURL(P.avatar);}
+function applyAvatars(){
+  const navAv=document.getElementById('nav-avatar'); if(navAv) navAv.src=userAvatarURL();
+}
+let avDraft=null;
+function renderAvatarBuilder(){
+  let o=document.getElementById('avatar-m');
+  if(!o){o=document.createElement('div');o.id='avatar-m';o.className='moverlay';o.addEventListener('click',e=>{if(e.target===o)closeAvatarBuilder();});document.body.appendChild(o);}
+  const styleObj=AVATAR_STYLES.find(s=>s.id===avDraft.style)||AVATAR_STYLES[0];
+  const chipRow=(rows,param)=>{
+    const cur=(param==='top'?(avDraft.options.top):(avDraft.options[param]))||'';
+    return rows.map(([v,label])=>`<button class="achip ${(v||'')===cur?'on':''}" data-param="${param}" data-v="${v||''}">${label}</button>`).join('');
+  };
+  o.classList.add('on');
+  o.innerHTML=`<div class="mbox" style="max-width:520px;">
+    <button class="mclose" onclick="closeAvatarBuilder()">✕</button>
+    <div class="mtit">🎨 Customize Avatar</div>
+    <div class="msub">Pick a style, features, and background</div>
+    <div style="display:flex;gap:18px;align-items:center;margin:4px 0 14px;">
+      <img src="${avatarURL(avDraft)}" style="width:104px;height:104px;border-radius:50%;border:3px solid #5B6BF8;background:#0b0c10;flex-shrink:0;"/>
+      <div style="flex:1;">
+        <div class="av-lbl">Style</div>
+        <div class="chip-wrap">${AVATAR_STYLES.map(s=>`<button class="achip ${s.id===avDraft.style?'on':''}" data-style="${s.id}">${s.label}</button>`).join('')}</div>
+        <button class="msec" style="margin-top:6px;width:auto;padding:8px 14px;" onclick="randomizeAvatar()">🎲 Randomize look</button>
+      </div>
+    </div>
+    ${styleObj.parts?`
+      <div class="av-lbl">Mouth</div><div class="chip-wrap">${chipRow(AVATAR_MOUTH,'mouth')}</div>
+      <div class="av-lbl">Eyes</div><div class="chip-wrap">${chipRow(AVATAR_EYES,'eyes')}</div>
+      <div class="av-lbl">Eyebrows</div><div class="chip-wrap">${chipRow(AVATAR_EYEBROWS,'eyebrows')}</div>
+      <div class="av-lbl">Headwear</div><div class="chip-wrap">${chipRow(AVATAR_TOP,'top')}</div>
+    `:'<div class="msub" style="margin:6px 0;">Facial features apply to the Person style — switch to it to use them.</div>'}
+    <div class="av-lbl">Background</div>
+    <div class="chip-wrap">${BG_COLORS.map(c=>`<button class="bg-swatch ${c===avDraft.bg?'on':''}" data-bg="${c}" style="background:#${c};"></button>`).join('')}</div>
+    <button class="mprim" onclick="saveAvatar()" style="margin-top:16px;">Save Avatar</button>
+  </div>`;
+  o.querySelectorAll('button[data-param]').forEach(b=>b.onclick=()=>{
+    const p=b.dataset.param,v=b.dataset.v;
+    if(v) avDraft.options[p]=v; else delete avDraft.options[p];
+    renderAvatarBuilder();
+  });
+  o.querySelectorAll('button[data-style]').forEach(b=>b.onclick=()=>{ avDraft.style=b.dataset.style; renderAvatarBuilder(); });
+  o.querySelectorAll('button[data-bg]').forEach(b=>b.onclick=()=>{ avDraft.bg=b.dataset.bg; renderAvatarBuilder(); });
+}
+function openAvatarBuilder(){
+  avDraft={style:P.avatar.style,seed:P.avatar.seed,bg:P.avatar.bg,options:{...(P.avatar.options||{})}};
+  renderAvatarBuilder();
+}
+function closeAvatarBuilder(){ const o=document.getElementById('avatar-m'); if(o)o.classList.remove('on'); }
+function randomizeAvatar(){ if(!avDraft)return; const c=randomAvatarConfig(); avDraft.style='avataaars'; avDraft.seed=c.seed; avDraft.bg=c.bg; avDraft.options=c.options; renderAvatarBuilder(); }
+function saveAvatar(){ if(!avDraft)return; P.avatar=avDraft; saveP(); applyAvatars(); toast('Avatar updated! 🎨'); closeAvatarBuilder(); if(document.getElementById('profile-pi'))renderProfile(); }
+
 // ─── EXPOSE FOR INLINE ONCLICK HANDLERS ───────
 window.LANGS = LANGS;
 window.LESSONS = LESSONS;
@@ -641,7 +696,8 @@ Object.assign(window, {
   go, nav, showSettings, closeM, saveSettings, clearAIChat, aiSend, updAIBtn,
   openCourse, openLesson, setStep, runCode, openAI, showSol, selQ, subQ, claimXP,
   filterC, startMission, startCustomMission, chipSend, renderHome, renderCourses,
-  renderMission, renderLB, renderProfile
+  renderMission, renderLB, renderProfile, openAvatarBuilder, closeAvatarBuilder,
+  saveAvatar, randomizeAvatar
 });
 
 // ─── INIT ──────────────────────────────────────

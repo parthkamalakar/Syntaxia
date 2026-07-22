@@ -61,7 +61,7 @@
           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
         </svg>
       </button>
-      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=user&backgroundColor=0b0c10" style="width:30px;height:30px;border-radius:50%;border:2px solid #5B6BF8;" onclick="nav('profile')"/>
+      <img id="nav-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=user&backgroundColor=0b0c10" style="width:30px;height:30px;border-radius:50%;border:2px solid #5B6BF8;" onclick="nav('profile')"/>
     </div>
   </nav>
   <div id="app-body">
@@ -108,6 +108,7 @@
       <div style="font-weight:700;font-size:13px;margin-bottom:8px;">👤 Display Name</div>
       <input id="name-inp" class="minp" style="margin:0;" value="You" placeholder="Your name"/>
     </div>
+    <button class="msec" onclick="openAvatarBuilder()" style="margin:0 0 12px;">🎨 Customize Avatar</button>
     <button class="mprim" onclick="saveSettings()">Save Settings</button>
   </div>
 </div>
