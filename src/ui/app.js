@@ -382,9 +382,14 @@ function claimXP(){
   const les=curLesson;
   const passed=passedRun(lastRun,les);
   if(!P.done[les.id]&&(!les.out||passed)){
+    const beforeLvl=lvl(P.xp),beforeStr=P.str;
     P.done[les.id]=true;P.xp+=les.xp;
     recordActivity(P,todayISO());saveP();
-    showXP(les.xp);toast('Progress saved. 🔥 Streak updated!');updNav();
+    showXP(les.xp);updNav();
+    confetti();
+    if(lvl(P.xp)>beforeLvl)levelUpFlash();
+    else if(P.str>beforeStr)streakFlamePulse();
+    toast('Progress saved. 🔥 Streak updated!');
   }else if(les.out&&!passed){
     toast('Output doesn\'t match yet — no XP this time. Keep trying!');
   }
@@ -687,6 +692,33 @@ function openAvatarBuilder(){
 function closeAvatarBuilder(){ const o=document.getElementById('avatar-m'); if(o)o.classList.remove('on'); }
 function randomizeAvatar(){ if(!avDraft)return; const c=randomAvatarConfig(); avDraft.style='avataaars'; avDraft.seed=c.seed; avDraft.bg=c.bg; avDraft.options=c.options; renderAvatarBuilder(); }
 function saveAvatar(){ if(!avDraft)return; P.avatar=avDraft; saveP(); applyAvatars(); toast('Avatar updated! 🎨'); closeAvatarBuilder(); if(document.getElementById('profile-pi'))renderProfile(); }
+
+// ─── ANIMATIONS (reduced-motion aware) ─────────
+function prefersReducedMotion(){ return !!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches); }
+function confetti(){
+  if(prefersReducedMotion())return;
+  let c=document.getElementById('confetti-c');
+  if(!c){c=document.createElement('canvas');c.id='confetti-c';c.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:99998;';document.body.appendChild(c);}
+  const ctx=c.getContext('2d');const W=c.width=window.innerWidth,H=c.height=window.innerHeight;
+  const colors=['#5B6BF8','#b7ff5a','#F59E0B','#EF4444','#22C55E','#8B5CF6','#48d8ff'];
+  const P2=Array.from({length:90},()=>({x:W/2+(Math.random()-.5)*W*.3,y:H*.32,vx:(Math.random()-.5)*9,vy:Math.random()*-9-3,g:.25+Math.random()*.18,s:6+Math.random()*7,col:colors[(Math.random()*colors.length)|0],rot:Math.random()*6,vr:(Math.random()-.5)*.35}));
+  let f=0;
+  (function tick(){ctx.clearRect(0,0,W,H);P2.forEach(p=>{p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.col;ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);ctx.restore();});f++;if(f<130)requestAnimationFrame(tick);else ctx.clearRect(0,0,W,H);})();
+}
+function streakFlamePulse(){
+  if(prefersReducedMotion())return;
+  const s=document.getElementById('n-str');if(!s)return;const box=s.parentElement;
+  box.style.transition='transform .22s, color .22s';box.style.transform='scale(1.45)';box.style.color='#F59E0B';
+  setTimeout(()=>{box.style.transform='scale(1)';box.style.color='';},240);
+}
+function levelUpFlash(){
+  if(prefersReducedMotion()){toast('🎉 Level up!');return;}
+  let o=document.getElementById('lvl-flash');
+  if(!o){o=document.createElement('div');o.id='lvl-flash';o.style.cssText='position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:99997;pointer-events:none;';o.innerHTML='<div style="font-size:clamp(40px,8vw,90px);font-weight:900;color:#b7ff5a;text-shadow:0 0 40px rgba(183,255,90,.8);letter-spacing:-2px;">LEVEL UP!</div>';document.body.appendChild(o);}
+  o.style.display='flex';
+  o.animate([{opacity:0,transform:'scale(.6)'},{opacity:1,transform:'scale(1.12)'},{opacity:1,transform:'scale(1)',offset:.5},{opacity:0,transform:'scale(1.25)'}],{duration:1700,easing:'ease-out'});
+  setTimeout(()=>{o.style.display='none';},1750);
+}
 
 // ─── EXPOSE FOR INLINE ONCLICK HANDLERS ───────
 window.LANGS = LANGS;
