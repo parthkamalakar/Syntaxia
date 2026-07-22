@@ -4,37 +4,49 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-There is **no build system, package manager, lint, or test suite** — this is a static vanilla-JS app. All four tracked files are hand-authored source.
+This is a **Vite + vanilla ES-module** app. Node is required.
 
-- **Run locally (with working AI Tutor):** `vercel dev` — requires `.env.local` containing `GROQ_API_KEY=gsk_...`. The AI Tutor calls `/api/chat`, a Vercel serverless function, so it only resolves when served by Vercel.
-- **Static preview (AI Tutor offline):** open `syntaxia.html` via VS Code Live Server. The app detects the `file:` protocol and silently falls back to the keyword-matched `offlineAI()` knowledge base instead of calling Groq.
-- **Deploy:** `vercel` (CLI) or import the GitHub repo on vercel.com. Set `GROQ_API_KEY` (and optionally `GROQ_MODEL`) under Project Settings → Environment Variables.
+- **Install:** `npm install`
+- **Frontend dev (fast HMR):** `npm run dev` — the AI Tutor and server-run languages fall back gracefully because `/api/*` isn't served by plain Vite.
+- **Full-stack dev (AI + execution work):** `vercel dev` — requires `.env.local` with `GROQ_API_KEY=gsk_...` so `/api/chat` and `/api/run` resolve.
+- **Build:** `npm run build` → `dist/`. `vercel.json` is `framework: vite`, output `dist`.
+- **Test:** `npm test` (Vitest, node env, pure-logic unit tests in `tests/`).
+- **Deploy:** `vercel --prod`, or push to GitHub and let Vercel auto-deploy. Set `GROQ_API_KEY` (and optionally `GROQ_MODEL`, `EXEC_URL`) in Project Settings → Environment Variables.
 
-Never open `syntaxia.html` by double-clicking — the AI Tutor will be broken (no serverless endpoint, CORS).
+Never open `index.html` by double-clicking — module imports and `/api/*` need a server.
 
 ## Architecture
 
-### Single-file frontend + one serverless function
-The entire UI — markup, `<style>`, and one inline `<script>` (~80KB, all logic) — lives in `syntaxia.html` (~1600 lines). `vercel.json` rewrites `/` → `/syntaxia.html`. The only backend code is `api/chat.js`, a Groq proxy whose sole purpose is keeping `GROQ_API_KEY` off the client. The key must never appear in `syntaxia.html` or `localStorage`.
+### Modular frontend + two serverless functions
+The app was migrated from a single `syntaxia.html` (now deleted) into ES modules under `src/`, bundled by Vite. Entry is `index.html` → `src/main.js`.
 
-**Frontend stack:** vanilla HTML/CSS/JS, no framework. External runtime deps are limited to Google Fonts (Inter, JetBrains Mono) and the DiceBear avatar API.
+- `src/main.js` — bootstrap: imports `ui/app.js`, loads `styles/extras.css`, calls `initCursor()`.
+- `src/state.js` — **the only module that touches `localStorage['syn_prog']`**. Exports the live `P` object, `saveP()`, `hydrate()`, `recordActivity(P, todayISO)` (daily streak), `todayISO()`.
+- `src/data/` — pure data + generators: `languages.js` (LANGS), `courses.js` (LESSONS + the generic-lesson generator), `gamification.js` (LEAGUES, POWERUPS, LB, BADGES, MISSIONS), `kb.js` (offline KB).
+- `src/ui/app.js` — the bulk of the UI: the hand-rolled view router (`nav`, `go`), all `render*` functions, helpers (`av`, `lvl`, `league`, `pct`, `toast`, `showXP`, `updNav`), the lesson flow, and the **impure** AI panel functions (`aiSend`, `renderAI`, `fmtAI`, etc.). Inline `onclick` handlers reference module functions, so app.js attaches them to `window` (and defines a `window.curLang` getter for the mutable one).
+- `src/features/ai.js` — **pure**: `offlineAI(question, lessonCtx)` + `SYS_GEN`/`SYS_LES` prompts (imported by app.js).
+- `src/features/compiler.js` — execution: `runJS` (in-browser), `runHTML` (iframe srcdoc), `runRemote` (`/api/run`), `normalize`/`matchesExpected`, and the router `runCodeForLesson(langId, code)`.
+- `src/features/cursor.js` — custom cursor + OS hide (`shouldEnableCustomCursor`, `initCursor`).
+- `api/chat.js`, `api/run.js` — Vercel serverless functions (ESM, `export default`).
+
+**Stack:** vanilla ES modules + Vite. External runtime deps: Google Fonts (Inter, JetBrains Mono), DiceBear avatars.
 
 ### Client-side state
-Global state object `P = {done:{}, xp:0, str:3}` (completed lessons, XP, streak) is persisted to a single `localStorage` key **`syn_prog`** via `saveP()` and rehydrated on load. `LANGS`, `LEAGUES`, `POWERUPS`, and `BADGES` are static JS constants embedded in the script — there is no database. League/tier are derived from `xp` by `league()`/`lvl()`.
+`P = { done, xp, str, lastActive, avatar, settings }` persists to `localStorage['syn_prog']`. `hydrate()` merges defaults and migrates the legacy hardcoded streak (`str=3` → `0` when there's no `lastActive`). League/tier derived from `xp` via `league()`/`lvl()`.
 
-### App is a hand-rolled view router
-`nav(view)` swaps views; `render*` functions (`renderHome`, `renderCourses`, `renderMission`, `renderLB`, `renderProfile`) build each view into the DOM. Lesson flow is `openCourse` → `openLesson` → `renderLes` with steps (`learn` → `code` → `quiz`) tracked in `lesStep`.
+### Lesson flow & real execution
+`openCourse` → `openLesson` → `renderLes`/`renderLesBody` with steps `learn → code → quiz`. `runCode()` is **real**: it calls `runCodeForLesson(curLang.id, lesCode)` and renders `runPanel()` (stdout/stderr, iframe preview, or reference output). `claimXP()` gates XP on `passedRun()` — matching expected output (or a successful preview-only/HTML run) — and calls `recordActivity()` to update the streak. Lessons without deterministic `out` (e.g. HTML preview) pass on success; SQL/Phaser are preview-only (reference output, no live DB).
 
-### Lesson "run code" is a stub
-`runCode()` does **not** execute code — it only flips `lesRan=true` and re-renders. `showSol()` copies `curLesson.code` into the editor; `subQ()` records a quiz answer. There is no sandbox or runner. Treat any "add real execution" work as net-new (the README lists the Piston API as a future idea).
+### Code execution backend (`api/run.js`)
+POST-only; `validateInput(language, code, RUNTIMES)` allowlists languages and caps code at 8000 chars (unit-tested). Proxies to the public **Judge0 CE** instance (`EXEC_URL`, default `https://ce.judge0.com/...`) — the public Piston API is whitelist-only as of Feb 2026. Maps our lang ids to Judge0 `language_id`s (verified live). 9s timeout (→ 504). Returns `{ stdout, stderr, exitCode }` (`exitCode 0` when Judge0 status is Accepted/3).
 
-### AI Tutor flow (`aiSend` → `/api/chat` → `offlineAI`)
-`aiSend()` builds an OpenAI-style `messages` array with a system prompt chosen by context: `SYS_GEN` (general tutor) or `SYS_LES` (lesson-scoped, when `aiCtx && curLesson` are set via `setAILessonCtx`). It POSTs to `/api/chat`. On any fetch failure (or `file:`), it falls back to `offlineAI()`, which keyword-matches the embedded `KB` array (bonus-weighted by current lesson language) and returns canned guidance. **Mission Lab** (`startMission`/`startCustomMission`) is not a separate backend — it injects a structured prompt into this same AI flow to produce checkpoint-based guidance.
-
-### Serverless proxy contract (`api/chat.js`)
-POST-only; rejects empty/oversized payloads; sanitizes roles to `system|user|assistant`; caps at 12 messages, 4000 chars/message, 16000 chars total; 15s `AbortController` timeout (→ 504); 600 max_tokens, temperature 0.7; default model `llama-3.1-8b-instant` (overridable via `GROQ_MODEL`). Returns `{ reply }` or `{ error }`. Extend AI behavior through this file plus the `SYS_*` prompts and `KB` entries in the HTML.
+### AI Tutor flow (`aiSend` → `/api/chat`)
+`aiSend()` builds an OpenAI-style `messages` array with `SYS_GEN` or `SYS_LES`, POSTs to `/api/chat`. On fetch failure it shows a contextual error message (not `offlineAI` — that helper is exported but currently unused at runtime). **Mission Lab** (`startMission`/`startCustomMission`) injects a structured prompt into the same flow.
 
 ## Gotchas
 
-- **Grep decoys:** `syntaxia.html` contains embedded lesson code samples that look like real functions — e.g. `function getData()` (fetches `api.example.com/data`), `function getUser()`, and a `nums` array with `.map()/.filter()`. These are learner-facing examples, **not** app code. The real state loader is the inline `try{...JSON.parse(localStorage.getItem('syn_prog'))...}` block; `api.example.com` is a placeholder, not a real dependency.
-- The single `<script>` block holds all ~48 functions and all data constants together — edits anywhere in `syntaxia.html` share one scope with no module boundaries.
+- **Inline `onclick` globals:** the markup uses `onclick="nav('home')"`, `openLesson(LANGS.find(...), LESSONS[...])`, `openCourse(curLang)`, etc. These resolve against `window`, so app.js must keep every handler (and `LANGS`, `LESSONS`, and a live `curLang` getter) attached to `window`. If you add a new onclick handler, expose it in app.js's `Object.assign(window, …)` block.
+- **`curLang` is the LANGS object** (not the id); `curLang.id` is the language id used for execution routing.
+- **ESM in `/api`:** the root `package.json` is `"type": "module"`, so `api/*.js` must use `export default` (not `module.exports`) or Vercel/Vitest will fail.
+- **Grep decoys:** lesson code samples (e.g. `function getData()`, `function getUser()`, a `nums` array) live in `src/data/courses.js` and `kb.js` — they are learner-facing examples, **not** app code.
+- Tests are intentionally scoped to pure logic (state, compiler, validation, cursor-enable). DOM rendering and live API calls are verified manually.

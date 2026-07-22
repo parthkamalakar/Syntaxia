@@ -7,10 +7,8 @@
 ![AI Powered](https://img.shields.io/badge/AI%20Powered-Groq%20API-A855F7?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-F59E0B?style=for-the-badge)
 
-**An interactive coding learning platform powered by Groq AI.**  
-Learn Python, JavaScript, Java, SQL, and 20+ more languages with lessons, leagues, XP, and a Mission Lab that turns project ideas into guided build paths.
-
-[🚀 Live Demo](#) · [📖 How to Use](#how-to-use) · [🔑 API Setup](#api-key-setup) · [🚢 Deploy](#deploy-to-vercel)
+**An interactive coding learning platform powered by Groq AI.**
+Learn Python, JavaScript, Java, SQL, and 20+ more languages with lessons, a real in-browser/compiler, leagues, XP, and a Mission Lab that turns project ideas into guided build paths.
 
 </div>
 
@@ -21,77 +19,55 @@ Learn Python, JavaScript, Java, SQL, and 20+ more languages with lessons, league
 | Feature | Description |
 |---|---|
 | 🤖 **AI Tutor** | Powered by Groq — gives hints, explains concepts, reviews code |
+| ▶️ **Real Code Execution** | JavaScript/HTML/CSS run in-browser; Python, Java, C++, Go, Rust & more run via a serverless Judge0 proxy — with real output and syntax errors |
 | 📚 **20+ Languages** | Python, JavaScript, Java, SQL, C++, Rust, Go, Swift, and more |
 | 🧭 **Mission Lab** | Turns an idea into a checkpoint-based mini-project with AI guidance |
 | 🏆 **5 Leagues** | Rookie → Emerald → Diamond → Amethyst → Gold |
-| ⚡ **XP & Levels** | Earn XP for every lesson, level up, climb the ranks |
-| 🔥 **Streaks** | Daily streak tracking to keep you motivated |
-| 🌑 **Moonshot-Inspired UI** | Stark black landing page, orb centerpiece, minimal controls |
+| ⚡ **XP & Levels** | Earn XP when your code's output matches the expected result |
+| 🔥 **Streaks** | Real daily streak tracking (increment on consecutive days) |
+| 🖱️ **Custom Cursor** | OS cursor hidden behind a custom cursor (toggleable, motion-friendly) |
 | 📱 **Responsive** | Works on desktop and mobile |
-| 💾 **Local Progress** | Progress is saved in `localStorage`; AI calls stay server-side |
-
----
-
-## 🖥️ Preview
-
-```
-Landing Page → Moonshot-style black orb, minimal prompt, direct CTAs
-App → Home, Courses, Mission Lab, Leagues, Profile, AI Tutor panel
-Lesson Flow → Learn → Code → Quiz → Earn XP
-```
 
 ---
 
 ## 🚀 Quick Start
 
-### Option 1 — Local with AI Tutor
 ```bash
-# Download or clone the repo
-git clone https://github.com/YOUR_USERNAME/Syntaxia.git
+git clone https://github.com/parthkamalakar/Syntaxia.git
 cd Syntaxia
-
-# Add GROQ_API_KEY to .env.local first, then run:
-vercel dev
-# Then open the local Vercel URL
+npm install
 ```
 
-### Option 2 — Static preview only
-1. Open `syntaxia.html` in VS Code
-2. Click **"Go Live"** in the bottom right corner
-3. Opens at `http://127.0.0.1:5500`
-4. The AI Tutor will not work in this mode because `/api/chat` is a Vercel serverless function.
+**Frontend only** (fast HMR; AI & server-run languages fall back gracefully):
+```bash
+npm run dev
+```
 
-> ⚠️ **Do not open `syntaxia.html` by double-clicking it.** The AI Tutor uses the `/api/chat` serverless endpoint, so run it with Vercel locally or deploy it to Vercel.
+**Full stack** (AI Tutor + Judge0 execution, via Vercel's serverless functions):
+```bash
+# add GROQ_API_KEY=gsk_... to .env.local first
+vercel dev
+```
+
+**Build & test:**
+```bash
+npm run build   # outputs to dist/
+npm test        # Vitest — pure-logic unit tests
+```
 
 ---
 
-## 🔑 Groq Setup
+## 🔑 Environment Variables
 
-Syntaxia uses the **Groq API** for the AI Tutor through a Vercel serverless function. The API key must be stored on the server, never in `syntaxia.html` or browser `localStorage`.
+Set these in `.env.local` (local) and Vercel Project Settings → Environment Variables (production).
 
-**Step 1** — Create a Groq key at [console.groq.com/keys](https://console.groq.com/keys)
+| Variable | Required | Purpose |
+|---|---|---|
+| `GROQ_API_KEY` | Yes | Groq key for the AI Tutor (`/api/chat`). Never exposed to the client. |
+| `GROQ_MODEL` | No | Override the default `llama-3.1-8b-instant`. |
+| `EXEC_URL` | No | Override the code-execution endpoint (defaults to the public Judge0 CE instance). Set this to a self-hosted Judge0/Piston for higher limits. |
 
-**Step 2** — Add the key to Vercel:
-
-```bash
-GROQ_API_KEY=gsk_...
-```
-
-In Vercel Dashboard → Project Settings → Environment Variables.
-
-Optional: set `GROQ_MODEL` to override the default `llama-3.1-8b-instant` model.
-
-**Local testing** — create `.env.local`:
-
-```bash
-GROQ_API_KEY=gsk_...
-```
-
-Then run:
-
-```bash
-vercel dev
-```
+Get a Groq key at [console.groq.com/keys](https://console.groq.com/keys).
 
 ---
 
@@ -99,62 +75,50 @@ vercel dev
 
 ```
 Syntaxia/
-├── syntaxia.html       # The entire app — single file, no dependencies
+├── index.html              Vite entry
+├── vite.config.js          Vite + Vitest config
+├── vercel.json             framework: vite → dist
+├── src/
+│   ├── main.js             bootstrap
+│   ├── state.js            localStorage state + daily streak logic
+│   ├── data/               languages, courses, gamification, kb (pure data)
+│   ├── ui/                 router + views + components (app.js)
+│   ├── features/
+│   │   ├── compiler.js     in-browser JS/HTML/CSS runner + remote dispatch
+│   │   ├── cursor.js       custom cursor + OS hide
+│   │   └── ai.js           offline AI knowledge base + system prompts
+│   └── styles/             main.css, extras.css
 ├── api/
-│   └── chat.js         # Vercel serverless Groq proxy
-├── vercel.json         # Vercel config
-└── README.md
+│   ├── chat.js             Vercel serverless Groq proxy
+│   └── run.js              Vercel serverless code-execution proxy (Judge0)
+└── tests/                  Vitest unit tests
 ```
 
-Everything in the app UI lives in one `syntaxia.html` file. The only backend code is `api/chat.js`, which keeps the Groq key private on Vercel.
+The app is vanilla ES modules bundled by Vite — no framework. Progress is saved in `localStorage`; AI and code-execution calls stay server-side.
+
+---
+
+## ▶️ Code Execution
+
+- **JavaScript** runs in-browser (sandboxed `Function` with a captured `console`).
+- **HTML / CSS** render into a live `<iframe>` preview.
+- **Python, TypeScript, Java, C++, Go, Rust, Ruby, PHP, Swift, Kotlin, Lua, Dart, R, C#** run through `/api/run` → the public **Judge0 CE** instance (no key needed; rate-limited).
+- **SQL / Phaser** show the expected output as a reference (they need a database/runtime not available in-browser).
+
+XP is granted when your code's output matches the lesson's expected output (or the lesson has no expected output and runs successfully).
+
+> The public Piston API became whitelist-only in Feb 2026, so execution uses Judge0. Point `EXEC_URL` at a self-hosted Judge0 or Piston for production scale.
 
 ---
 
 ## 🚢 Deploy to Vercel
 
-### With Vercel CLI
 ```bash
 npm install -g vercel
-vercel
+vercel --prod
 ```
 
-### With GitHub (recommended)
-1. Push this repo to GitHub
-2. Go to [vercel.com](https://vercel.com) → **Add New Project**
-3. Import your GitHub repo
-4. Click **Deploy**
-
-Your app will be live at `https://your-app.vercel.app` in ~30 seconds.
-
-> **Note:** The AI Tutor uses the `/api/chat` serverless proxy instead of calling Groq directly from the browser. Add your API key as an environment variable:
-> ```
-> GROQ_API_KEY=gsk_...
-> ```
-> In Vercel Dashboard → Project Settings → Environment Variables
-
----
-
-## 📚 Courses Available
-
-| Language | Lessons | Level |
-|---|---|---|
-| 🐍 Python | 6 | Beginner → Advanced |
-| 🟨 JavaScript | 6 | Beginner → Advanced |
-| 🌐 HTML | 6 | Beginner → Advanced |
-| ☕ Java | 6 | Beginner → Advanced |
-| 🎨 CSS | 6 | Beginner → Advanced |
-| 🗄️ SQL | 6 | Beginner → Advanced |
-| 💙 C++ | 3 | Beginner → Advanced |
-| 🔷 TypeScript | 3 | Beginner → Advanced |
-| 🐹 Go | 3 | Beginner → Advanced |
-| 🦀 Rust | 3 | Beginner → Advanced |
-| 🦅 Swift | 3 | Beginner → Advanced |
-| 🎯 Kotlin | 3 | Beginner → Advanced |
-| 💎 Ruby | 3 | Beginner → Advanced |
-| 🐘 PHP | 3 | Beginner → Advanced |
-| 💚 C# | 3 | Beginner → Advanced |
-| ⚡ Phaser | 3 | Beginner → Advanced |
-| + 4 more | ... | ... |
+Or import the GitHub repo on [vercel.com](https://vercel.com) → **Add New Project** → Deploy. Set `GROQ_API_KEY` in Project Settings → Environment Variables.
 
 ---
 
@@ -170,46 +134,29 @@ Your app will be live at `https://your-app.vercel.app` in ~30 seconds.
 
 ---
 
-## 🧭 Mission Lab
-
-Mission Lab is Syntaxia's project-first learning mode. Instead of choosing only from courses, learners can pick a practical mission such as building a portfolio page, habit tracker, or debugging drill. The AI tutor converts the goal into beginner-sized checkpoints and asks the learner to complete one step at a time.
-
----
-
 ## 🛠️ Tech Stack
 
-- **Frontend** — Vanilla HTML, CSS, JavaScript (no framework)
-- **AI** — Groq Chat Completions API (`llama-3.1-8b-instant` by default)
-- **Storage** — Browser `localStorage` (no database)
+- **Frontend** — Vanilla HTML/CSS/JS ES modules, bundled with **Vite**
+- **AI** — Groq Chat Completions API (`llama-3.1-8b-instant` default)
+- **Code execution** — in-browser runner + **Judge0 CE** proxy
+- **Tests** — Vitest (pure-logic unit tests)
+- **Storage** — Browser `localStorage`
 - **Avatars** — DiceBear API
 - **Deployment** — Vercel (static + serverless)
-- **Fonts** — Inter, JetBrains Mono (Google Fonts)
 
 ---
 
 ## 🤝 Contributing
 
-Pull requests are welcome! Some ideas:
+Pull requests welcome! Ideas:
 
-- [ ] Add more languages (Scala, Haskell, Elixir...)
-- [ ] Add more lessons per language
-- [ ] Real-time code execution (Piston API)
-- [ ] Multiplayer challenges
-- [ ] Dark/light theme toggle
-- [ ] Mobile app (PWA)
+- [ ] Deeper authored curricula for more languages (topic graph + syntax map)
+- [ ] Avatar builder UI (Duolingo-style)
+- [ ] XP/confetti animations
+- [ ] Self-hosted Judge0 for higher execution limits
 
 ---
 
 ## 📄 License
 
 MIT License — free to use, modify, and distribute.
-
----
-
-<div align="center">
-
-Built with ❤️ and ⚡ by **Syntaxia**  
-Powered by [Groq](https://groq.com)
-
-</div>
-[README.md](https://github.com/user-attachments/files/29403527/README.md)
