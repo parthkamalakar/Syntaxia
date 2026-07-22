@@ -4,10 +4,10 @@
 
 ![Syntaxia Banner](https://img.shields.io/badge/Syntaxia-Learn%20to%20Code-5B6BF8?style=for-the-badge&logo=lightning&logoColor=white)
 ![Languages](https://img.shields.io/badge/Languages-20%2B-10B981?style=for-the-badge)
-![AI Powered](https://img.shields.io/badge/AI%20Powered-Claude%20API-A855F7?style=for-the-badge)
+![AI Powered](https://img.shields.io/badge/AI%20Powered-Groq%20API-A855F7?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-F59E0B?style=for-the-badge)
 
-**An interactive, gamified coding learning platform powered by Claude AI.**  
+**An interactive, gamified coding learning platform powered by Groq AI.**  
 Learn Python, JavaScript, Java, SQL, and 20+ more languages — with a live AI tutor, leagues, friends, and XP rewards.
 
 [🚀 Live Demo](#) · [📖 How to Use](#how-to-use) · [🔑 API Setup](#api-key-setup) · [🚢 Deploy](#deploy-to-vercel)
@@ -20,7 +20,7 @@ Learn Python, JavaScript, Java, SQL, and 20+ more languages — with a live AI t
 
 | Feature | Description |
 |---|---|
-| 🤖 **AI Tutor** | Powered by Claude — gives hints, explains concepts, reviews code |
+| 🤖 **AI Tutor** | Powered by Groq — gives hints, explains concepts, reviews code |
 | 📚 **20+ Languages** | Python, JavaScript, Java, SQL, C++, Rust, Go, Swift, and more |
 | 🏆 **5 Leagues** | Rookie → Emerald → Diamond → Amethyst → Gold |
 | 👥 **Friends** | Add friends, see their XP, compete on the leaderboard |
@@ -45,37 +45,54 @@ Lesson Flow → Learn → Code → Quiz → Earn XP
 
 ## 🚀 Quick Start
 
-### Option 1 — Just open the file
+### Option 1 — Local with AI Tutor
 ```bash
 # Download or clone the repo
 git clone https://github.com/YOUR_USERNAME/Syntaxia.git
 cd Syntaxia
 
-# Serve it locally (required for AI Tutor)
-npx serve .
-# Then open http://localhost:3000
+# Add GROQ_API_KEY to .env.local first, then run:
+vercel dev
+# Then open the local Vercel URL
 ```
 
-### Option 2 — VS Code Live Server
-1. Open `index.html` in VS Code
+### Option 2 — Static preview only
+1. Open `syntaxia.html` in VS Code
 2. Click **"Go Live"** in the bottom right corner
 3. Opens at `http://127.0.0.1:5500`
+4. The AI Tutor will not work in this mode because `/api/chat` is a Vercel serverless function.
 
-> ⚠️ **Do not open `index.html` by double-clicking it.** The AI Tutor makes API calls that browsers block from `file://` URLs. Always use a local server.
+> ⚠️ **Do not open `syntaxia.html` by double-clicking it.** The AI Tutor uses the `/api/chat` serverless endpoint, so run it with Vercel locally or deploy it to Vercel.
 
 ---
 
-## 🔑 API Key Setup
+## 🔑 Groq Setup
 
-Syntaxia uses the **Anthropic Claude API** for the AI Tutor. You need your own API key.
+Syntaxia uses the **Groq API** for the AI Tutor through a Vercel serverless function. The API key must be stored on the server, never in `syntaxia.html` or browser `localStorage`.
 
-**Step 1** — Get a free key at [console.anthropic.com](https://console.anthropic.com)
+**Step 1** — Create a Groq key at [console.groq.com/keys](https://console.groq.com/keys)
 
-**Step 2** — Open Syntaxia in your browser
+**Step 2** — Add the key to Vercel:
 
-**Step 3** — Go to **Profile → ⚙️ Settings** → paste your key → Save
+```bash
+GROQ_API_KEY=gsk_...
+```
 
-Your key is stored in your browser's `localStorage` only — it never leaves your device and is never sent to any server other than Anthropic's API directly.
+In Vercel Dashboard → Project Settings → Environment Variables.
+
+Optional: set `GROQ_MODEL` to override the default `llama-3.1-8b-instant` model.
+
+**Local testing** — create `.env.local`:
+
+```bash
+GROQ_API_KEY=gsk_...
+```
+
+Then run:
+
+```bash
+vercel dev
+```
 
 ---
 
@@ -83,15 +100,14 @@ Your key is stored in your browser's `localStorage` only — it never leaves you
 
 ```
 Syntaxia/
-├── index.html          # The entire app — single file, no dependencies
+├── syntaxia.html       # The entire app — single file, no dependencies
 ├── api/
-│   └── chat.js         # Vercel serverless function (optional, for deployment)
+│   └── chat.js         # Vercel serverless Groq proxy
 ├── vercel.json         # Vercel config
-├── package.json
 └── README.md
 ```
 
-Everything — HTML, CSS, and JavaScript — lives in one `index.html` file. No build step, no npm install, no framework.
+Everything in the app UI lives in one `syntaxia.html` file. The only backend code is `api/chat.js`, which keeps the Groq key private on Vercel.
 
 ---
 
@@ -111,9 +127,9 @@ vercel
 
 Your app will be live at `https://your-app.vercel.app` in ~30 seconds.
 
-> **Note:** When deployed to Vercel, the AI Tutor uses the `/api/chat` serverless proxy instead of calling Anthropic directly. Add your API key as an environment variable:
+> **Note:** The AI Tutor uses the `/api/chat` serverless proxy instead of calling Groq directly from the browser. Add your API key as an environment variable:
 > ```
-> ANTHROPIC_API_KEY=sk-ant-...
+> GROQ_API_KEY=gsk_...
 > ```
 > In Vercel Dashboard → Project Settings → Environment Variables
 
@@ -171,7 +187,7 @@ Earn **10 tokens** per lesson completed. Spend them on:
 ## 🛠️ Tech Stack
 
 - **Frontend** — Vanilla HTML, CSS, JavaScript (no framework)
-- **AI** — Anthropic Claude API (`claude-sonnet-4-6`)
+- **AI** — Groq Chat Completions API (`llama-3.1-8b-instant` by default)
 - **Storage** — Browser `localStorage` (no database)
 - **Avatars** — DiceBear API
 - **Deployment** — Vercel (static + serverless)
@@ -201,7 +217,7 @@ MIT License — free to use, modify, and distribute.
 <div align="center">
 
 Built with ❤️ and ⚡ by **Syntaxia**  
-Powered by [Anthropic Claude](https://anthropic.com)
+Powered by [Groq](https://groq.com)
 
 </div>
 [README.md](https://github.com/user-attachments/files/29403527/README.md)

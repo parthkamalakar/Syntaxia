@@ -385,15 +385,6 @@ code.ic{background:rgba(196,181,253,.14);color:#C4B5FD;border-radius:4px;padding
     <button class="mclose" onclick="closeM('settings-m')">✕</button>
     <div class="mtit">⚙️ Settings</div>
     <div class="msub">Customize Syntaxia</div>
-    <div style="background:rgba(91,107,248,.08);border:1px solid rgba(91,107,248,.22);border-radius:13px;padding:15px;margin-bottom:14px;">
-      <div style="font-weight:800;font-size:14px;margin-bottom:3px;">🔑 AI Tutor API Key</div>
-      <div style="font-size:12px;color:rgba(255,255,255,.38);margin-bottom:10px;">Needed to power the AI Tutor · <a href="https://aistudio.google.com/api-keys" target="_blank" style="color:#818CF8;">Get your free key →</a></div>
-      <div style="position:relative;">
-        <input id="key-inp" type="password" placeholder="Paste your API key here…" class="minp" style="margin:0;padding-right:44px;font-family:'JetBrains Mono',monospace;font-size:12px;"/>
-        <button onclick="toggleKey()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.38);font-size:15px;" id="key-eye">👁️</button>
-      </div>
-      <div id="key-st" style="font-size:12px;margin-top:7px;color:rgba(255,255,255,.3);"></div>
-    </div>
     <div style="margin-bottom:14px;">
       <div style="font-weight:700;font-size:13px;margin-bottom:8px;">👤 Display Name</div>
       <input id="name-inp" class="minp" style="margin:0;" value="You" placeholder="Your name"/>
@@ -424,10 +415,6 @@ code.ic{background:rgba(196,181,253,.14);color:#C4B5FD;border-radius:4px;padding
 </div>
 
 <script>
-// ─── KEY ───────────────────────────────────────
-function getKey(){return localStorage.getItem('syn_key')||'';}
-function saveKey(k){localStorage.setItem('syn_key',k.trim());}
-
 // ─── CURSOR ────────────────────────────────────
 const dot=document.getElementById('dot');
 let mx=window.innerWidth*.82,my=window.innerHeight*.3,cx=mx,cy=my;
@@ -1285,23 +1272,13 @@ function buyPU(p){if(tokens<p.cost){toast('Not enough tokens! 🪙');return;}tok
 
 // ─── SETTINGS ──────────────────────────────────
 function showSettings(){
-  const ki=document.getElementById('key-inp');
-  const ks=document.getElementById('key-st');
-  const existing=getKey();
-  ki.value=existing;
-  ks.textContent=existing?'✅ API key saved — AI Tutor is ready!':'⚠️ No key yet. AI Tutor needs one.';
-  ks.style.color=existing?'#4ADE80':'#F59E0B';
-  ki.oninput=()=>{const v=ki.value.trim();if(v.startsWith('AIza')){ks.textContent='✅ Looks valid!';ks.style.color='#4ADE80';}else if(v.length>5){ks.textContent='⚠️ Should start with AIza...';ks.style.color='#F59E0B';}else{ks.textContent='';}}
   document.getElementById('settings-m').classList.add('on');
 }
-function toggleKey(){const i=document.getElementById('key-inp');const e=document.getElementById('key-eye');i.type=i.type==='password'?'text':'password';e.textContent=i.type==='password'?'👁️':'🙈';}
 function saveSettings(){
-  const k=document.getElementById('key-inp').value.trim();
   const n=document.getElementById('name-inp').value.trim();
-  if(k)saveKey(k);
   if(n){const pn=document.getElementById('pname');if(pn)pn.textContent=n;}
   closeM('settings-m');
-  toast(k?'✅ Settings saved — AI Tutor ready! 🤖':'✅ Settings saved!');
+  toast('✅ Settings saved!');
 }
 
 // ─── MODALS ────────────────────────────────────
@@ -1413,14 +1390,9 @@ window._chips=[];
 
 function initAIPanel(){
   aiMsgs=[];aiLoad=false;aiCtx=false;
-  const key=getKey();
-  const greet=key
-    ?'Hey! 👋 I am your **Syntaxia AI Tutor**!\n\nI can help with Python 🐍, JavaScript 💛, Java ☕, SQL 🗄️ and '+LANGS.length+' more languages!\n\nWhat would you like to learn? 🚀'
-    :'Hey! 👋 I am your **Syntaxia AI Tutor** — but I need an API key first!\n\n1. Click the ⚙️ gear icon (top right)\n2. Paste your API key and save\n\nThen I can help you with anything! 🚀';
+  const greet='Hey! 👋 I am your **Syntaxia AI Tutor**!\n\nI can help with Python 🐍, JavaScript 💛, Java ☕, SQL 🗄️ and '+LANGS.length+' more languages!\n\nWhat would you like to learn? 🚀';
   aiMsgs=[{r:'a',t:greet}];
-  window._chips=key
-    ?['How do I start Python?','Explain variables','What is a function?','Best beginner language?']
-    :['⚙️ Add API key to start'];
+  window._chips=['How do I start Python?','Explain variables','What is a function?','Best beginner language?'];
   renderAI();updAIBtn();
 }
 
@@ -1459,9 +1431,7 @@ function renderAI(){
   const cc=document.getElementById('ai-panel-chips');
   if(cc&&aiMsgs.filter(m=>m.r==='u').length===0){
     cc.innerHTML=window._chips.map((q,i)=>
-      q==='⚙️ Add API key to start'
-        ?`<button class="apc" onclick="showSettings()">${q}</button>`
-        :`<button class="apc" data-i="${i}" onclick="chipSend(this)">${q}</button>`
+      `<button class="apc" data-i="${i}" onclick="chipSend(this)">${q}</button>`
     ).join('');
   } else if(cc&&aiMsgs.filter(m=>m.r==='u').length>0){
     cc.innerHTML='';
@@ -1491,58 +1461,29 @@ async function aiSend(preset){
   const inp=document.getElementById('api-inp');
   const txt=(preset||inp.value).trim();if(!txt||aiLoad)return;
   inp.value='';
-  const key=getKey();
   const isL=aiCtx&&!!curLesson;
   const prompt=isL?'[Lesson: "'+curLesson.t+'" ('+curLang.n+'). Task: '+curLesson.task+']\n\n'+txt:txt;
   aiMsgs.push({r:'u',t:txt});aiLoad=true;renderAI();updAIBtn();
 
-  if(!key){
-    aiMsgs.push({r:'a',t:'🔑 **No API key set.**\n\nClick the ⚙️ gear icon → paste your key → Save.'});
-    aiLoad=false;renderAI();updAIBtn();return;
-  }
-
-  // Build conversation: alternate user/model strictly (Gemini requires this)
   const rawHistory=aiMsgs.slice(0,-1).filter(m=>m.t);
-  // Ensure history starts with user and alternates correctly
-  const contents=[];
-  let expectUser=true;
-  for(const m of rawHistory){
-    const role=m.r==='u'?'user':'model';
-    if(expectUser&&role!=='user')continue;
-    if(!expectUser&&role!=='model')continue;
-    contents.push({role,parts:[{text:m.t}]});
-    expectUser=!expectUser;
-  }
-  // Add system instruction to first user message if this is the start
-  const sysPrefix=contents.length===0?(isL?SYS_LES:SYS_GEN)+'\n\n':'';
-  contents.push({role:'user',parts:[{text:sysPrefix+prompt}]});
+  const messages=[
+    {role:'system',content:isL?SYS_LES:SYS_GEN},
+    ...rawHistory.map(m=>({role:m.r==='u'?'user':'assistant',content:m.t})),
+    {role:'user',content:prompt}
+  ];
 
   let reply='',lastErr='';
-  const MODELS=['gemini-2.0-flash-lite','gemini-2.0-flash','gemini-1.5-flash','gemini-1.5-flash-latest'];
-  for(const mdl of MODELS){
-    try{
-      const url='https://generativelanguage.googleapis.com/v1beta/models/'+mdl+':generateContent?key='+key;
-      const res=await fetch(url,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          contents,
-          generationConfig:{maxOutputTokens:600,temperature:0.7}
-        })
-      });
-      const data=await res.json();
-      if(data.error){
-        lastErr=data.error.message||'error '+res.status;
-        // If key is bad, no point trying other models
-        if(res.status===400||res.status===403){break;}
-        continue;
-      }
-      reply=(data.candidates?.[0]?.content?.parts?.[0]?.text||'').trim();
-      if(reply)break;
-    }catch(e){
-      lastErr=e.message||'fetch failed';
-      continue;
-    }
+  try{
+    const res=await fetch('/api/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({messages})
+    });
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok)throw new Error(data.error||'error '+res.status);
+    reply=(data.reply||'').trim();
+  }catch(e){
+    lastErr=e.message||'fetch failed';
   }
 
   if(reply){
@@ -1552,15 +1493,15 @@ async function aiSend(preset){
     const isCORS=lastErr.toLowerCase().includes('fetch')||lastErr.toLowerCase().includes('network')||lastErr.toLowerCase().includes('cors');
     let msg='⚠️ **AI Tutor unavailable.**\n\n'+lastErr;
     if(isFile&&isCORS)
-      msg='⚠️ **Browser security block.**\n\nBrowsers block API calls when a file is opened directly.\n\n**Quick fix:** Serve the file via a local server:\n```\nnpx serve .\n```\nThen open **http://localhost:3000**';
+      msg='⚠️ **Server needed.**\n\nThe AI Tutor now uses a secure `/api/chat` endpoint, so it needs Vercel or a local serverless dev server.\n\n**Quick fix:** run:\n```\nvercel dev\n```';
     else if(isCORS)
       msg='⚠️ **Connection failed.**\n\nYour network blocked the request. Check your internet connection and try again.';
-    else if(lastErr.includes('API_KEY_INVALID')||lastErr.includes('not valid')||lastErr.includes('400'))
-      msg='🔑 **Invalid API key.**\n\nRe-check the key in ⚙️ Settings. Make sure you copied it in full.';
-    else if(lastErr.includes('quota')||lastErr.includes('429')||lastErr.includes('RESOURCE_EXHAUSTED'))
+    else if(lastErr.includes('GROQ_API_KEY'))
+      msg='🔑 **AI key missing.**\n\nAsk the site owner to add `GROQ_API_KEY` in Vercel Project Settings → Environment Variables.';
+    else if(lastErr.includes('quota')||lastErr.includes('429')||lastErr.includes('rate limit'))
       msg='⏳ **Rate limit reached.**\n\nWait 60 seconds then try again.';
-    else if(lastErr.includes('403'))
-      msg='🔑 **API key rejected (403).**\n\nMake sure the key has the Generative Language API enabled.';
+    else if(lastErr.includes('401')||lastErr.includes('403'))
+      msg='🔑 **AI key rejected.**\n\nAsk the site owner to check the Groq key in Vercel.';
     aiMsgs.push({r:'a',t:msg});
   }
   aiLoad=false;renderAI();updAIBtn();
