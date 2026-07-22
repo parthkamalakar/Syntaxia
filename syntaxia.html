@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Syntaxia ⚡ — Learn to Code</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:#000;color:#fff;font-family:'Inter',system-ui,sans-serif;height:100%;overflow:hidden;cursor:none;}
+button,input,textarea,select{font-family:inherit;cursor:none;}
+button:active{transform:scale(.97);}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:99px;}
+input::placeholder,textarea::placeholder{color:rgba(255,255,255,.25);}
+
+/* CURSOR */
+#dot{position:fixed;width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(255,255,255,.7);background:rgba(255,255,255,.1);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+#dot::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(255,255,255,.08);}
+
+/* LANDING */
+#landing{position:fixed;inset:0;background:#000;overflow:hidden;z-index:100;}
+.bgt{position:absolute;font-size:clamp(80px,11vw,150px);font-weight:900;white-space:nowrap;letter-spacing:-5px;color:rgba(255,255,255,.05);filter:blur(1.5px);pointer-events:none;user-select:none;}
+.bgt1{top:40%;animation:sl 22s linear infinite;}
+.bgt2{top:60%;animation:sr 18s linear infinite;}
+@keyframes sl{0%{transform:translateY(-50%) translateX(0%)}100%{transform:translateY(-50%) translateX(-50%)}}
+@keyframes sr{0%{transform:translateY(-50%) translateX(-25%)}100%{transform:translateY(-50%) translateX(25%)}}
+#orb{position:absolute;top:50%;left:50%;transform:translate(-50%,-65%);pointer-events:none;}
+.orb-ball{width:clamp(130px,13vw,190px);height:clamp(130px,13vw,190px);border-radius:50%;background:radial-gradient(circle at 35% 30%,#404040 0%,#1a1a1a 30%,#070707 62%,#000 100%);}
+.orb-hi{position:absolute;top:11%;left:15%;width:38%;height:25%;background:rgba(255,255,255,.22);border-radius:50%;filter:blur(9px);transform:rotate(-18deg);}
+.orb-rim{position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);box-shadow:inset 1px 2px 0 rgba(255,255,255,.15);}
+.orb-ring{position:absolute;inset:-12px;border-radius:50%;border:1px solid rgba(255,255,255,.07);}
+.orb-glow{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);width:70%;height:18px;background:radial-gradient(ellipse,rgba(255,255,255,.06) 0%,transparent 70%);filter:blur(8px);}
+#l-nav{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:18px 48px;z-index:10;}
+.l-logo{font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px;}
+.l-logo-ico{width:26px;height:26px;border-radius:50%;border:1.5px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center;font-size:13px;}
+.l-links{display:flex;gap:30px;}
+.l-link{font-size:14px;color:rgba(255,255,255,.42);background:none;border:none;transition:color .2s;}
+.l-link:hover{color:#fff;}
+.l-lang{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:99px;padding:5px 16px;font-size:12px;font-weight:700;}
+#l-main{position:absolute;left:50%;transform:translateX(-50%);bottom:clamp(24px,6vh,70px);width:100%;max-width:600px;padding:0 20px;display:flex;flex-direction:column;align-items:center;}
+.l-tag{font-size:15px;color:rgba(255,255,255,.35);margin-bottom:20px;text-align:center;}
+.l-box{width:100%;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:18px 54px 18px 20px;position:relative;margin-bottom:16px;transition:border-color .2s;}
+.l-box:focus-within{border-color:rgba(255,255,255,.2);}
+.l-box textarea{width:100%;background:transparent;border:none;outline:none;font-size:14px;color:rgba(255,255,255,.55);resize:none;height:64px;line-height:1.6;font-style:italic;}
+.l-send{position:absolute;bottom:12px;right:14px;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.l-send:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.35);color:#fff;}
+.l-ctas{display:flex;gap:10px;}
+.l-cta{padding:10px 26px;border-radius:99px;border:1px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.75);font-size:14px;font-weight:500;transition:all .2s;}
+.l-cta:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.38);color:#fff;}
+
+/* APP */
+#app{position:fixed;inset:0;background:#0B0C10;display:none;flex-direction:column;}
+#app.on{display:flex;}
+#anav{height:58px;background:rgba(11,12,16,.97);border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;padding:0 clamp(12px,3vw,36px);gap:clamp(8px,1.5vw,20px);flex-shrink:0;z-index:50;}
+.a-logo{font-size:17px;font-weight:900;letter-spacing:-.4px;margin-right:6px;white-space:nowrap;}
+.a-logo span{color:#5B6BF8;}
+.alink{background:transparent;border:none;color:rgba(255,255,255,.42);font-size:13px;font-weight:600;padding:6px 11px;border-radius:99px;transition:all .15s;white-space:nowrap;}
+.alink:hover,.alink.on{background:rgba(255,255,255,.07);color:#fff;}
+.a-right{margin-left:auto;display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.astat{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:99px;padding:5px 10px;font-size:12px;font-weight:700;white-space:nowrap;}
+.ai-fab-btn{background:linear-gradient(135deg,#5B6BF8,#4C1D95);border:none;border-radius:99px;padding:7px 14px;font-size:13px;font-weight:700;color:#fff;}
+.ai-fab-btn:hover{opacity:.88;}
+/* app-body = horizontal flex: pages on left, AI panel on right */
+#app-body{flex:1;display:flex;overflow:hidden;min-height:0;}
+#wrap{flex:1;overflow:hidden;position:relative;min-width:0;}
+.pg{display:none;position:absolute;inset:0;overflow-y:auto;padding:30px clamp(16px,4vw,48px) 60px;}
+.pg.on{display:block;}
+.pi{max-width:1200px;margin:0 auto;}
+/* INLINE AI PANEL — always visible on right */
+#ai-panel{width:320px;flex-shrink:0;background:#0C0D14;border-left:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;overflow:hidden;}
+#ai-panel-hdr{padding:13px 14px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px;flex-shrink:0;background:rgba(255,255,255,.02);}
+.aip-ico{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#4C1D95,#6D28D9);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+#ai-panel-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;min-height:0;}
+#ai-panel-msgs::-webkit-scrollbar{width:3px;}
+#ai-panel-msgs::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:99px;}
+#ai-panel-chips{padding:6px 10px;display:flex;flex-wrap:wrap;gap:5px;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0;}
+.apc{background:rgba(91,107,248,.11);border:1px solid rgba(91,107,248,.22);border-radius:99px;padding:4px 10px;color:rgba(196,181,253,.88);font-size:11px;font-weight:600;white-space:nowrap;transition:all .15s;}
+.apc:hover{background:rgba(91,107,248,.2);}
+#ai-panel-bar{display:flex;gap:7px;padding:10px 11px 13px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.4);}
+#api-inp{flex:1;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.08);border-radius:10px;padding:9px 12px;color:#fff;font-size:13px;outline:none;transition:border-color .2s;min-width:0;}
+#api-inp:focus{border-color:#5B6BF8;}
+#api-inp::placeholder{color:rgba(255,255,255,.22);}
+#api-sbtn{width:38px;height:38px;background:linear-gradient(135deg,#5B6BF8,#6D28D9);border:none;border-radius:10px;color:#fff;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s;}
+#api-sbtn:disabled{opacity:.25;}
+
+/* COMMON */
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:16px;}
+.sec{font-size:11px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1.5px;margin:20px 0 12px;}
+.pbar-t{background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;}
+.pfill{height:100%;border-radius:99px;transition:width .7s cubic-bezier(.34,1.56,.64,1);}
+.chip-b{background:#0D2010;color:#4ADE80;border-radius:99px;padding:2px 8px;font-size:10px;font-weight:700;}
+.chip-i{background:#1A1500;color:#FCD34D;border-radius:99px;padding:2px 8px;font-size:10px;font-weight:700;}
+.chip-a{background:#1A0A1A;color:#E879F9;border-radius:99px;padding:2px 8px;font-size:10px;font-weight:700;}
+
+/* HOME */
+.hero{text-align:center;padding:44px 0 36px;max-width:640px;margin:0 auto 32px;}
+.hero-badge{display:inline-flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:99px;padding:5px 16px;font-size:11px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:20px;}
+.hero h1{font-size:clamp(38px,5vw,64px);font-weight:900;letter-spacing:-2px;line-height:1.06;margin-bottom:14px;}
+.hero h1 em{color:#5B6BF8;font-style:normal;}
+.hero p{font-size:16px;color:rgba(255,255,255,.42);line-height:1.7;max-width:480px;margin:0 auto 26px;}
+.hero-btns{display:flex;gap:10px;justify-content:center;}
+.hbtn{padding:13px 24px;border-radius:99px;font-size:15px;font-weight:700;border:none;}
+.hbtn.p{background:linear-gradient(135deg,#5B6BF8,#4C1D95);color:#fff;box-shadow:0 8px 28px rgba(91,107,248,.35);}
+.hbtn.p:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(91,107,248,.5);}
+.hbtn.s{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11);color:#fff;}
+.hbtn.s:hover{background:rgba(255,255,255,.11);}
+.srow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:28px;}
+.sbox{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:13px;padding:16px 18px;display:flex;align-items:center;gap:12px;}
+.sico{font-size:24px;}
+.sval{font-size:19px;font-weight:900;}
+.slbl{font-size:11px;color:rgba(255,255,255,.38);font-weight:600;margin-top:2px;}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:11px;margin-bottom:24px;}
+.lcard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:17px;cursor:none;transition:all .2s;position:relative;overflow:hidden;}
+.lcard:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.13);background:rgba(255,255,255,.06);}
+.lico{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:25px;margin-bottom:11px;}
+.lname{font-size:15px;font-weight:800;margin-bottom:2px;}
+.lsub{font-size:12px;color:rgba(255,255,255,.35);margin-bottom:10px;}
+.lcard-glow{position:absolute;top:-35px;right:-35px;width:88px;height:88px;border-radius:50%;opacity:.1;pointer-events:none;}
+.done-ico{position:absolute;top:11px;right:11px;background:#22C55E;color:#fff;border-radius:50%;width:19px;height:19px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;}
+
+/* COURSE DETAIL */
+.ch{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:24px;display:flex;align-items:flex-start;gap:20px;margin-bottom:20px;}
+.chico{width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;}
+.ch-stats{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.ch-stat{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:7px 13px;}
+.ch-sv{font-size:15px;font-weight:800;}
+.ch-sl{font-size:10px;color:rgba(255,255,255,.38);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-top:1px;}
+.lgrid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px;}
+.lrow{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;transition:all .15s;}
+.lrow:hover{border-color:rgba(255,255,255,.13);}
+.lrow-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.lrow-title{font-size:14px;font-weight:700;margin-bottom:4px;}
+.lrow-meta{display:flex;gap:6px;align-items:center;}
+.start-btn{background:#5B6BF8;color:#fff;border:none;border-radius:99px;padding:7px 16px;font-weight:700;font-size:12px;margin-left:auto;flex-shrink:0;transition:opacity .15s;}
+.start-btn:hover{opacity:.86;}
+.start-btn.done{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.45);}
+
+/* LESSON */
+.l-tabs-bar{display:flex;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:13px;padding:3px;margin-bottom:18px;}
+.l-tab{flex:1;text-align:center;padding:8px;border-radius:10px;font-size:13px;font-weight:700;cursor:none;color:rgba(255,255,255,.38);transition:all .15s;background:transparent;border:none;}
+.l-tab.on{background:rgba(255,255,255,.08);color:#fff;}
+.l-layout{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;}
+.lpanel{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:13px;padding:20px;}
+.lptit{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.35);margin-bottom:10px;}
+.lptxt{font-size:14px;color:rgba(255,255,255,.68);line-height:1.82;}
+.task-box{border-radius:12px;padding:14px 16px;}
+.codewrap{background:#040408;border-radius:13px;overflow:hidden;border:1px solid rgba(255,255,255,.08);}
+.codetbar{background:rgba(255,255,255,.05);padding:8px 13px;display:flex;align-items:center;gap:6px;border-bottom:1px solid rgba(255,255,255,.07);}
+.cdot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+.cfile{font-size:11px;color:rgba(255,255,255,.22);font-family:'JetBrains Mono',monospace;margin-left:7px;}
+textarea.ced{width:100%;background:#040408;color:#E2E8F0;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.78;border:none;padding:15px;resize:vertical;outline:none;min-height:165px;}
+.run-btn{width:100%;background:#22C55E;color:#fff;border:none;border-radius:12px;padding:13px;font-weight:800;font-size:14px;margin-top:10px;}
+.run-btn:hover{opacity:.88;}
+.outbox{background:#040408;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:13px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#4ADE80;white-space:pre-wrap;line-height:1.72;margin-top:10px;}
+.sban{background:#031A0F;border:1px solid #22C55E;border-radius:12px;padding:10px 14px;color:#4ADE80;font-weight:700;font-size:13px;margin-top:8px;}
+.hint-row{display:flex;gap:8px;margin-top:10px;}
+.hint-btn{flex:1;background:rgba(91,107,248,.1);border:1px solid rgba(91,107,248,.25);border-radius:10px;padding:9px;font-size:12px;font-weight:700;color:#A5B4FC;}
+.hint-btn:hover{background:rgba(91,107,248,.18);}
+.sol-btn{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:9px;font-size:12px;font-weight:700;color:rgba(255,255,255,.38);}
+.sol-btn:hover{background:rgba(255,255,255,.09);}
+.exp-out{background:#040408;border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:11px 13px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#4ADE80;white-space:pre-wrap;margin-top:8px;line-height:1.65;}
+.qopt{width:100%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.08);border-radius:11px;padding:11px 14px;text-align:left;color:rgba(255,255,255,.5);font-weight:600;font-size:13px;display:flex;gap:10px;align-items:center;margin-bottom:8px;transition:all .15s;}
+.qopt:hover:not(:disabled){border-color:rgba(91,107,248,.4);color:#fff;}
+.qopt.sel{border-color:#5B6BF8;background:rgba(91,107,248,.1);color:#fff;}
+.qopt.cor{background:#031A0F;border-color:#22C55E;color:#4ADE80;}
+.qopt.wrng{background:#1A0505;border-color:#EF4444;color:#F87171;}
+.qlet{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.08);color:rgba(255,255,255,.4);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.qopt.sel .qlet{background:#5B6BF8;color:#fff;}
+.check-btn{width:100%;background:#5B6BF8;color:#fff;border:none;border-radius:12px;padding:13px;font-weight:800;font-size:14px;margin-top:4px;}
+.check-btn:disabled{background:rgba(255,255,255,.06);color:rgba(255,255,255,.25);}
+.next-btn{width:100%;border:none;border-radius:12px;padding:13px;font-weight:800;font-size:14px;margin-top:8px;color:#fff;}
+
+/* LEADERBOARD */
+.ltabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;}
+.ltab{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:99px;padding:7px 16px;font-size:13px;font-weight:700;color:rgba(255,255,255,.42);transition:all .15s;}
+.lb-layout{display:grid;grid-template-columns:1fr 320px;gap:18px;}
+.lb-panel{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;overflow:hidden;}
+.lb-hdr{padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.07);font-weight:800;font-size:15px;}
+.lbr{display:flex;align-items:center;gap:11px;padding:10px 18px;border-bottom:1px solid rgba(255,255,255,.05);transition:background .15s;}
+.lbr:last-child{border-bottom:none;}
+.lbr:hover{background:rgba(255,255,255,.03);}
+.lbr.me{background:rgba(91,107,248,.08);border-left:2px solid #5B6BF8;}
+.lb-rank{width:28px;text-align:center;font-size:14px;font-weight:800;color:rgba(255,255,255,.35);flex-shrink:0;}
+.lb-av{width:36px;height:36px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(255,255,255,.1);}
+.lb-pts{font-size:14px;font-weight:800;color:#F59E0B;margin-left:auto;}
+
+/* FRIENDS */
+.fl{display:grid;grid-template-columns:1fr 300px;gap:18px;}
+.ftabs{display:flex;gap:7px;margin-bottom:14px;}
+.ftab{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:99px;padding:6px 15px;font-size:13px;font-weight:700;color:rgba(255,255,255,.42);transition:all .15s;}
+.ftab.on{background:#5B6BF8;border-color:#5B6BF8;color:#fff;}
+.fcard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:13px 15px;display:flex;align-items:center;gap:11px;margin-bottom:8px;transition:all .15s;}
+.fcard:hover{border-color:rgba(255,255,255,.12);}
+.fav{width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(255,255,255,.1);}
+.odot{width:8px;height:8px;border-radius:50%;background:#22C55E;box-shadow:0 0 5px #22C55E;flex-shrink:0;}
+.xdot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.18);flex-shrink:0;}
+.fbtn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:99px;padding:6px 14px;font-size:12px;font-weight:700;color:#fff;margin-left:auto;flex-shrink:0;transition:all .15s;}
+.fbtn:hover{background:rgba(255,255,255,.11);}
+.fbtn.add{background:#5B6BF8;border-color:#5B6BF8;}
+.fbtn.added{color:#22C55E;border-color:rgba(34,197,94,.3);background:transparent;}
+.tok-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:20px;margin-bottom:12px;}
+.shop-g{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.si{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:13px;transition:all .15s;}
+.si:hover{border-color:rgba(245,158,11,.3);}
+.si-ico{font-size:22px;margin-bottom:6px;}
+.si-n{font-size:13px;font-weight:700;margin-bottom:2px;}
+.si-d{font-size:11px;color:rgba(255,255,255,.35);line-height:1.4;margin-bottom:8px;}
+.si-c{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.06);border-radius:99px;padding:4px 10px;font-size:12px;font-weight:700;color:#F59E0B;width:fit-content;}
+
+/* PROFILE */
+.pl{display:grid;grid-template-columns:280px 1fr;gap:18px;}
+.pcard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:24px;text-align:center;}
+.pav{width:80px;height:80px;border-radius:50%;border:3px solid #5B6BF8;margin:0 auto 12px;}
+.pname{font-size:19px;font-weight:900;margin-bottom:2px;}
+.ph{font-size:13px;color:rgba(255,255,255,.35);margin-bottom:14px;}
+.psg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px;}
+.ps{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:10px 6px;text-align:center;}
+.psv{font-size:17px;font-weight:900;}
+.psl{font-size:10px;color:rgba(255,255,255,.35);font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-top:2px;}
+.bdgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px;}
+.bdg{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:10px 7px;text-align:center;}
+
+/* APP LAYOUT WITH SIDE AI */
+#app{position:fixed;inset:0;background:#0B0C10;display:none;flex-direction:column;}
+#app.on{display:flex;}
+#app-body{flex:1;display:flex;overflow:hidden;min-height:0;}
+#wrap{flex:1;overflow:hidden;position:relative;min-width:0;}
+.pg{display:none;position:absolute;inset:0;overflow-y:auto;padding:30px clamp(16px,3vw,40px) 60px;}
+.pg.on{display:block;}
+.pi{max-width:1200px;margin:0 auto;}
+
+/* INLINE AI PANEL */
+#ai-panel{width:340px;flex-shrink:0;background:#0C0D12;border-left:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;overflow:hidden;}
+#ai-panel-hdr{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px;flex-shrink:0;background:rgba(255,255,255,.03);}
+.aip-ico{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#4C1D95,#6D28D9);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:0 4px 14px rgba(109,40,217,.4);}
+#ai-panel-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;min-height:0;}
+#ai-panel-msgs::-webkit-scrollbar{width:3px;}
+#ai-panel-msgs::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:99px;}
+#ai-panel-chips{padding:6px 10px;display:flex;flex-wrap:wrap;gap:5px;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0;}
+#ai-panel-bar{display:flex;gap:7px;padding:10px 12px 13px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.4);}
+#api-inp{flex:1;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.08);border-radius:11px;padding:10px 13px;color:#fff;font-size:13px;outline:none;transition:border-color .2s;}
+#api-inp:focus{border-color:#8B5CF6;}
+#api-inp::placeholder{color:rgba(255,255,255,.25);}
+#api-sbtn{width:40px;height:40px;background:linear-gradient(135deg,#5B6BF8,#6D28D9);border:none;border-radius:11px;color:#fff;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s;box-shadow:0 3px 12px rgba(91,107,248,.4);}
+#api-sbtn:disabled{opacity:.28;box-shadow:none;}
+
+/* SHARED AI MESSAGE STYLES */
+.amr{display:flex;gap:8px;align-items:flex-start;width:100%;}
+.amr.u{flex-direction:row-reverse;}
+.abub{border-radius:4px 14px 14px 14px;padding:10px 13px;font-size:12px;line-height:1.65;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.8);word-break:break-word;max-width:calc(100% - 38px);}
+.abub.u{background:linear-gradient(135deg,#5B6BF8,#4C1D95);border:none;color:#fff;border-radius:14px 4px 14px 14px;max-width:82%;}
+.abub p{margin:0 0 6px;}
+.abub p:last-child{margin:0;}
+.ami{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:2px;}
+.ami.bot{background:linear-gradient(135deg,#4C1D95,#6D28D9);}
+.ami.usr{background:rgba(255,255,255,.08);}
+.achip{background:rgba(91,107,248,.11);border:1px solid rgba(91,107,248,.22);border-radius:99px;padding:4px 10px;color:rgba(196,181,253,.88);font-size:11px;font-weight:600;white-space:nowrap;transition:all .15s;}
+.achip:hover{background:rgba(91,107,248,.2);}
+.ddot{width:6px;height:6px;border-radius:50%;background:#8B5CF6;animation:dd 1.2s ease-in-out infinite;}
+@keyframes dd{0%,80%,100%{transform:scale(.45);opacity:.3}40%{transform:scale(1);opacity:1}}
+pre.cb{background:#050509;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#4ADE80;overflow-x:auto;margin:5px 0;white-space:pre-wrap;line-height:1.6;}
+code.ic{background:rgba(196,181,253,.14);color:#C4B5FD;border-radius:4px;padding:1px 5px;font-size:11px;font-family:'JetBrains Mono',monospace;}
+.moverlay{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:950;display:none;align-items:center;justify-content:center;}
+.moverlay.on{display:flex;}
+.mbox{background:#0F1016;border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:26px;width:90%;max-width:440px;max-height:85vh;overflow-y:auto;}
+.mclose{float:right;background:rgba(255,255,255,.07);border:none;border-radius:50%;width:29px;height:29px;color:rgba(255,255,255,.5);font-size:15px;display:flex;align-items:center;justify-content:center;}
+.mtit{font-size:19px;font-weight:900;margin-bottom:4px;}
+.msub{font-size:13px;color:rgba(255,255,255,.38);margin-bottom:18px;}
+.minp{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:11px 14px;color:#fff;font-size:14px;outline:none;margin-bottom:12px;}
+.minp:focus{border-color:#5B6BF8;}
+.mprim{width:100%;background:linear-gradient(135deg,#5B6BF8,#4C1D95);color:#fff;border:none;border-radius:12px;padding:13px;font-weight:800;font-size:14px;}
+.msec{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:13px;font-weight:700;font-size:14px;color:rgba(255,255,255,.5);margin-top:8px;}
+.back-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:99px;padding:7px 16px;font-size:13px;font-weight:700;color:rgba(255,255,255,.55);margin-bottom:18px;transition:all .15s;}
+.back-btn:hover{background:rgba(255,255,255,.1);color:#fff;}
+
+/* XP / TOAST */
+#xpb{position:fixed;top:50%;left:50%;z-index:9999;pointer-events:none;display:none;}
+#xpb.on{display:block;animation:xpa 1.8s ease-out forwards;}
+@keyframes xpa{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}20%{transform:translate(-50%,-60%) scale(1.15);opacity:1}80%{transform:translate(-50%,-80%) scale(1);opacity:1}100%{transform:translate(-50%,-120%) scale(.9);opacity:0}}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(25,26,35,.98);border:1px solid rgba(255,255,255,.12);border-radius:99px;padding:9px 20px;font-size:13px;font-weight:700;z-index:1000;display:none;white-space:nowrap;}
+#toast.on{display:block;animation:ta .25s ease-out;}
+@keyframes ta{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%)}}
+@keyframes fin{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.fin{animation:fin .2s ease-out;}
+</style>
+</head>
+<body>
+<div id="dot"></div>
+<div id="xpb"><div style="background:linear-gradient(135deg,#F59E0B,#EF4444);border-radius:99px;padding:12px 30px;color:#fff;font-weight:900;font-size:27px;box-shadow:0 0 45px rgba(245,158,11,.7);"></div></div>
+<div id="toast"></div>
+
+<!-- LANDING -->
+<div id="landing">
+  <div class="bgt bgt1">Syntaxia ⚡ Syntaxia ⚡ Syntaxia ⚡ Syntaxia ⚡ Syntaxia ⚡</div>
+  <div class="bgt bgt2">Syntaxia ⚡ Syntaxia ⚡ Syntaxia ⚡ Syntaxia ⚡ Syntaxia ⚡</div>
+  <div id="orb">
+    <div class="orb-ball"><div class="orb-hi"></div><div class="orb-rim"></div></div>
+    <div class="orb-ring"></div><div class="orb-glow"></div>
+  </div>
+  <nav id="l-nav">
+    <div class="l-logo"><div class="l-logo-ico">⚡</div>Syntaxia</div>
+    <div class="l-links">
+      <button class="l-link" onclick="go('home')">Learn</button>
+      <button class="l-link" onclick="go('courses')">Courses</button>
+      <button class="l-link" onclick="go('leaderboard')">Leagues</button>
+      <button class="l-link" onclick="go('friends')">Friends</button>
+      <button class="l-link" onclick="go('profile')">Profile</button>
+    </div>
+    <div class="l-lang">EN</div>
+  </nav>
+  <div id="l-main">
+    <div class="l-tag">Seeking the optimal path from beginner to expert coder</div>
+    <div class="l-box">
+      <textarea id="l-inp" placeholder="Throw me a hard one. I'm ready."></textarea>
+      <button class="l-send" id="l-send">↑</button>
+    </div>
+    <div class="l-ctas">
+      <button class="l-cta" onclick="go('home')">Start Learning</button>
+      <button class="l-cta" onclick="go('courses')">Browse Courses</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <nav id="anav">
+    <div class="a-logo" onclick="nav('home')" style="cursor:none;">Syn<span>taxia</span> ⚡</div>
+    <button class="alink on" data-p="home" onclick="nav('home')">🏠 Home</button>
+    <button class="alink" data-p="courses" onclick="nav('courses')">📚 Courses</button>
+    <button class="alink" data-p="leaderboard" onclick="nav('leaderboard')">🏆 Leagues</button>
+    <button class="alink" data-p="friends" onclick="nav('friends')">👥 Friends</button>
+    <button class="alink" data-p="profile" onclick="nav('profile')">👤 Profile</button>
+    <div class="a-right">
+      <div class="astat">🔥 <span id="n-str">3</span></div>
+      <div class="astat">⚡ <span id="n-xp">0</span> XP</div>
+      <div class="astat" onclick="showShop()" style="cursor:none;">🪙 <span id="n-tok">250</span></div>
+      <button class="ai-fab-btn" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);" onclick="showShop()">⚡ Power-ups</button>
+      <button onclick="showSettings()" title="Settings" style="width:34px;height:34px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;" onmouseover="this.style.background='rgba(255,255,255,.18)';this.style.borderColor='rgba(255,255,255,.25)'" onmouseout="this.style.background='rgba(255,255,255,.07)';this.style.borderColor='rgba(255,255,255,.1)'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=user&backgroundColor=0b0c10" style="width:30px;height:30px;border-radius:50%;border:2px solid #5B6BF8;cursor:none;" onclick="nav('profile')"/>
+    </div>
+  </nav>
+  <div id="app-body">
+    <div id="wrap">
+      <div id="pg-home" class="pg on"><div class="pi" id="home-pi"></div></div>
+      <div id="pg-courses" class="pg"><div class="pi" id="courses-pi"></div></div>
+      <div id="pg-course" class="pg"><div class="pi" id="course-pi"></div></div>
+      <div id="pg-lesson" class="pg"><div class="pi" id="lesson-pi"></div></div>
+      <div id="pg-leaderboard" class="pg"><div class="pi" id="lb-pi"></div></div>
+      <div id="pg-friends" class="pg"><div class="pi" id="friends-pi"></div></div>
+      <div id="pg-profile" class="pg"><div class="pi" id="profile-pi"></div></div>
+    </div>
+
+    <!-- INLINE AI PANEL -->
+    <div id="ai-panel">
+      <div id="ai-panel-hdr">
+        <div class="aip-ico">🤖</div>
+        <div style="flex:1;">
+          <div style="font-weight:800;font-size:14px;">AI Tutor</div>
+          <div style="font-size:11px;color:#8B5CF6;display:flex;align-items:center;gap:5px;">
+            <span style="width:6px;height:6px;background:#22C55E;border-radius:50%;display:inline-block;animation:dd 2s infinite;"></span>
+            <span id="ai-sub">Ready to help</span>
+          </div>
+        </div>
+        <button onclick="clearAIChat()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:4px 9px;color:rgba(255,255,255,.4);font-size:11px;font-weight:700;" title="Clear chat">↺</button>
+      </div>
+      <div id="ai-panel-msgs"></div>
+      <div id="ai-panel-chips"></div>
+      <div id="ai-panel-bar">
+        <input id="api-inp" placeholder="Ask anything…" onkeydown="if(event.key==='Enter')aiSend()" oninput="updAIBtn()"/>
+        <button id="api-sbtn" onclick="aiSend()">↑</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="moverlay" id="settings-m">
+  <div class="mbox">
+    <button class="mclose" onclick="closeM('settings-m')">✕</button>
+    <div class="mtit">⚙️ Settings</div>
+    <div class="msub">Customize Syntaxia</div>
+    <div style="background:rgba(91,107,248,.08);border:1px solid rgba(91,107,248,.22);border-radius:13px;padding:15px;margin-bottom:14px;">
+      <div style="font-weight:800;font-size:14px;margin-bottom:3px;">🔑 AI Tutor API Key</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.38);margin-bottom:10px;">Needed to power the AI Tutor · <a href="https://aistudio.google.com/api-keys" target="_blank" style="color:#818CF8;">Get your free key →</a></div>
+      <div style="position:relative;">
+        <input id="key-inp" type="password" placeholder="Paste your API key here…" class="minp" style="margin:0;padding-right:44px;font-family:'JetBrains Mono',monospace;font-size:12px;"/>
+        <button onclick="toggleKey()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.38);font-size:15px;" id="key-eye">👁️</button>
+      </div>
+      <div id="key-st" style="font-size:12px;margin-top:7px;color:rgba(255,255,255,.3);"></div>
+    </div>
+    <div style="margin-bottom:14px;">
+      <div style="font-weight:700;font-size:13px;margin-bottom:8px;">👤 Display Name</div>
+      <input id="name-inp" class="minp" style="margin:0;" value="You" placeholder="Your name"/>
+    </div>
+    <button class="mprim" onclick="saveSettings()">Save Settings</button>
+  </div>
+</div>
+
+<!-- SHOP MODAL -->
+<div class="moverlay" id="shop-m">
+  <div class="mbox">
+    <button class="mclose" onclick="closeM('shop-m')">✕</button>
+    <div class="mtit">⚡ Power-Up Shop</div>
+    <div class="msub">You have <strong style="color:#F59E0B;" id="shop-tok">250 🪙</strong></div>
+    <div class="shop-g" id="shop-g"></div>
+  </div>
+</div>
+
+<!-- ADD FRIEND MODAL -->
+<div class="moverlay" id="af-m">
+  <div class="mbox">
+    <button class="mclose" onclick="closeM('af-m')">✕</button>
+    <div class="mtit">👥 Add Friends</div>
+    <div class="msub">Search by username</div>
+    <input class="minp" placeholder="🔍  Search…" oninput="searchF(this.value)" id="af-inp"/>
+    <div id="af-res"></div>
+  </div>
+</div>
+
+<script>
+// ─── KEY ───────────────────────────────────────
+function getKey(){return localStorage.getItem('syn_key')||'';}
+function saveKey(k){localStorage.setItem('syn_key',k.trim());}
+
+// ─── CURSOR ────────────────────────────────────
+const dot=document.getElementById('dot');
+let mx=window.innerWidth*.82,my=window.innerHeight*.3,cx=mx,cy=my;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function loop(){cx+=(mx-cx)*.11;cy+=(my-cy)*.11;dot.style.left=cx+'px';dot.style.top=cy+'px';requestAnimationFrame(loop);})();
+
+// ─── DATA ──────────────────────────────────────
+const LANGS=[
+  {id:'python', n:'Python',    ico:'🐍', c:'#3B82F6', bg:'rgba(59,130,246,.12)',  codrs:'1.74M', ext:'py'},
+  {id:'javascript',n:'JavaScript',ico:'🟨',c:'#EAB308',bg:'rgba(234,179,8,.12)',  codrs:'253K',  ext:'js'},
+  {id:'html',   n:'HTML',      ico:'🌐', c:'#F97316', bg:'rgba(249,115,22,.12)',  codrs:'264K',  ext:'html'},
+  {id:'css',    n:'CSS',       ico:'🎨', c:'#A855F7', bg:'rgba(168,85,247,.12)',  codrs:'132K',  ext:'css'},
+  {id:'java',   n:'Java',      ico:'☕', c:'#F59E0B', bg:'rgba(245,158,11,.12)',  codrs:'220K',  ext:'java'},
+  {id:'sql',    n:'SQL',       ico:'🗄️', c:'#00B4D8', bg:'rgba(0,180,216,.12)',   codrs:'132K',  ext:'sql'},
+  {id:'typescript',n:'TypeScript',ico:'🔷',c:'#3B82F6',bg:'rgba(59,130,246,.12)', codrs:'98K',   ext:'ts'},
+  {id:'go',     n:'Go',        ico:'🐹', c:'#06B6D4', bg:'rgba(6,182,212,.12)',   codrs:'22K',   ext:'go'},
+  {id:'rust',   n:'Rust',      ico:'🦀', c:'#EF4444', bg:'rgba(239,68,68,.12)',   codrs:'17K',   ext:'rs'},
+  {id:'cpp',    n:'C++',       ico:'💙', c:'#2563EB', bg:'rgba(37,99,235,.12)',   codrs:'219K',  ext:'cpp'},
+  {id:'csharp', n:'C#',        ico:'💚', c:'#22C55E', bg:'rgba(34,197,94,.12)',   codrs:'112K',  ext:'cs'},
+  {id:'swift',  n:'Swift',     ico:'🦅', c:'#F97316', bg:'rgba(249,115,22,.12)',  codrs:'16K',   ext:'swift'},
+  {id:'kotlin', n:'Kotlin',    ico:'🎯', c:'#A855F7', bg:'rgba(168,85,247,.12)',  codrs:'45K',   ext:'kt'},
+  {id:'ruby',   n:'Ruby',      ico:'💎', c:'#EF4444', bg:'rgba(239,68,68,.12)',   codrs:'32K',   ext:'rb'},
+  {id:'php',    n:'PHP',       ico:'🐘', c:'#818CF8', bg:'rgba(129,140,248,.12)', codrs:'30K',   ext:'php'},
+  {id:'dart',   n:'Dart',      ico:'🎪', c:'#06B6D4', bg:'rgba(6,182,212,.12)',   codrs:'18K',   ext:'dart'},
+  {id:'lua',    n:'Lua',       ico:'🌙', c:'#818CF8', bg:'rgba(129,140,248,.12)', codrs:'56K',   ext:'lua'},
+  {id:'r',      n:'R',         ico:'📊', c:'#3B82F6', bg:'rgba(59,130,246,.12)',  codrs:'16K',   ext:'r'},
+  {id:'phaser', n:'Phaser',    ico:'⚡', c:'#10B981', bg:'rgba(16,185,129,.12)',  codrs:'12K',   ext:'phr'},
+];
+
+// Lessons — starter = blank scaffold, code = solution (shown only via "Show Solution")
+const LESSONS={
+python:[
+  {id:'py1',t:'Hello, World!',lv:'Beginner',xp:20,
+   exp:'Every coder starts with printing "Hello, World!". In Python the print() function outputs text to the console — it is that simple. Python was designed to be readable, so your first program is just one line.',
+   task:'Print the text "Hello, World!" to the console.',
+   starter:'# Write your first Python program below\n# Use print() to display Hello, World!\n',
+   code:'print("Hello, World!")',
+   out:'Hello, World!',
+   quiz:{q:'What Python function displays text on the screen?',opts:['write()','show()','print()','display()'],ans:2}},
+
+  {id:'py2',t:'Variables',lv:'Beginner',xp:25,
+   exp:'Variables store data so you can reuse it. In Python you just write name = value — no type keyword needed. Python figures out the type automatically. Variable names should be descriptive and use snake_case.',
+   task:'Create a variable called name set to your name, and age set to your age. Print both on separate lines.',
+   starter:'# Create two variables: name and age\n# Then print each one\n',
+   code:'name = "Alex"\nage = 20\nprint(name)\nprint(age)',
+   out:'Alex\n20',
+   quiz:{q:'Which style is correct for Python variable names?',opts:['myName','MyName','my_name','my-name'],ans:2}},
+
+  {id:'py3',t:'If / Else',lv:'Beginner',xp:30,
+   exp:'if/else lets your code make decisions. The condition goes after if, and the block is indented 4 spaces. elif checks additional conditions. else catches everything that did not match. Indentation is crucial in Python — it defines the block.',
+   task:'Given score = 85, print "A" if >=90, "B" if >=70, "C" if >=50, else "F".',
+   starter:'score = 85\n# Write if/elif/else to print the grade\n',
+   code:'score = 85\nif score >= 90:\n    print("A")\nelif score >= 70:\n    print("B")\nelif score >= 50:\n    print("C")\nelse:\n    print("F")',
+   out:'B',
+   quiz:{q:'What keyword checks an additional condition in Python?',opts:['else if','otherwise','elif','elseif'],ans:2}},
+
+  {id:'py4',t:'Loops',lv:'Beginner',xp:35,
+   exp:'for loops iterate over a sequence. range(start, stop, step) generates numbers. The loop variable takes each value in turn. break exits early, continue skips to the next iteration. while loops run until a condition is False.',
+   task:'Use a for loop with range() to print even numbers from 2 to 10.',
+   starter:'# Print even numbers 2, 4, 6, 8, 10 using a for loop\n',
+   code:'for i in range(2, 11, 2):\n    print(i)',
+   out:'2\n4\n6\n8\n10',
+   quiz:{q:'What does range(0, 10, 2) produce?',opts:['0 to 10','0,2,4,6,8','2,4,6,8,10','1,3,5,7,9'],ans:1}},
+
+  {id:'py5',t:'Functions',lv:'Intermediate',xp:40,
+   exp:'Functions are reusable blocks of code defined with def. They can accept parameters and return values with return. Define once, call many times. Good functions do one thing well and have descriptive names.',
+   task:'Write a function called area(width, height) that returns width times height. Call it with 5 and 4.',
+   starter:'# Define a function called area(width, height)\n# It should return width * height\n\n# Then call it with 5 and 4 and print the result\n',
+   code:'def area(width, height):\n    return width * height\n\nprint(area(5, 4))',
+   out:'20',
+   quiz:{q:'Which keyword sends a value back from a function?',opts:['send','output','yield','return'],ans:3}},
+
+  {id:'py6',t:'Lists',lv:'Intermediate',xp:45,
+   exp:'Lists store multiple values in order. Create with square brackets. Access by index starting at 0. Use -1 for the last item. .append() adds, .remove() deletes, len() counts, sorted() sorts without changing the original.',
+   task:'Create a list of 5 numbers. Sort it and print the largest 3.',
+   starter:'# Create a list called numbers with 5 values\n# Sort it and print only the top 3 largest\n',
+   code:'numbers = [42, 7, 19, 55, 3]\nnumbers.sort(reverse=True)\nfor n in numbers[:3]:\n    print(n)',
+   out:'55\n42\n19',
+   quiz:{q:'What index accesses the last item in a Python list?',opts:['last','len-1','-1','0'],ans:2}},
+
+  {id:'py7',t:'Dictionaries',lv:'Intermediate',xp:50,
+   exp:'Dictionaries store key-value pairs using curly braces. Access values with dict[key]. .keys() lists all keys, .values() all values, .items() both. Use .get(key, default) to safely access without raising an error.',
+   task:'Create a dictionary of 3 countries and their capitals. Print each pair on one line.',
+   starter:'# Create a dict called capitals with 3 country:capital pairs\n# Loop through .items() and print each\n',
+   code:'capitals = {"France": "Paris", "Japan": "Tokyo", "Brazil": "Brasilia"}\nfor country, capital in capitals.items():\n    print(country + ": " + capital)',
+   out:'France: Paris\nJapan: Tokyo\nBrazil: Brasilia',
+   quiz:{q:'Which method returns both keys and values from a dict?',opts:['.pairs()','.both()','.items()','.entries()'],ans:2}},
+
+  {id:'py8',t:'Classes',lv:'Advanced',xp:55,
+   exp:'Classes are blueprints for objects. __init__ is the constructor that runs when an object is created. self refers to the current instance. Attributes store state, methods define behaviour. This is the foundation of object-oriented programming.',
+   task:'Create a Dog class with name and breed. Add a bark() method that prints a message. Create one instance and call bark().',
+   starter:'# Create a Dog class\n# __init__ should accept name and breed\n# Add a bark() method\n\n# Create a Dog instance and call bark()\n',
+   code:'class Dog:\n    def __init__(self, name, breed):\n        self.name = name\n        self.breed = breed\n    def bark(self):\n        print(self.name + " says: Woof!")\n\ndog = Dog("Rex", "Labrador")\ndog.bark()',
+   out:'Rex says: Woof!',
+   quiz:{q:'What is the first parameter of every Python class method?',opts:['this','me','cls','self'],ans:3}},
+
+  {id:'py9',t:'File Handling',lv:'Advanced',xp:60,
+   exp:'Python can read and write files with the open() function. Use "w" mode to write, "r" to read, "a" to append. The with statement closes the file automatically even if an error occurs. Always use with open() for safe file handling.',
+   task:'Write three lines to a file called notes.txt, then read and print the file.',
+   starter:'# Write to notes.txt using with open(..., "w")\n# Write at least 3 lines\n# Then read and print the file contents\n',
+   code:'with open("notes.txt", "w") as f:\n    f.write("Line 1: Python is fun\\n")\n    f.write("Line 2: Files are easy\\n")\n    f.write("Line 3: Keep coding!\\n")\n\nwith open("notes.txt", "r") as f:\n    print(f.read())',
+   out:'Line 1: Python is fun\nLine 2: Files are easy\nLine 3: Keep coding!',
+   quiz:{q:'Which "with open" mode appends to an existing file?',opts:['"w"','"r"','"a"','"x"'],ans:2}},
+
+  {id:'py10',t:'Error Handling',lv:'Advanced',xp:65,
+   exp:'Exceptions handle runtime errors gracefully. try contains risky code, except catches errors, else runs if no error occurred, finally always runs. You can catch specific exceptions like ValueError or ZeroDivisionError for fine-grained control.',
+   task:'Write a safe_divide(a, b) function that handles ZeroDivisionError. Test with valid and zero inputs.',
+   starter:'# Write safe_divide(a, b)\n# Use try/except to handle ZeroDivisionError\n# Test with safe_divide(10, 2) and safe_divide(5, 0)\n',
+   code:'def safe_divide(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return "Error: cannot divide by zero"\n\nprint(safe_divide(10, 2))\nprint(safe_divide(5, 0))',
+   out:'5.0\nError: cannot divide by zero',
+   quiz:{q:'Which block ALWAYS runs in a try/except statement?',opts:['try','except','else','finally'],ans:3}},
+],
+
+javascript:[
+  {id:'js1',t:'Hello, World!',lv:'Beginner',xp:20,
+   exp:'JavaScript is the language of the web. console.log() prints output. JS runs in browsers and in Node.js. Every interactive element on a website uses JavaScript.',
+   task:'Use console.log() to print "Hello, World!" to the console.',
+   starter:'// Print Hello, World! using console.log\n',
+   code:'console.log("Hello, World!");',
+   out:'Hello, World!',
+   quiz:{q:'What function prints output in JavaScript?',opts:['print()','echo()','console.log()','output()'],ans:2}},
+
+  {id:'js2',t:'Variables',lv:'Beginner',xp:25,
+   exp:'Use const for values that never change and let for values that do. Avoid var — it has confusing scope rules. JavaScript is loosely typed: you do not declare the type, it is inferred at runtime.',
+   task:'Declare a const for your name and a let for your age. Log both with typeof to see their types.',
+   starter:'// Declare const name and let age\n// Log each value and its typeof\n',
+   code:'const name = "Alex";\nlet age = 20;\nconsole.log(name, typeof name);\nconsole.log(age, typeof age);',
+   out:'Alex string\n20 number',
+   quiz:{q:'Which keyword declares a value that cannot be reassigned?',opts:['let','var','const','fixed'],ans:2}},
+
+  {id:'js3',t:'Functions',lv:'Beginner',xp:30,
+   exp:'JS has function declarations and arrow functions (=>). Arrow functions are shorter and do not have their own "this". Both create reusable code. Functions can return values or just perform actions.',
+   task:'Write a square() function declaration and a cube() arrow function. Log square(4) and cube(3).',
+   starter:'// Write square() as a function declaration\n// Write cube() as an arrow function\n// Log the results\n',
+   code:'function square(n) { return n * n; }\nconst cube = n => n * n * n;\nconsole.log(square(4));\nconsole.log(cube(3));',
+   out:'16\n27',
+   quiz:{q:'What symbol defines an arrow function?',opts:['->','>>','-->','=>'],ans:3}},
+
+  {id:'js4',t:'Arrays',lv:'Intermediate',xp:35,
+   exp:'.map() transforms every element. .filter() keeps elements matching a condition. .reduce() collapses to one value. These functional methods are the backbone of modern JS — avoid plain for loops when these are cleaner.',
+   task:'Start with [1,2,3,4,5]. Use .map() to double each number, then .filter() to keep only values above 5.',
+   starter:'const nums = [1, 2, 3, 4, 5];\n// Use .map() to double each number\n// Then .filter() to keep only values > 5\n// Log the result\n',
+   code:'const nums = [1, 2, 3, 4, 5];\nconst result = nums.map(n => n * 2).filter(n => n > 5);\nconsole.log(result);',
+   out:'[6, 8, 10]',
+   quiz:{q:'What does .filter() return?',opts:['The first match','A new array of matching elements','The count of matches','True or false'],ans:1}},
+
+  {id:'js5',t:'Objects',lv:'Intermediate',xp:40,
+   exp:'Objects group related data as key-value pairs. Destructuring extracts values cleanly. The spread operator (...) copies or merges objects. Optional chaining (?.) safely accesses nested properties that might not exist.',
+   task:'Create a user object with name, age, role. Destructure name and age. Create an updated copy with a new city property.',
+   starter:'// Create a user object with name, age, role\n// Destructure name and age\n// Spread-merge user with { city: "London" } and log it\n',
+   code:'const user = { name: "Alice", age: 25, role: "admin" };\nconst { name, age } = user;\nconsole.log(name, age);\nconst updated = { ...user, city: "London" };\nconsole.log(updated);',
+   out:'Alice 25\n{name: "Alice", age: 25, role: "admin", city: "London"}',
+   quiz:{q:'What does the spread operator (...) do to an object?',opts:['Deletes properties','Creates a shallow copy','Sorts the keys','Freezes the object'],ans:1}},
+
+  {id:'js6',t:'Promises & Async',lv:'Advanced',xp:50,
+   exp:'JavaScript is single-threaded. async/await makes async code look synchronous. async marks a function, await pauses until a Promise resolves. Always wrap await in try/catch to handle errors. This is how you fetch data from APIs.',
+   task:'Write an async function that uses Promise.resolve to simulate fetching a user, then logs the result.',
+   starter:'// Write an async function called getUser()\n// Use await with Promise.resolve({name:"Alex", xp:500})\n// Log the user name and xp\ngetUser();\n',
+   code:'async function getUser() {\n  const user = await Promise.resolve({ name: "Alex", xp: 500 });\n  console.log(user.name, user.xp);\n}\ngetUser();',
+   out:'Alex 500',
+   quiz:{q:'What does await do inside an async function?',opts:['Stops the entire program','Pauses until the Promise resolves','Runs code in parallel','Creates a new thread'],ans:1}},
+],
+
+html:[
+  {id:'h1',t:'First Webpage',lv:'Beginner',xp:20,
+   exp:'HTML structures every webpage. Tags use angle brackets. Most tags need opening and closing. The html tag wraps everything, head holds metadata, body holds visible content.',
+   task:'Write a complete HTML page with a title, an h1 heading saying "My First Page", and a paragraph saying "Hello!".',
+   starter:'<!-- Write a complete HTML page structure -->\n<!-- Include: html, head (with title), body, h1, and p -->\n',
+   code:'<html>\n  <head><title>My Page</title></head>\n  <body>\n    <h1>My First Page</h1>\n    <p>Hello!</p>\n  </body>\n</html>',
+   out:'My First Page\nHello!',
+   quiz:{q:'What does HTML stand for?',opts:['High-Tech Markup Language','HyperText Markup Language','HyperText Machine Language','Home Tool Markup Language'],ans:1}},
+
+  {id:'h2',t:'Headings & Text',lv:'Beginner',xp:25,
+   exp:'h1 to h6 are headings (h1 is largest). p is a paragraph. strong makes text bold, em makes it italic. These semantic tags tell the browser — and screen readers — what the content means.',
+   task:'Create an h1, an h2, and a paragraph. Inside the paragraph use strong and em.',
+   starter:'<!-- Create h1, h2, and a paragraph with bold and italic words -->\n',
+   code:'<h1>Main Title</h1>\n<h2>Subtitle</h2>\n<p>This is <strong>bold</strong> and <em>italic</em> text.</p>',
+   out:'Main Title\nSubtitle\nThis is bold and italic text.',
+   quiz:{q:'Which tag creates the LARGEST heading?',opts:['h6','heading','h1','big'],ans:2}},
+
+  {id:'h3',t:'Links & Images',lv:'Beginner',xp:30,
+   exp:'The a tag creates links — href sets the URL, target="_blank" opens in a new tab. The img tag embeds images — src is the image URL, alt is the description for accessibility and SEO. img is self-closing.',
+   task:'Create a link to https://google.com that opens in a new tab, and an image with meaningful alt text.',
+   starter:'<!-- Create an anchor tag linking to google.com (new tab) -->\n<!-- Create an img with src and a descriptive alt -->\n',
+   code:'<a href="https://google.com" target="_blank">Visit Google</a>\n<img src="photo.jpg" alt="A sunset over the mountains">',
+   out:'Visit Google\n[Image: A sunset over the mountains]',
+   quiz:{q:'What attribute sets where a link goes?',opts:['src','to','href','url'],ans:2}},
+
+  {id:'h4',t:'Lists',lv:'Intermediate',xp:35,
+   exp:'ul is an unordered (bullet) list, ol is ordered (numbered). li is a list item inside either. Lists can be nested. They are used for navigation menus, bullet points, and step-by-step instructions.',
+   task:'Make an unordered list of 3 favourite foods and an ordered list of 3 steps to make tea.',
+   starter:'<!-- Create a ul with 3 li items (foods) -->\n<!-- Create an ol with 3 li items (tea steps) -->\n',
+   code:'<ul>\n  <li>Pizza</li>\n  <li>Sushi</li>\n  <li>Tacos</li>\n</ul>\n<ol>\n  <li>Boil water</li>\n  <li>Add tea bag</li>\n  <li>Wait 3 minutes</li>\n</ol>',
+   out:'• Pizza\n• Sushi\n• Tacos\n1. Boil water\n2. Add tea bag\n3. Wait 3 minutes',
+   quiz:{q:'Which tag creates a numbered list?',opts:['ul','nl','ol','li'],ans:2}},
+
+  {id:'h5',t:'Tables',lv:'Intermediate',xp:40,
+   exp:'Tables organise data in rows and columns. table wraps everything. thead and tbody separate header rows from data. tr is a row, th is a header cell (bold by default), td is a data cell.',
+   task:'Create a table with Name and Score column headers, and 3 rows of data.',
+   starter:'<!-- Create a table with thead (Name, Score) and 3 tbody rows -->\n',
+   code:'<table>\n  <thead>\n    <tr><th>Name</th><th>Score</th></tr>\n  </thead>\n  <tbody>\n    <tr><td>Alice</td><td>95</td></tr>\n    <tr><td>Bob</td><td>88</td></tr>\n    <tr><td>Carol</td><td>92</td></tr>\n  </tbody>\n</table>',
+   out:'Name | Score\nAlice | 95\nBob | 88\nCarol | 92',
+   quiz:{q:'What tag defines a header cell in a table?',opts:['td','tc','th','tr'],ans:2}},
+
+  {id:'h6',t:'Forms',lv:'Advanced',xp:50,
+   exp:'Forms collect user input. input can be type text, email, password, number, checkbox, radio, file. label improves accessibility — pair it with input using for and id. button type="submit" sends the form.',
+   task:'Build a form with a text input for Name, an email input, and a Submit button. Add labels.',
+   starter:'<!-- Build a form with:\n     - label + text input for Name\n     - label + email input for Email\n     - a Submit button -->\n',
+   code:'<form>\n  <label for="name">Name:</label>\n  <input type="text" id="name" placeholder="Your name"><br>\n  <label for="email">Email:</label>\n  <input type="email" id="email" placeholder="you@email.com"><br>\n  <button type="submit">Submit</button>\n</form>',
+   out:'Form: [Name] [Email] [Submit]',
+   quiz:{q:'What attribute links a label to its input?',opts:['id','name','for','link'],ans:2}},
+],
+
+sql:[
+  {id:'sql1',t:'Your First Query',lv:'Beginner',xp:20,
+   exp:'SQL queries databases. SELECT retrieves data. * means all columns. FROM says which table. Every query ends with a semicolon. SQL is case-insensitive for keywords but convention is to CAPITALISE them.',
+   task:'Write a SELECT query to get all columns from a table called users. Then write one to get only name and email.',
+   starter:'-- Get all columns from users\n\n-- Get only name and email from users\n',
+   code:'SELECT * FROM users;\nSELECT name, email FROM users;',
+   out:'All columns from users\nname, email from users',
+   quiz:{q:'What does SELECT * do?',opts:['Deletes all rows','Gets all columns','Counts rows','Creates a table'],ans:1}},
+
+  {id:'sql2',t:'WHERE Clause',lv:'Beginner',xp:25,
+   exp:'WHERE filters rows. Use = for equality, != for not equal, > < >= <= for comparisons. LIKE with % matches patterns. AND / OR combine conditions. Always put WHERE before ORDER BY.',
+   task:'Find all users where age is between 18 and 30, and whose name starts with the letter A.',
+   starter:'-- Find users aged 18-30 AND name starts with "A"\n-- Order by age ascending\n',
+   code:'SELECT * FROM users\nWHERE age BETWEEN 18 AND 30\n  AND name LIKE "A%"\nORDER BY age ASC;',
+   out:'id | name  | age\n3  | Alice | 22\n7  | Ahmed | 27',
+   quiz:{q:'What operator matches a pattern in SQL?',opts:['MATCH','REGEX','LIKE','CONTAINS'],ans:2}},
+
+  {id:'sql3',t:'ORDER BY & LIMIT',lv:'Beginner',xp:30,
+   exp:'ORDER BY sorts results. ASC is ascending (default), DESC is descending. LIMIT caps how many rows are returned. Combine them to get "top N" results. This is how leaderboards and rankings are built.',
+   task:'Get the top 3 highest-paid employees showing their name, department, and salary.',
+   starter:'-- Get name, department, salary from employees\n-- Order by salary descending\n-- Limit to top 3\n',
+   code:'SELECT name, department, salary\nFROM employees\nORDER BY salary DESC\nLIMIT 3;',
+   out:'name    | department | salary\nAlice   | Engineering| 120000\nBob     | Product    | 115000\nCarol   | Engineering| 108000',
+   quiz:{q:'Which keyword limits the number of rows returned?',opts:['TOP','MAX','LIMIT','FETCH'],ans:2}},
+
+  {id:'sql4',t:'JOINs',lv:'Intermediate',xp:40,
+   exp:'JOINs combine data from two or more tables. INNER JOIN returns only rows that match in both tables. LEFT JOIN returns all rows from the left table plus any matches. You join ON a matching column, usually a foreign key.',
+   task:'Join orders and users tables to show order_id, customer name, and total for each order.',
+   starter:'-- SELECT order_id, user name, and total\n-- FROM orders\n-- INNER JOIN users on the user_id column\n',
+   code:'SELECT orders.id, users.name, orders.total\nFROM orders\nINNER JOIN users ON orders.user_id = users.id;',
+   out:'id | name  | total\n1  | Alice | 59.99\n2  | Bob   | 120.00\n3  | Alice | 35.50',
+   quiz:{q:'What does INNER JOIN return?',opts:['All rows from the left table','All rows from both tables','Only rows that match in both tables','Duplicate rows'],ans:2}},
+
+  {id:'sql5',t:'GROUP BY & Aggregates',lv:'Intermediate',xp:45,
+   exp:'COUNT() counts rows, SUM() totals values, AVG() averages, MAX() and MIN() find extremes. GROUP BY groups rows so aggregates apply per group. HAVING filters groups (like WHERE but after grouping).',
+   task:'Count employees per department. Only show departments where the average salary is above 70000.',
+   starter:'-- SELECT department, COUNT(*), AVG(salary)\n-- FROM employees\n-- GROUP BY department\n-- Filter with HAVING where avg salary > 70000\n',
+   code:'SELECT department, COUNT(*) AS headcount, AVG(salary) AS avg_sal\nFROM employees\nGROUP BY department\nHAVING AVG(salary) > 70000\nORDER BY avg_sal DESC;',
+   out:'department   | headcount | avg_sal\nEngineering  | 8         | 105000\nProduct      | 5         | 92000',
+   quiz:{q:'What filters groups in SQL (like WHERE but for grouped results)?',opts:['GROUPWHERE','FILTER','HAVING','GROUPFILTER'],ans:2}},
+
+  {id:'sql6',t:'INSERT, UPDATE, DELETE',lv:'Advanced',xp:55,
+   exp:'INSERT INTO adds new rows. UPDATE changes existing rows — always use WHERE or you update every row. DELETE removes rows — always use WHERE. Wrap multiple changes in a TRANSACTION so they all succeed or all fail.',
+   task:'Insert a new product, update its price, then verify with a SELECT.',
+   starter:'-- INSERT a new product (name, price, stock)\n-- UPDATE its price with WHERE\n-- SELECT to verify it\n',
+   code:'INSERT INTO products (name, price, stock) VALUES ("Keyboard", 49.99, 100);\nUPDATE products SET price = 44.99 WHERE name = "Keyboard";\nSELECT name, price FROM products WHERE name = "Keyboard";',
+   out:'1 row inserted.\n1 row updated.\nname     | price\nKeyboard | 44.99',
+   quiz:{q:'What happens if you run DELETE FROM users with no WHERE clause?',opts:['Deletes the first row','Deletes nothing','Asks for confirmation','Deletes ALL rows'],ans:3}},
+],
+
+java:[
+  {id:'j1',t:'Hello, World!',lv:'Beginner',xp:20,
+   exp:'Every Java program lives inside a class. The main() method is the entry point — the JVM calls it first. System.out.println() prints a line. Java is compiled, strongly typed, and runs on any platform via the JVM.',
+   task:'Write a complete Java program that prints "Hello, World!".',
+   starter:'public class Main {\n    public static void main(String[] args) {\n        // Print Hello, World!\n    }\n}',
+   code:'public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}',
+   out:'Hello, World!',
+   quiz:{q:'What is the entry point of a Java program?',opts:['start()','run()','main()','init()'],ans:2}},
+
+  {id:'j2',t:'Variables & Types',lv:'Beginner',xp:25,
+   exp:'Java is statically typed. Declare type before the name: int, double, String, boolean. final makes a constant. Java converts smaller types to larger ones automatically (widening). Always initialise before use.',
+   task:'Declare int, double, String, and boolean variables. Print them all on one line.',
+   starter:'public class Main {\n    public static void main(String[] args) {\n        // Declare: int age, double height, String name, boolean isCoder\n        // Print them all on one line\n    }\n}',
+   code:'public class Main {\n    public static void main(String[] args) {\n        int age = 20;\n        double height = 5.9;\n        String name = "Alex";\n        boolean isCoder = true;\n        System.out.println(name + " | " + age + " | " + height + " | " + isCoder);\n    }\n}',
+   out:'Alex | 20 | 5.9 | true',
+   quiz:{q:'Which keyword makes a Java variable a constant?',opts:['const','static','final','fixed'],ans:2}},
+
+  {id:'j3',t:'Loops',lv:'Beginner',xp:30,
+   exp:'Java has for, while, do-while, and enhanced for-each loops. A classic for loop: init; condition; update. break exits, continue skips. For-each (for(Type item : collection)) is cleaner for arrays and lists.',
+   task:'Print a 5x5 multiplication table using nested for loops.',
+   starter:'public class Main {\n    public static void main(String[] args) {\n        // Nested for loops to print a 5x5 multiplication table\n    }\n}',
+   code:'public class Main {\n    public static void main(String[] args) {\n        for (int i = 1; i <= 5; i++) {\n            for (int j = 1; j <= 5; j++) {\n                System.out.printf("%4d", i * j);\n            }\n            System.out.println();\n        }\n    }\n}',
+   out:'   1   2   3   4   5\n   2   4   6   8  10\n   3   6   9  12  15\n   4   8  12  16  20\n   5  10  15  20  25',
+   quiz:{q:'Which loop always executes at least once?',opts:['for','while','do-while','for-each'],ans:2}},
+
+  {id:'j4',t:'Classes & Objects',lv:'Intermediate',xp:40,
+   exp:'A class is a blueprint; an object is an instance of it. The constructor (__init__ in Python, but here it has the same name as the class) initialises fields. this refers to the current instance. private hides fields; public exposes them.',
+   task:'Create a Person class with name and age. Add a greet() method. Create one instance and call greet().',
+   starter:'public class Main {\n    static class Person {\n        // Add name and age fields\n        // Add a constructor\n        // Add a greet() method\n    }\n    public static void main(String[] args) {\n        // Create a Person and call greet()\n    }\n}',
+   code:'public class Main {\n    static class Person {\n        String name;\n        int age;\n        Person(String name, int age) {\n            this.name = name;\n            this.age = age;\n        }\n        void greet() {\n            System.out.println("Hi, I\'m " + name + ", age " + age);\n        }\n    }\n    public static void main(String[] args) {\n        Person p = new Person("Alice", 25);\n        p.greet();\n    }\n}',
+   out:"Hi, I'm Alice, age 25",
+   quiz:{q:'What does a Java constructor do?',opts:['Destroys an object','Initialises a new object','Copies an object','Inherits a parent class'],ans:1}},
+
+  {id:'j5',t:'Exception Handling',lv:'Advanced',xp:50,
+   exp:'Exceptions handle runtime errors. try wraps risky code. catch handles specific exceptions. finally always runs. throw creates exceptions. Checked exceptions must be caught or declared. RuntimeExceptions are unchecked.',
+   task:'Handle ArithmeticException (divide by zero) and NumberFormatException. Include a finally block.',
+   starter:'public class Main {\n    public static void main(String[] args) {\n        // try dividing by zero -> catch ArithmeticException\n        // try parsing "abc" as int -> catch NumberFormatException\n        // Add a finally block\n    }\n}',
+   code:'public class Main {\n    public static void main(String[] args) {\n        try {\n            int r = 10 / 0;\n        } catch (ArithmeticException e) {\n            System.out.println("Math error: " + e.getMessage());\n        } finally {\n            System.out.println("Finally block ran!");\n        }\n        try {\n            int n = Integer.parseInt("abc");\n        } catch (NumberFormatException e) {\n            System.out.println("Bad number format!");\n        }\n    }\n}',
+   out:'Math error: / by zero\nFinally block ran!\nBad number format!',
+   quiz:{q:'What does the finally block do?',opts:['Only runs on error','Only runs on success','Always runs','Catches all exceptions'],ans:2}},
+],
+};
+
+// Fill remaining languages with default lessons
+LANGS.forEach(l => {
+  if (!LESSONS[l.id]) {
+    LESSONS[l.id] = [
+      {id:l.id+'1',t:'Hello, World!',lv:'Beginner',xp:20,
+       exp:'Welcome to ' + l.n + '! Every programming journey starts with the classic Hello World program. ' + l.n + ' is used by millions of developers worldwide.',
+       task:'Write your first ' + l.n + ' program that prints "Hello, World!".',
+       starter:'// Write Hello World in ' + l.n + '\n',
+       code:'// Hello, World! in ' + l.n + '\n// console.log("Hello, World!");',
+       out:'Hello, World!',
+       quiz:{q:'What is ' + l.n + ' primarily used for?',opts:['Web development','Data science','Systems programming','All of the above'],ans:3}},
+      {id:l.id+'2',t:'Variables',lv:'Beginner',xp:25,
+       exp:'Variables store data. ' + l.n + ' has its own way of declaring variables and types. Understanding this is the foundation of all programming.',
+       task:'Declare variables of different types and print each one.',
+       starter:'// Declare a string, number, and boolean variable\n// Print each one\n',
+       code:'// Variables in ' + l.n + '\n// Declare and print different types',
+       out:'Variable values printed!',
+       quiz:{q:'What is a variable?',opts:['A fixed constant','A named data container','A type of loop','A function'],ans:1}},
+      {id:l.id+'3',t:'Functions',lv:'Intermediate',xp:35,
+       exp:'Functions are reusable named blocks of code. Define once, call many times. ' + l.n + ' has its own function syntax worth learning well.',
+       task:'Write a function that returns the square of a number. Call it and print the result.',
+       starter:'// Write a square(n) function\n// Call it with 5 and print the result\n',
+       code:'// Function in ' + l.n + '\n// Returns n * n',
+       out:'25',
+       quiz:{q:'What makes a function useful?',opts:['It runs once','It can be called many times','It stores data','It loops automatically'],ans:1}},
+    ];
+  }
+});
+
+// ─── LEAGUES & POWERUPS ──────────────────────
+const LEAGUES=[
+  {id:'rookie',   n:'Rookie',   ico:'🥉', col:'#CD7F32', min:0,     max:1000,  desc:'Just getting started!'},
+  {id:'emerald',  n:'Emerald',  ico:'💚', col:'#50C878', min:1000,  max:3000,  desc:'Building momentum!'},
+  {id:'diamond',  n:'Diamond',  ico:'💎', col:'#B9F2FF', min:3000,  max:6000,  desc:'Cutting through challenges!'},
+  {id:'amethyst', n:'Amethyst', ico:'💜', col:'#9966CC', min:6000,  max:10000, desc:'Rare and powerful!'},
+  {id:'gold',     n:'Gold',     ico:'🥇', col:'#FFD700', min:10000, max:999999,desc:'Elite coders only!'},
+];
+const POWERUPS=[
+  {ico:'⚡',n:'2x XP Boost',  d:'Double XP for next 5 lessons', cost:100, ef:'2x XP active!'},
+  {ico:'🛡️',n:'Streak Shield',d:'Protect streak for 1 day',      cost:150, ef:'Streak protected!'},
+  {ico:'💡',n:'Hint Pack',    d:'10 AI hints for lessons',        cost:75,  ef:'10 hints added!'},
+  {ico:'⏭️',n:'Lesson Skip',  d:'Skip 1 lesson and keep XP',     cost:200, ef:'Skip token added!'},
+];
+const LB=[
+  {n:'Arjun Sharma',   xp:4850,av:'arjun99',  c:'🇮🇳',str:45},
+  {n:'Maria Santos',   xp:4720,av:'maria88',  c:'🇧🇷',str:38},
+  {n:'Liam O\'Brien',  xp:4410,av:'liam77',   c:'🇮🇪',str:32},
+  {n:'Yuki Tanaka',    xp:4200,av:'yuki66',   c:'🇯🇵',str:29},
+  {n:'Fatima Al-Rashid',xp:3980,av:'fatima55',c:'🇸🇦',str:27},
+  {n:'Carlos Mendez',  xp:3750,av:'carlos44', c:'🇲🇽',str:24},
+  {n:'Sophie Müller',  xp:3600,av:'sophie33', c:'🇩🇪',str:22},
+  {n:'Kwame Asante',   xp:3400,av:'kwame22',  c:'🇬🇭',str:20},
+  {n:'Priya Patel',    xp:3200,av:'priya11',  c:'🇮🇳',str:18},
+  {n:'Jake Williams',  xp:3050,av:'jake00',   c:'🇺🇸',str:16},
+  {n:'Mei Chen',       xp:2900,av:'mei99',    c:'🇨🇳',str:14},
+  {n:'Omar Hassan',    xp:2750,av:'omar88',   c:'🇪🇬',str:12},
+  {n:'Emma Thompson',  xp:2600,av:'emma77',   c:'🇬🇧',str:11},
+  {n:'Ravi Kumar',     xp:2450,av:'ravi66',   c:'🇮🇳',str:10},
+  {n:'Ana Pereira',    xp:2300,av:'ana55',    c:'🇵🇹',str:9},
+  {n:'Sven Lindqvist', xp:2150,av:'sven44',   c:'🇸🇪',str:8},
+  {n:'Amara Diallo',   xp:2000,av:'amara33',  c:'🇸🇳',str:7},
+  {n:'Hiroshi Kato',   xp:1850,av:'hiroshi22',c:'🇯🇵',str:6},
+  {n:'Isabella Rossi', xp:1700,av:'isabella11',c:'🇮🇹',str:6},
+  {n:'Diego Vargas',   xp:1550,av:'diego00',  c:'🇨🇴',str:5},
+  {n:'Zara Ahmed',     xp:1400,av:'zara99',   c:'🇵🇰',str:5},
+  {n:'Lucas Bernard',  xp:1250,av:'lucas88',  c:'🇫🇷',str:4},
+  {n:'You',            xp:0,   av:'user123',  c:'⭐', str:3,me:true},
+];
+const FRIENDS=[
+  {n:'Arjun Sharma',h:'@arjun99',xp:4850,av:'arjun99',online:true, c:'🇮🇳'},
+  {n:'Priya Patel', h:'@priya11',xp:3200,av:'priya11',online:true, c:'🇮🇳'},
+  {n:'Jake Williams',h:'@jake00',xp:3050,av:'jake00', online:false,c:'🇺🇸'},
+  {n:'Maria Santos',h:'@maria88',xp:4720,av:'maria88',online:true, c:'🇧🇷'},
+];
+const DISCOVER=[
+  {n:'Yuki Tanaka',  h:'@yuki66', xp:4200,av:'yuki66', online:true, c:'🇯🇵'},
+  {n:'Carlos Mendez',h:'@carlos44',xp:3750,av:'carlos44',online:false,c:'🇲🇽'},
+  {n:'Sophie Müller',h:'@sophie33',xp:3600,av:'sophie33',online:true, c:'🇩🇪'},
+  {n:'Emma Thompson',h:'@emma77', xp:2600,av:'emma77', online:true, c:'🇬🇧'},
+];
+const REQS=[
+  {n:'Mei Chen',  h:'@mei99', xp:2900,av:'mei99', c:'🇨🇳'},
+  {n:'Omar Hassan',h:'@omar88',xp:2750,av:'omar88',c:'🇪🇬'},
+];
+const BADGES=[
+  {ico:'🔥',l:'7-Day Streak'},{ico:'🐍',l:'Python Pro'},{ico:'⚡',l:'Speed Coder'},
+  {ico:'🎯',l:'Perfectionist'},{ico:'🌐',l:'Web Wizard'},{ico:'🏆',l:'Top 25'},
+];
+
+// ─── STATE ─────────────────────────────────────
+let P={done:{},xp:0,str:3};
+let tokens=250;
+try{const d=JSON.parse(localStorage.getItem('syn_prog')||'{}');if(d.done)P=d;if(d.tokens!=null)tokens=d.tokens;}catch(e){}
+function saveP(){try{localStorage.setItem('syn_prog',JSON.stringify({...P,tokens}));}catch(e){}}
+
+let curLang=null, curLesson=null, lesStep='learn', lesCode='', lesRan=false;
+let qSel=null, qSub=false;
+let lbTab='rookie', fTab='friends';
+let dAdded={};
+
+// ─── HELPERS ───────────────────────────────────
+function av(seed){return 'https://api.dicebear.com/7.x/avataaars/svg?seed='+seed+'&backgroundColor=0b0c10';}
+function lvl(xp){return Math.floor(xp/100)+1;}
+function league(xp){return LEAGUES.find(l=>xp>=l.min&&xp<l.max)||LEAGUES[0];}
+function pct(done,total){return total?Math.round(done/total*100):0;}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.remove('on');void t.offsetWidth;t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),2300);
+}
+function showXP(a){
+  const el=document.getElementById('xpb');
+  el.querySelector('div').textContent='+'+a+' XP ⚡';
+  el.classList.remove('on');void el.offsetWidth;el.classList.add('on');
+  setTimeout(()=>el.classList.remove('on'),1900);
+}
+function updNav(){
+  const x=P.xp,l=lvl(x);
+  document.getElementById('n-str').textContent=P.str;
+  document.getElementById('n-xp').textContent=x;
+  document.getElementById('n-tok').textContent=tokens;
+  LB.find(u=>u.me).xp=x;
+}
+
+// ─── LANDING ───────────────────────────────────
+function go(pg){
+  document.getElementById('landing').style.display='none';
+  document.getElementById('app').classList.add('on');
+  nav(pg);
+}
+document.getElementById('l-send').onclick=()=>{
+  const v=document.getElementById('l-inp').value.trim();
+  window._lmsg=v;
+  go('home');
+  if(v){setTimeout(()=>{setAILessonCtx(null,null);setTimeout(()=>{const inp=document.getElementById('api-inp');if(inp){inp.value=v;updAIBtn();aiSend(v);window._lmsg='';}},300);},400);}
+};
+document.getElementById('l-inp').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();document.getElementById('l-send').click();}});
+
+// ─── NAV ───────────────────────────────────────
+function nav(pg){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.alink').forEach(b=>b.classList.toggle('on',b.dataset.p===pg));
+  const el=document.getElementById('pg-'+pg);
+  if(el)el.classList.add('on');
+  if(pg==='home')renderHome();
+  if(pg==='courses')renderCourses();
+  if(pg==='leaderboard')renderLB();
+  if(pg==='friends')renderFriends();
+  if(pg==='profile')renderProfile();
+  updNav();
+}
+
+// ─── HOME ──────────────────────────────────────
+function renderHome(){
+  updNav();
+  const x=P.xp,lv=lvl(x),lg=league(x),xpP=x%100;
+  document.getElementById('home-pi').innerHTML=`
+  <div class="hero">
+    <div class="hero-badge">⚡ AI-POWERED · ${LANGS.length} LANGUAGES · ALL LEVELS</div>
+    <h1>Code, <em>Unlocked.</em></h1>
+    <p>Interactive lessons, AI tutor, leagues, and friends — from Python basics to advanced algorithms.</p>
+    <div class="hero-btns">
+      <button class="hbtn p" onclick="openAI(false)">🤖 Chat with AI Tutor</button>
+      <button class="hbtn s" onclick="nav('courses')">📚 All Courses ↓</button>
+    </div>
+  </div>
+  <div class="srow">
+    <div class="sbox"><span class="sico">⚡</span><div><div class="sval">${x} XP</div><div class="slbl">Total XP</div></div></div>
+    <div class="sbox"><span class="sico">🔥</span><div><div class="sval">${P.str}</div><div class="slbl">Day Streak</div></div></div>
+    <div class="sbox"><span class="sico">📚</span><div><div class="sval">${Object.keys(P.done).length}</div><div class="slbl">Lessons Done</div></div></div>
+    <div class="sbox" onclick="nav('leaderboard')" style="cursor:none;"><span class="sico">${lg.ico}</span><div><div class="sval">${lg.n}</div><div class="slbl">League</div></div></div>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;"><div class="sec" style="margin:0;">🌟 Featured Courses</div><button onclick="nav('courses')" style="background:none;border:none;color:#5B6BF8;font-weight:700;font-size:13px;">View all →</button></div>
+  <div class="lgrid" id="hl1" style="margin-top:12px;"></div>
+  <div class="sec">🌐 More Languages</div>
+  <div class="lgrid" id="hl2"></div>`;
+  const main=LANGS.filter((_,i)=>i<6), rest=LANGS.filter((_,i)=>i>=6);
+  ['hl1','hl2'].forEach((id,idx)=>{
+    const g=document.getElementById(id);if(!g)return;
+    (idx===0?main:rest).forEach(l=>g.appendChild(mkCard(l)));
+  });
+}
+
+function mkCard(l){
+  const done=LESSONS[l.id].filter(x=>P.done[x.id]).length;
+  const total=LESSONS[l.id].length,p=pct(done,total);
+  const d=document.createElement('div');d.className='lcard';
+  d.innerHTML=`<div class="lico" style="background:${l.bg};border:1px solid ${l.c}33;">${l.ico}</div>
+  <div class="lname">${l.n}</div><div class="lsub">${l.codrs} Codders</div>
+  <div class="pbar-t" style="height:5px;"><div class="pfill" style="background:${l.c};width:${p}%;height:100%;"></div></div>
+  <div style="font-size:11px;color:rgba(255,255,255,.3);margin-top:4px;">${done}/${total} lessons</div>
+  ${p===100?'<div class="done-ico">✓</div>':''}
+  <div class="lcard-glow" style="background:${l.c};"></div>`;
+  d.onclick=()=>openCourse(l);
+  return d;
+}
+
+// ─── COURSES PAGE ──────────────────────────────
+function renderCourses(){
+  document.getElementById('courses-pi').innerHTML=`
+  <h2 style="font-size:24px;font-weight:900;margin-bottom:4px;">📚 All Courses</h2>
+  <p style="color:rgba(255,255,255,.38);font-size:14px;margin-bottom:20px;">Choose a language and begin your journey</p>
+  <input class="minp" style="max-width:400px;margin-bottom:20px;" placeholder="🔍  Search languages…" oninput="filterC(this.value)" id="cs"/>
+  <div class="lgrid" id="cg"></div>`;
+  const g=document.getElementById('cg');
+  LANGS.forEach(l=>g.appendChild(mkCard(l)));
+}
+function filterC(q){
+  const g=document.getElementById('cg');if(!g)return;g.innerHTML='';
+  LANGS.filter(l=>l.n.toLowerCase().includes(q.toLowerCase())).forEach(l=>g.appendChild(mkCard(l)));
+}
+
+// ─── COURSE DETAIL ─────────────────────────────
+function openCourse(lang){
+  curLang=lang;
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.getElementById('pg-course').classList.add('on');
+  const done=LESSONS[lang.id].filter(l=>P.done[l.id]).length;
+  const total=LESSONS[lang.id].length,p=pct(done,total);
+  const eXP=LESSONS[lang.id].filter(l=>P.done[l.id]).reduce((s,l)=>s+l.xp,0);
+  const tXP=LESSONS[lang.id].reduce((s,l)=>s+l.xp,0);
+  document.getElementById('course-pi').innerHTML=`
+  <button class="back-btn" onclick="nav('courses')">← Back</button>
+  <div class="ch">
+    <div class="chico" style="background:${lang.bg};border:1px solid ${lang.c}33;">${lang.ico}</div>
+    <div style="flex:1;">
+      <h2 style="font-size:24px;font-weight:900;">${lang.n}</h2>
+      <div style="font-size:13px;color:rgba(255,255,255,.38);margin-bottom:12px;">${lang.codrs} Codders learning this</div>
+      <div class="ch-stats">
+        <div class="ch-stat"><div class="ch-sv">${done}/${total}</div><div class="ch-sl">Lessons</div></div>
+        <div class="ch-stat"><div class="ch-sv">${eXP}/${tXP}</div><div class="ch-sl">XP Earned</div></div>
+        <div class="ch-stat"><div class="ch-sv">${p}%</div><div class="ch-sl">Progress</div></div>
+      </div>
+      <div class="pbar-t" style="height:6px;max-width:400px;margin-top:14px;"><div class="pfill" style="background:${lang.c};width:${p}%;height:100%;"></div></div>
+    </div>
+  </div>
+  <div class="sec">Lessons</div>
+  <div class="lgrid2" id="ll"></div>`;
+  const ll=document.getElementById('ll');
+  LESSONS[lang.id].forEach(lesson=>{
+    const isDone=!!P.done[lesson.id];
+    const chip=lesson.lv==='Beginner'?'chip-b':lesson.lv==='Intermediate'?'chip-i':'chip-a';
+    const row=document.createElement('div');row.className='lrow';
+    row.innerHTML=`<div class="lrow-ico" style="background:${isDone?lang.c+'22':'rgba(255,255,255,.05)'};border:1px solid ${isDone?lang.c:'rgba(255,255,255,.08)'};">${isDone?'✅':'📖'}</div>
+    <div style="flex:1;"><div class="lrow-title">${lesson.t}</div><div class="lrow-meta"><span class="${chip}">${lesson.lv}</span><span style="font-size:11px;color:rgba(255,255,255,.35);">⚡ ${lesson.xp} XP</span></div></div>
+    <button class="start-btn ${isDone?'done':''}" onclick="openLesson(LANGS.find(x=>x.id==='${lang.id}'),LESSONS['${lang.id}'].find(x=>x.id==='${lesson.id}'))">${isDone?'Review':'Start'}</button>`;
+    ll.appendChild(row);
+  });
+}
+
+// ─── LESSON ────────────────────────────────────
+function openLesson(lang,lesson){
+  curLang=lang;curLesson=lesson;lesStep='learn';
+  lesCode=lesson.starter||'';lesRan=false;qSel=null;qSub=false;
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.getElementById('pg-lesson').classList.add('on');
+  renderLes();
+}
+
+function renderLes(){
+  const l=curLang,les=curLesson;
+  const chip=les.lv==='Beginner'?'chip-b':les.lv==='Intermediate'?'chip-i':'chip-a';
+  document.getElementById('lesson-pi').innerHTML=`
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+    <button class="back-btn" style="margin:0;" onclick="openCourse(curLang)">← Back</button>
+    <div style="text-align:center;"><div style="font-weight:800;font-size:16px;">${les.t}</div><div style="font-size:12px;color:rgba(255,255,255,.38);">${l.n} · ${les.lv} · <span style="color:${l.c};">⚡ ${les.xp} XP</span></div></div>
+    <button class="ai-fab-btn" style="font-size:12px;padding:7px 13px;" onclick="openAI(true)">🤖 Ask AI</button>
+  </div>
+  <div class="l-tabs-bar">
+    ${['learn','code','quiz'].map((s,i)=>`<button class="l-tab ${lesStep===s?'on':''}" onclick="setStep('${s}')">${i+1}. ${s.charAt(0).toUpperCase()+s.slice(1)}</button>`).join('')}
+  </div>
+  <div id="lbody" class="fin"></div>`;
+  renderLesBody();
+}
+
+function setStep(s){lesStep=s;renderLes();}
+
+function renderLesBody(){
+  const l=curLang,les=curLesson;
+  const body=document.getElementById('lbody');if(!body)return;
+
+  if(lesStep==='learn'){
+    body.innerHTML=`<div class="l-layout">
+      <div>
+        <div class="lpanel" style="margin-bottom:14px;">
+          <div class="lptit" style="color:${l.c};">📚 Lesson</div>
+          <div class="lptxt">${les.exp}</div>
+        </div>
+        <div class="task-box" style="background:${l.bg};border:1px solid ${l.c}33;">
+          <div class="lptit" style="color:${l.c};">🎯 Your Task</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.65;">${les.task}</div>
+        </div>
+      </div>
+      <div class="lpanel">
+        <div class="lptit">💡 Tips</div>
+        <ul style="font-size:13px;color:rgba(255,255,255,.5);line-height:2;padding-left:18px;">
+          <li>Read the explanation carefully</li>
+          <li>Try writing the code yourself first</li>
+          <li>Only peek at the solution as a last resort</li>
+          <li>Use 🤖 Ask AI for hints, not answers</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:18px;">
+      <button onclick="setStep('code')" style="background:${l.c};color:#fff;border:none;border-radius:12px;padding:13px 28px;font-weight:800;font-size:15px;">Let's Code! →</button>
+    </div>`;
+  }
+
+  else if(lesStep==='code'){
+    const escaped=lesCode.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    body.innerHTML=`<div class="l-layout">
+      <div>
+        <div class="codewrap">
+          <div class="codetbar">
+            <span class="cdot" style="background:#EF4444;"></span>
+            <span class="cdot" style="background:#F59E0B;"></span>
+            <span class="cdot" style="background:#22C55E;"></span>
+            <span class="cfile">lesson.${l.ext}</span>
+          </div>
+          <textarea class="ced" id="ced">${escaped}</textarea>
+        </div>
+        <button class="run-btn" onclick="runCode()">▶ Run Code</button>
+        ${lesRan?`<div class="outbox">${les.out}</div><div class="sban">✅ Output matches! Well done!</div><button onclick="setStep('quiz')" style="width:100%;background:${l.c};color:#fff;border:none;border-radius:12px;padding:13px;font-weight:800;font-size:14px;margin-top:8px;">Take the Quiz →</button>`:''}
+        <div class="hint-row">
+          <button class="hint-btn" onclick="openAI(true)">🤖 Ask AI for a hint</button>
+          <button class="sol-btn" onclick="showSol()">👁 Show Solution</button>
+        </div>
+      </div>
+      <div>
+        <div class="lpanel" style="margin-bottom:12px;">
+          <div class="lptit" style="color:${l.c};">🎯 Task</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.65;">${les.task}</div>
+        </div>
+        <div class="lpanel">
+          <div class="lptit">📟 Expected Output</div>
+          <div class="exp-out">${les.out}</div>
+        </div>
+      </div>
+    </div>`;
+    const ed=document.getElementById('ced');
+    if(ed)ed.addEventListener('input',e=>{lesCode=e.target.value;});
+  }
+
+  else {
+    const q=les.quiz,sel=qSel,sub=qSub,cor=sel===q.ans;
+    body.innerHTML=`<div style="max-width:620px;">
+      <div class="lpanel">
+        <div class="lptit" style="color:${l.c};">⚡ Quick Quiz</div>
+        <div style="font-weight:700;font-size:17px;margin-bottom:18px;line-height:1.4;">${q.q}</div>
+        ${q.opts.map((o,i)=>{
+          let cls='qopt';
+          if(sub){if(i===q.ans)cls+=' cor';else if(i===sel)cls+=' wrng';}
+          else if(i===sel)cls+=' sel';
+          return `<button class="${cls}" onclick="selQ(${i})" ${sub?'disabled':''}><span class="qlet">${String.fromCharCode(65+i)}</span>${o}</button>`;
+        }).join('')}
+        ${!sub
+          ?`<button class="check-btn" onclick="subQ()" ${sel===null?'disabled':''}>Check Answer</button>`
+          :`<div style="background:${cor?'#031A0F':'#1A0505'};border:1px solid ${cor?'#22C55E':'#EF4444'};border-radius:11px;padding:11px 14px;color:${cor?'#4ADE80':'#F87171'};font-weight:700;font-size:13px;margin-top:8px;">${cor?'🎉 Correct!':'❌ Answer: '+q.opts[q.ans]}</div>
+           <button class="next-btn" onclick="claimXP()" style="background:${l.c};">${cor?'Claim XP & Continue 🎯':'Continue Anyway →'}</button>`
+        }
+      </div>
+    </div>`;
+  }
+}
+
+function runCode(){
+  const ed=document.getElementById('ced');if(ed)lesCode=ed.target?ed.target.value:document.getElementById('ced').value;
+  const starter=(curLesson.starter||'').trim();
+  if(!lesCode.trim()||lesCode.trim()===starter){toast('✏️ Write your code first!');return;}
+  lesRan=true;renderLesBody();
+}
+function showSol(){
+  if(!confirm('Show solution? Try your best first! 💪'))return;
+  lesCode=curLesson.code;
+  const ed=document.getElementById('ced');if(ed){ed.value=lesCode;}
+  toast('Solution loaded — study and practice it! 📚');
+}
+function selQ(i){if(qSub)return;qSel=i;renderLesBody();}
+function subQ(){if(qSel===null)return;qSub=true;renderLesBody();}
+function claimXP(){
+  const les=curLesson;
+  if(!P.done[les.id]){
+    P.done[les.id]=true;P.xp+=les.xp;tokens+=10;saveP();
+    showXP(les.xp);toast('🪙 +10 tokens earned!');
+  }
+  setTimeout(()=>openCourse(curLang),350);
+}
+
+// ─── LEADERBOARD ───────────────────────────────
+function renderLB(){
+  const pi=document.getElementById('lb-pi');
+  pi.innerHTML=`<h2 style="font-size:24px;font-weight:900;margin-bottom:4px;">🏆 Leagues</h2>
+  <p style="color:rgba(255,255,255,.38);font-size:14px;margin-bottom:20px;">Compete weekly with coders worldwide</p>
+  <div class="ltabs" id="ltabs"></div>
+  <div class="lb-layout"><div class="lb-panel" id="lbpanel"></div><div id="lbside"></div></div>`;
+  const tabs=document.getElementById('ltabs');
+  LEAGUES.forEach(lg=>{
+    const b=document.createElement('button');b.className='ltab';
+    if(lbTab===lg.id){b.style.background=lg.col+'22';b.style.borderColor=lg.col+'66';b.style.color=lg.col;}
+    b.innerHTML=lg.ico+' '+lg.n;b.onclick=()=>{lbTab=lg.id;renderLB();};
+    tabs.appendChild(b);
+  });
+  const lg=LEAGUES.find(l=>l.id===lbTab);
+  const users=LB.filter(u=>u.xp>=lg.min&&u.xp<lg.max).sort((a,b)=>b.xp-a.xp);
+  const myXP=P.xp,inL=myXP>=lg.min&&myXP<lg.max;
+  LB.find(u=>u.me).xp=myXP;
+  const show=inL?users:[...users,...(lbTab==='rookie'?[LB.find(u=>u.me)]:[])].sort((a,b)=>b.xp-a.xp);
+  const panel=document.getElementById('lbpanel');
+  panel.innerHTML=`<div class="lb-hdr">${lg.ico} ${lg.n} League · ${show.length} coders</div>`;
+  show.forEach((u,i)=>{
+    const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1);
+    const row=document.createElement('div');row.className='lbr'+(u.me?' me':'');
+    row.innerHTML=`<div class="lb-rank">${medal.length>2?medal:'<span style="font-size:18px;">'+medal+'</span>'}</div>
+    <img src="${av(u.av)}" class="lb-av"/><div style="flex:1;"><div style="font-size:14px;font-weight:700;">${u.me?'⭐ You':u.c+' '+u.n}</div><div style="font-size:12px;color:rgba(255,255,255,.35);">🔥 ${u.str} day streak</div></div><div class="lb-pts">${u.xp.toLocaleString()} XP</div>`;
+    panel.appendChild(row);
+  });
+  if(!show.length)panel.innerHTML+=`<div style="padding:30px;text-align:center;color:rgba(255,255,255,.3);">No coders in this league yet. Be the first!</div>`;
+  document.getElementById('lbside').innerHTML=`
+  <div class="card" style="background:${lg.col}11;border-color:${lg.col}33;margin-bottom:12px;">
+    <div style="font-size:44px;margin-bottom:10px;">${lg.ico}</div>
+    <div style="font-size:19px;font-weight:900;color:${lg.col};margin-bottom:4px;">${lg.n} League</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.38);line-height:1.6;margin-bottom:10px;">${lg.desc}</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.28);">Requires ${lg.min.toLocaleString()}+ XP</div>
+  </div>
+  <div class="card">
+    <div style="font-weight:700;margin-bottom:8px;">Your Status</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.38);line-height:1.6;margin-bottom:10px;">${inL?'You\'re in this league with '+myXP+' XP!':'Reach '+lg.min.toLocaleString()+' XP to join.'}</div>
+    <div class="pbar-t" style="height:6px;"><div class="pfill" style="background:${lg.col};width:${Math.min(100,(myXP/Math.max(1,lg.max))*100)}%;height:100%;"></div></div>
+  </div>`;
+}
+
+// ─── FRIENDS ───────────────────────────────────
+function renderFriends(){
+  document.getElementById('friends-pi').innerHTML=`
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+    <h2 style="font-size:24px;font-weight:900;">👥 Friends</h2>
+    <button class="ai-fab-btn" onclick="document.getElementById('af-m').classList.add('on')">+ Add Friend</button>
+  </div>
+  <p style="color:rgba(255,255,255,.38);font-size:14px;margin-bottom:20px;">Connect and compete with coders</p>
+  <div class="fl">
+    <div>
+      <div class="ftabs" id="ftabs"></div>
+      <div id="flist"></div>
+    </div>
+    <div>
+      <div class="tok-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:800;font-size:15px;">🪙 Tokens</div><button class="ai-fab-btn" style="padding:6px 13px;font-size:12px;" onclick="showShop()">🛒 Shop</button></div>
+        <div style="font-size:34px;font-weight:900;color:#F59E0B;" id="tok-big">${tokens}</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.35);margin-top:4px;">+10 per lesson completed</div>
+      </div>
+      <div class="card">
+        <div style="font-weight:700;margin-bottom:12px;">⚡ Power-Ups</div>
+        <div class="shop-g" id="shop-prev"></div>
+      </div>
+    </div>
+  </div>`;
+  const tabs=document.getElementById('ftabs');
+  [['friends','My Friends'],['requests','Requests'],['discover','Discover']].forEach(([id,label])=>{
+    const b=document.createElement('button');b.className='ftab'+(fTab===id?' on':'');
+    b.innerHTML=label+(id==='requests'?` <span style="background:#EF4444;color:#fff;border-radius:99px;padding:1px 7px;font-size:10px;">${REQS.length}</span>`:'');
+    b.onclick=()=>{fTab=id;renderFriends();};tabs.appendChild(b);
+  });
+  const fl=document.getElementById('flist');fl.innerHTML='';
+  (fTab==='friends'?FRIENDS:fTab==='requests'?REQS:DISCOVER).forEach(f=>fl.appendChild(mkFriend(f,fTab)));
+  const sp=document.getElementById('shop-prev');
+  POWERUPS.forEach(p=>{const d=document.createElement('div');d.className='si';d.innerHTML=`<div class="si-ico">${p.ico}</div><div class="si-n">${p.n}</div><div class="si-d">${p.d}</div><div class="si-c">🪙 ${p.cost}</div>`;d.onclick=()=>buyPU(p);sp.appendChild(d);});
+}
+function mkFriend(f,type){
+  const d=document.createElement('div');d.className='fcard';
+  let btn='';
+  if(type==='friends')btn=`<span style="font-size:13px;font-weight:700;color:#F59E0B;margin-left:auto;">${f.xp.toLocaleString()} XP</span>`;
+  else if(type==='requests')btn=`<div style="margin-left:auto;display:flex;gap:6px;"><button onclick="toast('Friend added! 🎉')" style="background:#22C55E;color:#fff;border:none;border-radius:99px;padding:5px 11px;font-size:12px;font-weight:700;">✓</button><button onclick="toast('Declined.')" style="background:rgba(255,255,255,.07);border:none;border-radius:99px;padding:5px 11px;font-size:12px;font-weight:700;color:rgba(255,255,255,.4);">✕</button></div>`;
+  else{const added=dAdded[f.h];btn=`<button class="fbtn ${added?'added':'add'}" onclick="addD('${f.h}',this)" style="margin-left:auto;">${added?'✓ Added':'+ Add'}</button>`;}
+  const online=f.online!==undefined;
+  d.innerHTML=`<img src="${av(f.av)}" class="fav"/>${online?`<div class="${f.online?'odot':'xdot'}"></div>`:''}<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:700;">${f.c||''} ${f.n}</div><div style="font-size:12px;color:rgba(255,255,255,.35);">${f.h||''} · ${(f.xp||0).toLocaleString()} XP</div></div>${btn}`;
+  return d;
+}
+function addD(h,btn){dAdded[h]=true;btn.textContent='✓ Added';btn.className='fbtn added';toast('Request sent! 👋');}
+function searchF(q){
+  const r=document.getElementById('af-res');if(!q.trim()){r.innerHTML='';return;}
+  const all=[...FRIENDS,...DISCOVER,...LB.filter(u=>!u.me)];
+  const found=all.filter(u=>(u.n||'').toLowerCase().includes(q.toLowerCase()));
+  r.innerHTML=found.slice(0,6).map(u=>`<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);">
+    <img src="${av(u.av||u.n)}" style="width:36px;height:36px;border-radius:50%;"/>
+    <div style="flex:1;"><div style="font-weight:700;font-size:14px;">${u.n}</div><div style="font-size:12px;color:rgba(255,255,255,.35);">${(u.xp||0).toLocaleString()} XP</div></div>
+    <button class="fbtn add" onclick="toast('Request sent! 👋')">+ Add</button></div>`).join('')||`<div style="color:rgba(255,255,255,.3);padding:12px 0;">No users found.</div>`;
+}
+
+// ─── PROFILE ───────────────────────────────────
+function renderProfile(){
+  updNav();
+  const x=P.xp,lg=league(x);
+  document.getElementById('profile-pi').innerHTML=`
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <h2 style="font-size:24px;font-weight:900;">👤 Profile</h2>
+    <button title="Settings" onclick="showSettings()" style="width:38px;height:38px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,.18)'" onmouseout="this.style.background='rgba(255,255,255,.07)'"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+  </div>
+  <div class="pl">
+    <div>
+      <div class="pcard" style="margin-bottom:12px;">
+        <img src="${av('user123')}" class="pav"/>
+        <div class="pname" id="pname">You</div>
+        <div class="ph">@syntaxia_learner</div>
+        <div class="psg">
+          <div class="ps"><div class="psv">${x}</div><div class="psl">XP</div></div>
+          <div class="ps"><div class="psv">${P.str}</div><div class="psl">Streak 🔥</div></div>
+          <div class="ps"><div class="psv">${Object.keys(P.done).length}</div><div class="psl">Lessons</div></div>
+        </div>
+        <div class="card" style="text-align:left;margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><span style="font-weight:700;">League</span><span style="color:#F59E0B;font-weight:700;">${lg.ico} ${lg.n}</span></div>
+          <div class="pbar-t" style="height:6px;"><div class="pfill" style="background:${lg.col};width:${Math.min(100,((x-lg.min)/Math.max(1,lg.max-lg.min))*100)}%;height:100%;"></div></div>
+          <div style="font-size:12px;color:rgba(255,255,255,.3);margin-top:6px;">${x} XP · ${lg.n} League</div>
+        </div>
+        <button onclick="showSettings()" class="msec" style="width:100%;margin:0;">⚙️ Edit Profile & API Key</button>
+      </div>
+      <div class="card">
+        <div style="font-weight:800;margin-bottom:12px;">🏅 Badges</div>
+        <div class="bdgrid">${BADGES.map(b=>`<div class="bdg"><div style="font-size:21px;">${b.ico}</div><div style="font-size:10px;color:rgba(255,255,255,.35);font-weight:600;margin-top:4px;">${b.l}</div></div>`).join('')}</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div style="font-weight:800;margin-bottom:14px;">📈 Course Progress</div>
+        <div id="prog-list"></div>
+      </div>
+    </div>
+  </div>`;
+  const pl=document.getElementById('prog-list');let any=false;
+  LANGS.forEach(l=>{
+    const done=LESSONS[l.id].filter(x=>P.done[x.id]).length;if(!done)return;any=true;
+    const total=LESSONS[l.id].length,p=pct(done,total);
+    const d=document.createElement('div');
+    d.style.cssText='display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);cursor:none;';
+    d.innerHTML=`<div style="width:32px;height:32px;border-radius:9px;background:${l.bg};border:1px solid ${l.c}33;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">${l.ico}</div>
+    <div style="flex:1;"><div style="font-weight:700;font-size:14px;margin-bottom:4px;">${l.n}</div><div class="pbar-t" style="height:5px;"><div class="pfill" style="background:${l.c};width:${p}%;height:100%;"></div></div></div>
+    <span style="font-size:13px;font-weight:800;color:${l.c};">${p===100?'✓':p+'%'}</span>`;
+    d.onclick=()=>openCourse(l);pl.appendChild(d);
+  });
+  if(!any)pl.innerHTML='<div style="color:rgba(255,255,255,.3);text-align:center;padding:24px;">Start a course to see progress here!</div>';
+}
+
+// ─── SHOP ──────────────────────────────────────
+function showShop(){
+  const g=document.getElementById('shop-g');if(g){g.innerHTML='';POWERUPS.forEach(p=>{const d=document.createElement('div');d.className='si';d.innerHTML=`<div class="si-ico">${p.ico}</div><div class="si-n">${p.n}</div><div class="si-d">${p.d}</div><div class="si-c">🪙 ${p.cost}</div>`;d.onclick=()=>{buyPU(p);document.getElementById('shop-tok').textContent=tokens+' 🪙';};g.appendChild(d);});}
+  document.getElementById('shop-tok').textContent=tokens+' 🪙';
+  document.getElementById('shop-m').classList.add('on');
+}
+function buyPU(p){if(tokens<p.cost){toast('Not enough tokens! 🪙');return;}tokens-=p.cost;saveP();toast(p.ico+' '+p.ef);updNav();}
+
+// ─── SETTINGS ──────────────────────────────────
+function showSettings(){
+  const ki=document.getElementById('key-inp');
+  const ks=document.getElementById('key-st');
+  const existing=getKey();
+  ki.value=existing;
+  ks.textContent=existing?'✅ API key saved — AI Tutor is ready!':'⚠️ No key yet. AI Tutor needs one.';
+  ks.style.color=existing?'#4ADE80':'#F59E0B';
+  ki.oninput=()=>{const v=ki.value.trim();if(v.startsWith('AIza')){ks.textContent='✅ Looks valid!';ks.style.color='#4ADE80';}else if(v.length>5){ks.textContent='⚠️ Should start with AIza...';ks.style.color='#F59E0B';}else{ks.textContent='';}}
+  document.getElementById('settings-m').classList.add('on');
+}
+function toggleKey(){const i=document.getElementById('key-inp');const e=document.getElementById('key-eye');i.type=i.type==='password'?'text':'password';e.textContent=i.type==='password'?'👁️':'🙈';}
+function saveSettings(){
+  const k=document.getElementById('key-inp').value.trim();
+  const n=document.getElementById('name-inp').value.trim();
+  if(k)saveKey(k);
+  if(n){const pn=document.getElementById('pname');if(pn)pn.textContent=n;}
+  closeM('settings-m');
+  toast(k?'✅ Settings saved — AI Tutor ready! 🤖':'✅ Settings saved!');
+}
+
+// ─── MODALS ────────────────────────────────────
+function closeM(id){document.getElementById(id).classList.remove('on');}
+document.querySelectorAll('.moverlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('on');}));
+
+// ─── BUILT-IN OFFLINE AI KNOWLEDGE BASE ───────
+const KB=[
+  // Python
+  {k:['hello world','print','first program','start python'],lang:'python',
+   a:'In Python, use `print()` to display output!\n\n```\nprint("Hello, World!")\n```\n\nThis is the simplest Python program. Every Python program runs line by line from top to bottom. 🐍'},
+  {k:['variable','store data','declare'],lang:'python',
+   a:'Variables in Python store data. Just write `name = value` — no type needed!\n\n```\nname = "Alex"\nage = 20\nprint(name, age)\n```\n\nPython figures out the type automatically. 🎯'},
+  {k:['if','else','condition','elif'],lang:'python',
+   a:'Use `if`/`elif`/`else` for decisions. **Indentation matters!**\n\n```\nscore = 85\nif score >= 90:\n    print("A")\nelif score >= 70:\n    print("B")\nelse:\n    print("C")\n```'},
+  {k:['loop','for','range','while','iterate'],lang:'python',
+   a:'`for` loops repeat code. `range(n)` gives numbers 0 to n-1:\n\n```\nfor i in range(5):\n    print(i)  # 0,1,2,3,4\n```\n\nUse `range(start, stop, step)` for more control! 🔄'},
+  {k:['function','def','return'],lang:'python',
+   a:'Define reusable functions with `def`:\n\n```\ndef greet(name):\n    return "Hello, " + name + "!"\n\nprint(greet("World"))\n```\n\nFunctions are the building blocks of clean code! 🧱'},
+  {k:['list','array','append'],lang:'python',
+   a:'Lists store multiple values:\n\n```\nfruits = ["apple", "banana"]\nfruits.append("cherry")\nfor fruit in fruits:\n    print(fruit)\n```\n\nAccess items by index — `fruits[0]` gives `"apple"`. 📝'},
+  {k:['dictionary','dict','key','value'],lang:'python',
+   a:'Dictionaries store key-value pairs:\n\n```\nperson = {"name": "Alice", "age": 25}\nprint(person["name"])  # Alice\n```\n\nUse `.items()` to loop through both keys and values! 🗝️'},
+  {k:['class','object','__init__','self'],lang:'python',
+   a:'Classes are blueprints for objects:\n\n```\nclass Dog:\n    def __init__(self, name):\n        self.name = name\n    def bark(self):\n        print(self.name + ": Woof!")\n\nd = Dog("Rex")\nd.bark()\n```'},
+  {k:['error','exception','try','except'],lang:'python',
+   a:'Handle errors with `try`/`except`:\n\n```\ntry:\n    x = 10 / 0\nexcept ZeroDivisionError:\n    print("Cannot divide by zero!")\nfinally:\n    print("This always runs")\n```'},
+  // JavaScript
+  {k:['javascript','console.log','js first'],lang:'javascript',
+   a:'In JavaScript, `console.log()` prints output:\n\n```\nconsole.log("Hello, World!");\n```\n\nJS runs in browsers AND on servers with Node.js. Every website you visit uses JavaScript! 💛'},
+  {k:['const','let','var','javascript variable'],lang:'javascript',
+   a:'Use `const` for values that never change, `let` for values that do:\n\n```\nconst name = "Alex"; // cannot reassign\nlet score = 0;       // can reassign\nscore = 100;\n```\n\nAvoid `var` — it has confusing scope rules!'},
+  {k:['arrow function','=>','function javascript'],lang:'javascript',
+   a:'Arrow functions are the modern way to write functions:\n\n```\nconst square = n => n * n;\nconst add = (a, b) => a + b;\n\nconsole.log(square(4)); // 16\nconsole.log(add(3, 5)); // 8\n```'},
+  {k:['array','map','filter','foreach','javascript array'],lang:'javascript',
+   a:'JS arrays have powerful methods:\n\n```\nconst nums = [1, 2, 3, 4, 5];\nconst doubled = nums.map(n => n * 2);\nconst evens = nums.filter(n => n % 2 === 0);\nconsole.log(doubled); // [2,4,6,8,10]\nconsole.log(evens);   // [2,4]\n```'},
+  {k:['promise','async','await','fetch'],lang:'javascript',
+   a:'`async/await` makes async code readable:\n\n```\nasync function getData() {\n  try {\n    const res = await fetch("https://api.example.com/data");\n    const data = await res.json();\n    console.log(data);\n  } catch (e) {\n    console.error(e);\n  }\n}\n```'},
+  // HTML
+  {k:['html','tag','structure','webpage','first html'],lang:'html',
+   a:'HTML structures every webpage:\n\n```\n<html>\n  <head><title>My Page</title></head>\n  <body>\n    <h1>Heading</h1>\n    <p>Paragraph</p>\n  </body>\n</html>\n```\n\nTags wrap content. Most need an opening AND closing tag! 🌐'},
+  {k:['link','anchor','href'],lang:'html',
+   a:'Create links with the `<a>` tag:\n\n```\n<a href="https://google.com" target="_blank">\n  Visit Google\n</a>\n```\n\n`target="_blank"` opens in a new tab. `href` sets the destination URL. 🔗'},
+  {k:['form','input','button','html form'],lang:'html',
+   a:'Forms collect user input:\n\n```\n<form>\n  <label for="name">Name:</label>\n  <input type="text" id="name" placeholder="Your name">\n  <button type="submit">Submit</button>\n</form>\n```\n\nAlways pair `<label>` with `<input>` for accessibility! ♿'},
+  // CSS
+  {k:['css','style','selector','color'],lang:'css',
+   a:'CSS styles HTML elements:\n\n```\nh1 {\n  color: #5B6BF8;\n  font-size: 32px;\n  font-weight: bold;\n}\n```\n\nThe selector (`h1`) targets elements. Properties change how they look. 🎨'},
+  {k:['flexbox','flex','align','justify'],lang:'css',
+   a:'Flexbox centers and aligns elements:\n\n```\n.container {\n  display: flex;\n  justify-content: center;  /* horizontal */\n  align-items: center;      /* vertical */\n  gap: 16px;\n}\n```\n\nThis is the most powerful layout tool in CSS! 💪'},
+  {k:['grid','css grid'],lang:'css',
+   a:'CSS Grid creates two-dimensional layouts:\n\n```\n.grid {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 20px;\n}\n```\n\n`1fr` means "1 fraction of available space". Resize freely! 📐'},
+  // SQL
+  {k:['sql','select','query','database'],lang:'sql',
+   a:'SQL queries databases. `SELECT` retrieves data:\n\n```sql\nSELECT name, email FROM users\nWHERE age > 18\nORDER BY name ASC;\n```\n\n`WHERE` filters rows. `ORDER BY` sorts results. Always end with `;` 🗄️'},
+  {k:['join','inner join','left join','sql join'],lang:'sql',
+   a:'JOINs combine tables:\n\n```sql\nSELECT orders.id, users.name, orders.total\nFROM orders\nINNER JOIN users ON orders.user_id = users.id;\n```\n\n`INNER JOIN` = only matching rows. `LEFT JOIN` = all left rows + matches. 🔗'},
+  {k:['group by','count','sum','avg','aggregate'],lang:'sql',
+   a:'Aggregate functions compute values across rows:\n\n```sql\nSELECT department,\n       COUNT(*) AS headcount,\n       AVG(salary) AS avg_salary\nFROM employees\nGROUP BY department\nHAVING AVG(salary) > 70000;\n```'},
+  // Java
+  {k:['java','system.out','main method','hello java'],lang:'java',
+   a:'Every Java program needs a class and `main()` method:\n\n```java\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}\n```\n\nJava is strongly typed — you declare the type of every variable! ☕'},
+  {k:['java class','java object','constructor'],lang:'java',
+   a:'Classes in Java are blueprints:\n\n```java\nclass Dog {\n    String name;\n    Dog(String name) { this.name = name; }\n    void bark() {\n        System.out.println(name + ": Woof!");\n    }\n}\nnew Dog("Rex").bark();\n```'},
+  // General
+  {k:['what is programming','learn coding','beginner','start learning','where to begin'],lang:'any',
+   a:'Great place to start! 🎉\n\nMy recommendation:\n1. **Python** — easiest syntax, huge community, works for everything\n2. **HTML/CSS** — see results immediately in a browser\n3. **JavaScript** — make websites interactive\n\nPick any course from the left and start with Lesson 1. One lesson at a time! 🚀'},
+  {k:['best language','which language','recommend'],lang:'any',
+   a:'For beginners: **Python** 🐍\n\nWhy? Simple syntax, no semicolons, reads like English. Used for web, AI, data science, automation.\n\nFor web: **JavaScript** 💛 — runs in every browser on Earth.\n\nFor apps: **Java** ☕ or **Swift** 🦅\n\nStart with Python — you can learn others later! 😊'},
+  {k:['hint','stuck','help','how do i','how to','what should i'],lang:'any',
+   a:'Happy to help! 💡 Tell me:\n\n1. **Which lesson** you are on\n2. **What you have tried** so far\n3. **What error or issue** you are seeing\n\nI will guide you to the answer without giving it away! 🎯'},
+  {k:['debug','error','bug','not working','wrong output'],lang:'any',
+   a:'Debugging tips 🔍:\n\n1. **Read the error message** carefully — it tells you the line and type\n2. **Print intermediate values** to see what the code is actually doing\n3. **Check spelling** — variable names are case-sensitive\n4. **Google the exact error** — someone has seen it before!\n\nWhat error are you seeing? 🤔'},
+  {k:['recursion','recursive'],lang:'any',
+   a:'Recursion is a function that calls itself! 🌀\n\n```python\ndef factorial(n):\n    if n <= 1:      # base case — ALWAYS needed!\n        return 1\n    return n * factorial(n - 1)\n\nprint(factorial(5))  # 120\n```\n\nEvery recursive function needs a **base case** or it loops forever!'},
+  {k:['algorithm','big o','time complexity','performance'],lang:'any',
+   a:'Big O describes how fast an algorithm grows 📊:\n\n- **O(1)** — constant, same speed always\n- **O(n)** — linear, grows with input size\n- **O(n²)** — quadratic, nested loops\n- **O(log n)** — fast! Binary search\n\nAim for O(1) or O(n) when possible. 💪'},
+  {k:['api','rest','endpoint','http'],lang:'any',
+   a:'APIs let programs talk to each other! 🔌\n\nREST API basics:\n- **GET** — fetch data\n- **POST** — send/create data\n- **PUT** — update data\n- **DELETE** — remove data\n\nTry `fetch()` in JavaScript to call a public API! 🚀'},
+  {k:['git','github','version control','commit','push'],lang:'any',
+   a:'Git saves your code history! 🗂️\n\n```bash\ngit init          # start tracking\ngit add .         # stage changes\ngit commit -m "message"  # save snapshot\ngit push          # upload to GitHub\n```\n\nThink of commits like save points in a game — you can always go back! 🎮'},
+];
+
+function offlineAI(question, lessonCtx){
+  const q=question.toLowerCase();
+  // Check for lesson context match first
+  let best=null, bestScore=0;
+  for(const entry of KB){
+    // Boost score if language matches lesson context
+    const langBonus=(lessonCtx&&entry.lang!=='any'&&entry.lang===lessonCtx?.id)?2:0;
+    const matches=entry.k.filter(kw=>q.includes(kw)).length;
+    const score=matches+langBonus;
+    if(score>bestScore){bestScore=score;best=entry;}
+  }
+  if(best&&bestScore>0)return best.a;
+  // Fallback contextual response
+  if(lessonCtx){
+    return 'Great question about **'+lessonCtx.t+'**! 💡\n\nHere is a hint: re-read the lesson explanation carefully and look at the **expected output** — work backwards from what the output should be.\n\nIf you are stuck, try the "Show Solution" button to study the answer, then write it yourself from memory. That is how real learning happens! 🧠';
+  }
+  return 'Good question! 🤔\n\nCould you be a bit more specific? For example:\n- Which language or lesson are you working on?\n- What have you tried so far?\n- What is the expected vs actual output?\n\nI am here to help you learn! 🚀';
+}
+
+// ─── AI INLINE PANEL ──────────────────────────
+const SYS_GEN=`You are Syntaxia AI — a friendly coding tutor inside a gamified learning app. Help learners with Python, JavaScript, HTML, CSS, Java, SQL, TypeScript, Go, Rust, C++, and more. Keep replies short (3-5 sentences). Use emoji. Never give full solutions — guide with hints. Format code with backticks.`;
+const SYS_LES=`You are Syntaxia AI — a coding tutor inside a gamified learning app. The student is working on a specific lesson. Give hints, not full answers. Keep it short and encouraging. Format code with backticks.`;
+
+let aiMsgs=[],aiLoad=false,aiCtx=false;
+window._chips=[];
+
+function initAIPanel(){
+  aiMsgs=[];aiLoad=false;aiCtx=false;
+  const key=getKey();
+  const greet=key
+    ?'Hey! 👋 I am your **Syntaxia AI Tutor**!\n\nI can help with Python 🐍, JavaScript 💛, Java ☕, SQL 🗄️ and '+LANGS.length+' more languages!\n\nWhat would you like to learn? 🚀'
+    :'Hey! 👋 I am your **Syntaxia AI Tutor** — but I need an API key first!\n\n1. Click the ⚙️ gear icon (top right)\n2. Paste your API key and save\n\nThen I can help you with anything! 🚀';
+  aiMsgs=[{r:'a',t:greet}];
+  window._chips=key
+    ?['How do I start Python?','Explain variables','What is a function?','Best beginner language?']
+    :['⚙️ Add API key to start'];
+  renderAI();updAIBtn();
+}
+
+function setAILessonCtx(lesson,lang){
+  aiCtx=true;
+  if(lesson)document.getElementById('ai-sub').textContent='Helping with: '+lesson.t;
+}
+
+function clearAIChat(){
+  aiMsgs=[];aiCtx=false;
+  document.getElementById('ai-sub').textContent='Ready to help';
+  initAIPanel();
+}
+
+function openAI(lesson){
+  if(lesson&&curLesson)setAILessonCtx(curLesson,curLang);
+}
+
+function renderAI(){
+  const c=document.getElementById('ai-panel-msgs');
+  if(!c)return;
+  c.innerHTML='';
+  aiMsgs.forEach(m=>{
+    const row=document.createElement('div');row.className='amr'+(m.r==='u'?' u':'');
+    const av2=document.createElement('div');av2.className='ami '+(m.r==='a'?'bot':'usr');av2.textContent=m.r==='a'?'🤖':'👤';
+    const bub=document.createElement('div');bub.className='abub'+(m.r==='u'?' u':'');bub.innerHTML=fmtAI(m.t);
+    if(m.r==='a'){row.appendChild(av2);row.appendChild(bub);}else{row.appendChild(bub);row.appendChild(av2);}
+    c.appendChild(row);
+  });
+  if(aiLoad){
+    const row=document.createElement('div');row.className='amr';
+    row.innerHTML='<div class="ami bot">🤖</div><div class="abub" style="padding:10px 13px;display:flex;gap:5px;align-items:center;"><div class="ddot" style="animation-delay:0s"></div><div class="ddot" style="animation-delay:.2s"></div><div class="ddot" style="animation-delay:.4s"></div></div>';
+    c.appendChild(row);
+  }
+  requestAnimationFrame(()=>{c.scrollTop=c.scrollHeight;});
+  const cc=document.getElementById('ai-panel-chips');
+  if(cc&&aiMsgs.filter(m=>m.r==='u').length===0){
+    cc.innerHTML=window._chips.map((q,i)=>
+      q==='⚙️ Add API key to start'
+        ?`<button class="apc" onclick="showSettings()">${q}</button>`
+        :`<button class="apc" data-i="${i}" onclick="chipSend(this)">${q}</button>`
+    ).join('');
+  } else if(cc&&aiMsgs.filter(m=>m.r==='u').length>0){
+    cc.innerHTML='';
+  }
+}
+
+function fmtAI(raw){
+  const parts=raw.split(/(```[\s\S]*?```)/g);
+  return parts.map(p=>{
+    if(p.startsWith('```')&&p.endsWith('```')){
+      const inner=p.slice(3,-3).replace(/^\w+\n?/,'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      return '<pre class="cb">'+inner+'</pre>';
+    }
+    const lines=p.split('\n');let html='',buf=[];
+    const flush=()=>{if(buf.length){html+='<p>'+buf.join(' ')+'</p>';buf=[];}};
+    lines.forEach(line=>{
+      if(!line.trim()){flush();}
+      else{buf.push(line.trim().replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/`([^`]+)`/g,'<code class="ic">$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong style="color:#fff;">$1</strong>'));}
+    });
+    flush();return html;
+  }).join('');
+}
+
+function chipSend(btn){const q=window._chips[parseInt(btn.dataset.i)];if(q)aiSend(q);}
+
+async function aiSend(preset){
+  const inp=document.getElementById('api-inp');
+  const txt=(preset||inp.value).trim();if(!txt||aiLoad)return;
+  inp.value='';
+  const key=getKey();
+  const isL=aiCtx&&!!curLesson;
+  const prompt=isL?'[Lesson: "'+curLesson.t+'" ('+curLang.n+'). Task: '+curLesson.task+']\n\n'+txt:txt;
+  aiMsgs.push({r:'u',t:txt});aiLoad=true;renderAI();updAIBtn();
+
+  if(!key){
+    aiMsgs.push({r:'a',t:'🔑 **No API key set.**\n\nClick the ⚙️ gear icon → paste your key → Save.'});
+    aiLoad=false;renderAI();updAIBtn();return;
+  }
+
+  // Build conversation: alternate user/model strictly (Gemini requires this)
+  const rawHistory=aiMsgs.slice(0,-1).filter(m=>m.t);
+  // Ensure history starts with user and alternates correctly
+  const contents=[];
+  let expectUser=true;
+  for(const m of rawHistory){
+    const role=m.r==='u'?'user':'model';
+    if(expectUser&&role!=='user')continue;
+    if(!expectUser&&role!=='model')continue;
+    contents.push({role,parts:[{text:m.t}]});
+    expectUser=!expectUser;
+  }
+  // Add system instruction to first user message if this is the start
+  const sysPrefix=contents.length===0?(isL?SYS_LES:SYS_GEN)+'\n\n':'';
+  contents.push({role:'user',parts:[{text:sysPrefix+prompt}]});
+
+  let reply='',lastErr='';
+  const MODELS=['gemini-2.0-flash-lite','gemini-2.0-flash','gemini-1.5-flash','gemini-1.5-flash-latest'];
+  for(const mdl of MODELS){
+    try{
+      const url='https://generativelanguage.googleapis.com/v1beta/models/'+mdl+':generateContent?key='+key;
+      const res=await fetch(url,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          contents,
+          generationConfig:{maxOutputTokens:600,temperature:0.7}
+        })
+      });
+      const data=await res.json();
+      if(data.error){
+        lastErr=data.error.message||'error '+res.status;
+        // If key is bad, no point trying other models
+        if(res.status===400||res.status===403){break;}
+        continue;
+      }
+      reply=(data.candidates?.[0]?.content?.parts?.[0]?.text||'').trim();
+      if(reply)break;
+    }catch(e){
+      lastErr=e.message||'fetch failed';
+      continue;
+    }
+  }
+
+  if(reply){
+    aiMsgs.push({r:'a',t:reply});
+  }else{
+    const isFile=location.protocol==='file:';
+    const isCORS=lastErr.toLowerCase().includes('fetch')||lastErr.toLowerCase().includes('network')||lastErr.toLowerCase().includes('cors');
+    let msg='⚠️ **AI Tutor unavailable.**\n\n'+lastErr;
+    if(isFile&&isCORS)
+      msg='⚠️ **Browser security block.**\n\nBrowsers block API calls when a file is opened directly.\n\n**Quick fix:** Serve the file via a local server:\n```\nnpx serve .\n```\nThen open **http://localhost:3000**';
+    else if(isCORS)
+      msg='⚠️ **Connection failed.**\n\nYour network blocked the request. Check your internet connection and try again.';
+    else if(lastErr.includes('API_KEY_INVALID')||lastErr.includes('not valid')||lastErr.includes('400'))
+      msg='🔑 **Invalid API key.**\n\nRe-check the key in ⚙️ Settings. Make sure you copied it in full.';
+    else if(lastErr.includes('quota')||lastErr.includes('429')||lastErr.includes('RESOURCE_EXHAUSTED'))
+      msg='⏳ **Rate limit reached.**\n\nWait 60 seconds then try again.';
+    else if(lastErr.includes('403'))
+      msg='🔑 **API key rejected (403).**\n\nMake sure the key has the Generative Language API enabled.';
+    aiMsgs.push({r:'a',t:msg});
+  }
+  aiLoad=false;renderAI();updAIBtn();
+  const i=document.getElementById('api-inp');if(i)i.focus();
+}
+
+function updAIBtn(){
+  const inp=document.getElementById('api-inp'),btn=document.getElementById('api-sbtn');
+  if(!inp||!btn)return;
+  const ok=inp.value.trim()&&!aiLoad;
+  btn.disabled=!ok;btn.style.opacity=ok?'1':'.28';
+  btn.textContent=aiLoad?'…':'↑';
+  inp.style.borderColor=inp.value?'#8B5CF6':'rgba(255,255,255,.08)';
+}
+
+// ─── INIT ──────────────────────────────────────
+renderHome();
+</script>
+</body>
+</html>
