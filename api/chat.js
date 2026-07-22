@@ -1,4 +1,8 @@
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const MAX_MESSAGES = 12;
+const MAX_MESSAGE_CHARS = 4000;
+const MAX_TOTAL_CHARS = 16000;
+const REQUEST_TIMEOUT_MS = 15000;
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -16,17 +20,28 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Missing messages array' });
   }
 
+  const totalChars = messages.reduce((sum, message) => (
+    sum + (typeof message?.content === 'string' ? message.content.length : 0)
+  ), 0);
+  if (totalChars > MAX_TOTAL_CHARS) {
+    return res.status(413).json({ error: 'Message is too large' });
+  }
+
   const safeMessages = messages
     .filter((message) => message && typeof message.content === 'string')
-    .slice(-12)
+    .slice(-MAX_MESSAGES)
     .map((message) => ({
       role: ['system', 'user', 'assistant'].includes(message.role) ? message.role : 'user',
-      content: message.content.slice(0, 4000),
+      content: message.content.slice(0, MAX_MESSAGE_CHARS),
     }));
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
   try {
     const groqRes = await fetch(GROQ_URL, {
       method: 'POST',
+      signal: controller.signal,
       headers: {
         Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
@@ -48,6 +63,11 @@ module.exports = async function handler(req, res) {
     const reply = data.choices?.[0]?.message?.content || '';
     return res.status(200).json({ reply });
   } catch (error) {
+    if (error.name === 'AbortError') {
+      return res.status(504).json({ error: 'Groq request timed out' });
+    }
     return res.status(500).json({ error: error.message || 'Groq request failed' });
+  } finally {
+    clearTimeout(timeout);
   }
 };

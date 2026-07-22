@@ -7,8 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-html,body{background:#000;color:#fff;font-family:'Inter',system-ui,sans-serif;height:100%;overflow:hidden;cursor:none;}
-button,input,textarea,select{font-family:inherit;cursor:none;}
+html,body{background:#000;color:#fff;font-family:'Inter',system-ui,sans-serif;height:100%;overflow:hidden;}
+button,input,textarea,select{font-family:inherit;}
 button:active{transform:scale(.97);}
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:99px;}
@@ -111,7 +111,7 @@ input::placeholder,textarea::placeholder{color:rgba(255,255,255,.25);}
 .sval{font-size:19px;font-weight:900;}
 .slbl{font-size:11px;color:rgba(255,255,255,.38);font-weight:600;margin-top:2px;}
 .lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:11px;margin-bottom:24px;}
-.lcard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:17px;cursor:none;transition:all .2s;position:relative;overflow:hidden;}
+.lcard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:17px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
 .lcard:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.13);background:rgba(255,255,255,.06);}
 .lico{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:25px;margin-bottom:11px;}
 .lname{font-size:15px;font-weight:800;margin-bottom:2px;}
@@ -138,7 +138,7 @@ input::placeholder,textarea::placeholder{color:rgba(255,255,255,.25);}
 
 /* LESSON */
 .l-tabs-bar{display:flex;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:13px;padding:3px;margin-bottom:18px;}
-.l-tab{flex:1;text-align:center;padding:8px;border-radius:10px;font-size:13px;font-weight:700;cursor:none;color:rgba(255,255,255,.38);transition:all .15s;background:transparent;border:none;}
+.l-tab{flex:1;text-align:center;padding:8px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;color:rgba(255,255,255,.38);transition:all .15s;background:transparent;border:none;}
 .l-tab.on{background:rgba(255,255,255,.08);color:#fff;}
 .l-layout{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;}
 .lpanel{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:13px;padding:20px;}
@@ -200,7 +200,6 @@ textarea.ced{width:100%;background:#040408;color:#E2E8F0;font-family:'JetBrains 
 .fbtn.add{background:#5B6BF8;border-color:#5B6BF8;}
 .fbtn.added{color:#22C55E;border-color:rgba(34,197,94,.3);background:transparent;}
 .tok-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:20px;margin-bottom:12px;}
-.shop-g{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .si{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:13px;transition:all .15s;}
 .si:hover{border-color:rgba(245,158,11,.3);}
 .si-ico{font-size:22px;margin-bottom:6px;}
@@ -283,6 +282,101 @@ code.ic{background:rgba(196,181,253,.14);color:#C4B5FD;border-radius:4px;padding
 @keyframes ta{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%)}}
 @keyframes fin{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 .fin{animation:fin .2s ease-out;}
+
+/* 2026 PRODUCT REFRESH */
+:root{
+  --ink:#f7f7f2;
+  --muted:rgba(247,247,242,.52);
+  --faint:rgba(247,247,242,.18);
+  --panel:rgba(247,247,242,.045);
+  --line:rgba(247,247,242,.105);
+  --accent:#b7ff5a;
+  --accent-2:#48d8ff;
+}
+html,body,button,input,textarea,select{cursor:auto;}
+button,.lcard,.sbox,.l-logo,.a-logo,.astat,img[onclick]{cursor:pointer!important;}
+#dot{mix-blend-mode:difference;background:rgba(255,255,255,.4);border-color:rgba(255,255,255,.85);}
+#landing{background:
+  radial-gradient(circle at 50% 30%,rgba(255,255,255,.08),transparent 24%),
+  radial-gradient(circle at 50% 52%,rgba(183,255,90,.06),transparent 22%),
+  #000;}
+.bgt{font-weight:800;letter-spacing:0;color:rgba(255,255,255,.035);filter:none;}
+.orb-ball{background:radial-gradient(circle at 36% 28%,#666 0%,#242424 30%,#050505 68%,#000 100%);box-shadow:0 0 90px rgba(255,255,255,.08),0 42px 80px rgba(183,255,90,.08);}
+.orb-ring{border-color:rgba(255,255,255,.12);}
+#l-nav{padding:20px clamp(18px,5vw,64px);}
+.l-logo-ico,.l-lang,.l-cta,.l-box{border-radius:999px;}
+.l-link,.l-tag{color:var(--muted);}
+.l-box{background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.13);backdrop-filter:blur(18px);}
+.l-box textarea{font-size:15px;color:rgba(255,255,255,.72);font-style:normal;}
+.l-send{background:#fff;color:#000;border-color:#fff;}
+.l-cta:first-child{background:#fff;color:#000;border-color:#fff;}
+.l-cta:hover{transform:translateY(-1px);}
+#app{background:#050505;color:var(--ink);}
+#anav{height:64px;background:rgba(5,5,5,.86);backdrop-filter:blur(22px);border-bottom:1px solid var(--line);}
+.a-logo span{color:var(--accent);}
+.alink{border:1px solid transparent;border-radius:999px;color:var(--muted);}
+.alink:hover,.alink.on{background:rgba(255,255,255,.08);border-color:var(--line);}
+.astat,.card,.sbox,.lcard,.ch,.lpanel,.lb-panel,.pcard,.mission-card,.mission-strip,.mission-custom{background:var(--panel);border:1px solid var(--line);border-radius:8px;}
+.ai-fab-btn,.hbtn.p,.check-btn,#api-sbtn,.mprim{background:#fff!important;color:#050505!important;box-shadow:none;}
+.hbtn.s,.back-btn,.msec{background:rgba(255,255,255,.055);border:1px solid var(--line);color:var(--ink);}
+.hero.app-hero{max-width:780px;text-align:left;margin:0 0 28px;padding:26px 0 18px;}
+.hero-badge{background:rgba(255,255,255,.055);border-color:var(--line);color:var(--muted);letter-spacing:.08em;}
+.hero h1{letter-spacing:0;font-size:clamp(42px,6vw,82px);}
+.hero h1 em{color:var(--accent);}
+.hero p{margin-left:0;color:var(--muted);}
+.hero-btns{justify-content:flex-start;}
+.text-btn{background:none;border:none;color:var(--accent);font-weight:800;font-size:13px;}
+.mission-strip{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:22px;margin:12px 0 28px;}
+.mission-strip h2{font-size:clamp(22px,3vw,34px);font-weight:900;letter-spacing:0;margin-bottom:8px;}
+.mission-strip p,.mission-head p,.mission-custom p{color:var(--muted);font-size:14px;line-height:1.65;}
+.mission-head{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:24px;align-items:end;margin-bottom:22px;}
+.mission-head h1{font-size:clamp(46px,7vw,92px);line-height:.96;letter-spacing:0;margin:12px 0;}
+.mission-orb{aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 28%,#777,#1b1b1b 43%,#000 72%);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 28px 90px rgba(183,255,90,.08);}
+.mission-orb span{font-size:54px;font-weight:900;}
+.mission-orb small{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.12em;}
+.mission-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;}
+.mission-card{padding:20px;display:flex;flex-direction:column;min-height:340px;}
+.mission-card h2{font-size:24px;line-height:1.08;margin:18px 0 10px;}
+.mission-top{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;}
+.mission-diff{width:max-content;border:1px solid rgba(183,255,90,.35);color:var(--accent);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:800;margin-bottom:14px;}
+.mission-card ol{padding-left:18px;color:var(--muted);line-height:1.85;font-size:13px;flex:1;}
+.mission-custom{display:grid;grid-template-columns:1fr minmax(260px,520px) auto;gap:14px;align-items:center;padding:18px;}
+.mission-custom textarea{min-height:82px;background:rgba(255,255,255,.055);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:12px;resize:vertical;}
+#ai-panel{background:#080808;border-left:1px solid var(--line);}
+#ai-panel-hdr,#ai-panel-bar{background:rgba(255,255,255,.025);border-color:var(--line);}
+.aip-ico,.ami.bot{background:#fff;color:#000;box-shadow:none;}
+.apc{background:rgba(183,255,90,.08);border-color:rgba(183,255,90,.22);color:var(--accent);}
+.abub.u{background:#fff;color:#000;}
+.abub{border-radius:8px;background:rgba(255,255,255,.06);}
+#api-inp{background:rgba(255,255,255,.06);border-color:var(--line);}
+.lcard:hover,.sbox:hover,.mission-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.22);}
+.fl,.tok-card{display:none;}
+@media (max-width:1100px){
+  #ai-panel{width:300px;}
+  .mission-grid{grid-template-columns:1fr;}
+  .mission-custom{grid-template-columns:1fr;}
+  .srow{grid-template-columns:repeat(2,1fr);}
+}
+@media (max-width:840px){
+  #app-body{display:block;overflow:auto;}
+  #wrap{height:auto;min-height:62vh;}
+  .pg{position:relative;min-height:62vh;}
+  #ai-panel{width:auto;min-height:360px;border-left:none;border-top:1px solid var(--line);}
+  #anav{overflow-x:auto;padding-right:12px;}
+  .a-right{display:none;}
+  .l-links{display:none;}
+  .mission-head{grid-template-columns:1fr;}
+  .mission-orb{display:none;}
+  .l-layout,.lb-layout,.pl{grid-template-columns:1fr;}
+  .hero.app-hero{text-align:left;}
+}
+@media (max-width:560px){
+  #l-main{bottom:28px;}
+  .l-ctas,.hero-btns,.mission-strip{flex-direction:column;align-items:stretch;}
+  .srow{grid-template-columns:1fr;}
+  .lgrid2{grid-template-columns:1fr;}
+  .pg{padding:22px 14px 40px;}
+}
 </style>
 </head>
 <body>
@@ -303,16 +397,16 @@ code.ic{background:rgba(196,181,253,.14);color:#C4B5FD;border-radius:4px;padding
     <div class="l-links">
       <button class="l-link" onclick="go('home')">Learn</button>
       <button class="l-link" onclick="go('courses')">Courses</button>
+      <button class="l-link" onclick="go('mission')">Mission Lab</button>
       <button class="l-link" onclick="go('leaderboard')">Leagues</button>
-      <button class="l-link" onclick="go('friends')">Friends</button>
       <button class="l-link" onclick="go('profile')">Profile</button>
     </div>
     <div class="l-lang">EN</div>
   </nav>
   <div id="l-main">
-    <div class="l-tag">Seeking the optimal path from beginner to expert coder</div>
+    <div class="l-tag">Seeking the optimal path from curiosity to working code</div>
     <div class="l-box">
-      <textarea id="l-inp" placeholder="Throw me a hard one. I'm ready."></textarea>
+      <textarea id="l-inp" placeholder="Tell Syntaxia what you want to build, fix, or understand."></textarea>
       <button class="l-send" id="l-send">↑</button>
     </div>
     <div class="l-ctas">
@@ -325,34 +419,32 @@ code.ic{background:rgba(196,181,253,.14);color:#C4B5FD;border-radius:4px;padding
 <!-- APP -->
 <div id="app">
   <nav id="anav">
-    <div class="a-logo" onclick="nav('home')" style="cursor:none;">Syn<span>taxia</span> ⚡</div>
+    <div class="a-logo" onclick="nav('home')">Syn<span>taxia</span> ⚡</div>
     <button class="alink on" data-p="home" onclick="nav('home')">🏠 Home</button>
     <button class="alink" data-p="courses" onclick="nav('courses')">📚 Courses</button>
+    <button class="alink" data-p="mission" onclick="nav('mission')">🧭 Mission Lab</button>
     <button class="alink" data-p="leaderboard" onclick="nav('leaderboard')">🏆 Leagues</button>
-    <button class="alink" data-p="friends" onclick="nav('friends')">👥 Friends</button>
     <button class="alink" data-p="profile" onclick="nav('profile')">👤 Profile</button>
     <div class="a-right">
       <div class="astat">🔥 <span id="n-str">3</span></div>
       <div class="astat">⚡ <span id="n-xp">0</span> XP</div>
-      <div class="astat" onclick="showShop()" style="cursor:none;">🪙 <span id="n-tok">250</span></div>
-      <button class="ai-fab-btn" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);" onclick="showShop()">⚡ Power-ups</button>
       <button onclick="showSettings()" title="Settings" style="width:34px;height:34px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;" onmouseover="this.style.background='rgba(255,255,255,.18)';this.style.borderColor='rgba(255,255,255,.25)'" onmouseout="this.style.background='rgba(255,255,255,.07)';this.style.borderColor='rgba(255,255,255,.1)'">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="3"/>
           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
         </svg>
       </button>
-      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=user&backgroundColor=0b0c10" style="width:30px;height:30px;border-radius:50%;border:2px solid #5B6BF8;cursor:none;" onclick="nav('profile')"/>
+      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=user&backgroundColor=0b0c10" style="width:30px;height:30px;border-radius:50%;border:2px solid #5B6BF8;" onclick="nav('profile')"/>
     </div>
   </nav>
   <div id="app-body">
     <div id="wrap">
       <div id="pg-home" class="pg on"><div class="pi" id="home-pi"></div></div>
       <div id="pg-courses" class="pg"><div class="pi" id="courses-pi"></div></div>
+      <div id="pg-mission" class="pg"><div class="pi" id="mission-pi"></div></div>
       <div id="pg-course" class="pg"><div class="pi" id="course-pi"></div></div>
       <div id="pg-lesson" class="pg"><div class="pi" id="lesson-pi"></div></div>
       <div id="pg-leaderboard" class="pg"><div class="pi" id="lb-pi"></div></div>
-      <div id="pg-friends" class="pg"><div class="pi" id="friends-pi"></div></div>
       <div id="pg-profile" class="pg"><div class="pi" id="profile-pi"></div></div>
     </div>
 
@@ -390,27 +482,6 @@ code.ic{background:rgba(196,181,253,.14);color:#C4B5FD;border-radius:4px;padding
       <input id="name-inp" class="minp" style="margin:0;" value="You" placeholder="Your name"/>
     </div>
     <button class="mprim" onclick="saveSettings()">Save Settings</button>
-  </div>
-</div>
-
-<!-- SHOP MODAL -->
-<div class="moverlay" id="shop-m">
-  <div class="mbox">
-    <button class="mclose" onclick="closeM('shop-m')">✕</button>
-    <div class="mtit">⚡ Power-Up Shop</div>
-    <div class="msub">You have <strong style="color:#F59E0B;" id="shop-tok">250 🪙</strong></div>
-    <div class="shop-g" id="shop-g"></div>
-  </div>
-</div>
-
-<!-- ADD FRIEND MODAL -->
-<div class="moverlay" id="af-m">
-  <div class="mbox">
-    <button class="mclose" onclick="closeM('af-m')">✕</button>
-    <div class="mtit">👥 Add Friends</div>
-    <div class="msub">Search by username</div>
-    <input class="minp" placeholder="🔍  Search…" oninput="searchF(this.value)" id="af-inp"/>
-    <div id="af-res"></div>
   </div>
 </div>
 
@@ -789,37 +860,48 @@ const LB=[
   {n:'Lucas Bernard',  xp:1250,av:'lucas88',  c:'🇫🇷',str:4},
   {n:'You',            xp:0,   av:'user123',  c:'⭐', str:3,me:true},
 ];
-const FRIENDS=[
-  {n:'Arjun Sharma',h:'@arjun99',xp:4850,av:'arjun99',online:true, c:'🇮🇳'},
-  {n:'Priya Patel', h:'@priya11',xp:3200,av:'priya11',online:true, c:'🇮🇳'},
-  {n:'Jake Williams',h:'@jake00',xp:3050,av:'jake00', online:false,c:'🇺🇸'},
-  {n:'Maria Santos',h:'@maria88',xp:4720,av:'maria88',online:true, c:'🇧🇷'},
-];
-const DISCOVER=[
-  {n:'Yuki Tanaka',  h:'@yuki66', xp:4200,av:'yuki66', online:true, c:'🇯🇵'},
-  {n:'Carlos Mendez',h:'@carlos44',xp:3750,av:'carlos44',online:false,c:'🇲🇽'},
-  {n:'Sophie Müller',h:'@sophie33',xp:3600,av:'sophie33',online:true, c:'🇩🇪'},
-  {n:'Emma Thompson',h:'@emma77', xp:2600,av:'emma77', online:true, c:'🇬🇧'},
-];
-const REQS=[
-  {n:'Mei Chen',  h:'@mei99', xp:2900,av:'mei99', c:'🇨🇳'},
-  {n:'Omar Hassan',h:'@omar88',xp:2750,av:'omar88',c:'🇪🇬'},
-];
 const BADGES=[
   {ico:'🔥',l:'7-Day Streak'},{ico:'🐍',l:'Python Pro'},{ico:'⚡',l:'Speed Coder'},
   {ico:'🎯',l:'Perfectionist'},{ico:'🌐',l:'Web Wizard'},{ico:'🏆',l:'Top 25'},
 ];
+const MISSIONS=[
+  {
+    id:'portfolio',
+    title:'Ship a portfolio homepage',
+    stack:'HTML + CSS',
+    time:'45 min',
+    difficulty:'Beginner',
+    prompt:'Help me build a portfolio homepage with an intro, project cards, and contact section.',
+    steps:['Sketch the sections','Create semantic HTML','Style a responsive layout','Ask AI for a polish review']
+  },
+  {
+    id:'habit',
+    title:'Build a habit tracker',
+    stack:'JavaScript',
+    time:'70 min',
+    difficulty:'Intermediate',
+    prompt:'Guide me through making a small habit tracker with localStorage.',
+    steps:['Model habits as data','Render a daily checklist','Persist state in localStorage','Add streak feedback']
+  },
+  {
+    id:'debug',
+    title:'Debug a broken function',
+    stack:'Python',
+    time:'25 min',
+    difficulty:'Beginner',
+    prompt:'Give me a debugging drill for a beginner Python function.',
+    steps:['Read the failing output','Trace values by hand','Add print checks','Explain the fix']
+  }
+];
 
 // ─── STATE ─────────────────────────────────────
 let P={done:{},xp:0,str:3};
-let tokens=250;
-try{const d=JSON.parse(localStorage.getItem('syn_prog')||'{}');if(d.done)P=d;if(d.tokens!=null)tokens=d.tokens;}catch(e){}
-function saveP(){try{localStorage.setItem('syn_prog',JSON.stringify({...P,tokens}));}catch(e){}}
+try{const d=JSON.parse(localStorage.getItem('syn_prog')||'{}');if(d.done)P=d;}catch(e){}
+function saveP(){try{localStorage.setItem('syn_prog',JSON.stringify(P));}catch(e){}}
 
 let curLang=null, curLesson=null, lesStep='learn', lesCode='', lesRan=false;
 let qSel=null, qSub=false;
-let lbTab='rookie', fTab='friends';
-let dAdded={};
+let lbTab='rookie';
 
 // ─── HELPERS ───────────────────────────────────
 function av(seed){return 'https://api.dicebear.com/7.x/avataaars/svg?seed='+seed+'&backgroundColor=0b0c10';}
@@ -841,7 +923,6 @@ function updNav(){
   const x=P.xp,l=lvl(x);
   document.getElementById('n-str').textContent=P.str;
   document.getElementById('n-xp').textContent=x;
-  document.getElementById('n-tok').textContent=tokens;
   LB.find(u=>u.me).xp=x;
 }
 
@@ -867,8 +948,8 @@ function nav(pg){
   if(el)el.classList.add('on');
   if(pg==='home')renderHome();
   if(pg==='courses')renderCourses();
+  if(pg==='mission')renderMission();
   if(pg==='leaderboard')renderLB();
-  if(pg==='friends')renderFriends();
   if(pg==='profile')renderProfile();
   updNav();
 }
@@ -878,24 +959,32 @@ function renderHome(){
   updNav();
   const x=P.xp,lv=lvl(x),lg=league(x),xpP=x%100;
   document.getElementById('home-pi').innerHTML=`
-  <div class="hero">
-    <div class="hero-badge">⚡ AI-POWERED · ${LANGS.length} LANGUAGES · ALL LEVELS</div>
-    <h1>Code, <em>Unlocked.</em></h1>
-    <p>Interactive lessons, AI tutor, leagues, and friends — from Python basics to advanced algorithms.</p>
+  <div class="hero app-hero">
+    <div class="hero-badge">AI tutor online · ${LANGS.length} languages · ${Object.keys(P.done).length} lessons completed</div>
+    <h1>Find the next thing worth building.</h1>
+    <p>Syntaxia combines bite-size lessons, a permanent AI tutor, and guided build missions so beginners move from syntax to shipped mini-projects.</p>
     <div class="hero-btns">
-      <button class="hbtn p" onclick="openAI(false)">🤖 Chat with AI Tutor</button>
-      <button class="hbtn s" onclick="nav('courses')">📚 All Courses ↓</button>
+      <button class="hbtn p" onclick="nav('mission')">Open Mission Lab</button>
+      <button class="hbtn s" onclick="nav('courses')">Browse Courses</button>
     </div>
   </div>
   <div class="srow">
     <div class="sbox"><span class="sico">⚡</span><div><div class="sval">${x} XP</div><div class="slbl">Total XP</div></div></div>
     <div class="sbox"><span class="sico">🔥</span><div><div class="sval">${P.str}</div><div class="slbl">Day Streak</div></div></div>
     <div class="sbox"><span class="sico">📚</span><div><div class="sval">${Object.keys(P.done).length}</div><div class="slbl">Lessons Done</div></div></div>
-    <div class="sbox" onclick="nav('leaderboard')" style="cursor:none;"><span class="sico">${lg.ico}</span><div><div class="sval">${lg.n}</div><div class="slbl">League</div></div></div>
+    <div class="sbox" onclick="nav('leaderboard')"><span class="sico">${lg.ico}</span><div><div class="sval">${lg.n}</div><div class="slbl">League</div></div></div>
   </div>
-  <div style="display:flex;justify-content:space-between;align-items:center;"><div class="sec" style="margin:0;">🌟 Featured Courses</div><button onclick="nav('courses')" style="background:none;border:none;color:#5B6BF8;font-weight:700;font-size:13px;">View all →</button></div>
+  <div class="mission-strip">
+    <div>
+      <div class="sec" style="margin:0 0 8px;">New in Syntaxia</div>
+      <h2>Mission Lab turns “I want to build X” into a guided coding path.</h2>
+      <p>Pick a mission, get a step plan, then use the AI tutor to review your thinking instead of just handing you answers.</p>
+    </div>
+    <button class="hbtn p" onclick="nav('mission')">Try Mission Lab</button>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;"><div class="sec" style="margin:0;">Featured Courses</div><button onclick="nav('courses')" class="text-btn">View all →</button></div>
   <div class="lgrid" id="hl1" style="margin-top:12px;"></div>
-  <div class="sec">🌐 More Languages</div>
+  <div class="sec">More Languages</div>
   <div class="lgrid" id="hl2"></div>`;
   const main=LANGS.filter((_,i)=>i<6), rest=LANGS.filter((_,i)=>i>=6);
   ['hl1','hl2'].forEach((id,idx)=>{
@@ -918,12 +1007,62 @@ function mkCard(l){
   return d;
 }
 
+// ─── MISSION LAB ───────────────────────────────
+function renderMission(){
+  const doneCount=Object.keys(P.done).length;
+  document.getElementById('mission-pi').innerHTML=`
+  <div class="mission-head">
+    <div>
+      <div class="hero-badge">Not another course catalog</div>
+      <h1>Mission Lab</h1>
+      <p>Choose a practical build mission. Syntaxia gives you a small project brief, a step-by-step route, and a one-click prompt for the AI tutor.</p>
+    </div>
+    <div class="mission-orb"><span>${doneCount}</span><small>lessons banked</small></div>
+  </div>
+  <div class="mission-grid">
+    ${MISSIONS.map(m=>`
+      <article class="mission-card">
+        <div class="mission-top"><span>${m.stack}</span><span>${m.time}</span></div>
+        <h2>${m.title}</h2>
+        <div class="mission-diff">${m.difficulty}</div>
+        <ol>${m.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+        <button class="hbtn p" onclick="startMission('${m.id}')">Start Mission</button>
+      </article>
+    `).join('')}
+  </div>
+  <div class="mission-custom">
+    <div>
+      <h2>Bring your own idea</h2>
+      <p>Describe the app, bug, or concept you care about. The tutor will turn it into a beginner-sized route.</p>
+    </div>
+    <textarea id="mission-custom" placeholder="Example: I want to build a budget calculator in JavaScript"></textarea>
+    <button class="hbtn s" onclick="startCustomMission()">Generate route</button>
+  </div>`;
+}
+
+function startMission(id){
+  const m=MISSIONS.find(x=>x.id===id);if(!m)return;
+  nav('home');openAI(false);
+  const inp=document.getElementById('api-inp');
+  const prompt='Create a guided Syntaxia Mission Lab route for me: '+m.prompt+' Keep it beginner-friendly, split it into checkpoints, and ask me to complete checkpoint 1 first.';
+  if(inp){inp.value=prompt;updAIBtn();aiSend(prompt);}
+}
+
+function startCustomMission(){
+  const txt=(document.getElementById('mission-custom')?.value||'').trim();
+  if(!txt){toast('Describe a mission first.');return;}
+  nav('home');openAI(false);
+  const prompt='Turn this into a Syntaxia Mission Lab route: '+txt+'. Give checkpoints, suggested language, and the first tiny task.';
+  const inp=document.getElementById('api-inp');
+  if(inp){inp.value=prompt;updAIBtn();aiSend(prompt);}
+}
+
 // ─── COURSES PAGE ──────────────────────────────
 function renderCourses(){
   document.getElementById('courses-pi').innerHTML=`
-  <h2 style="font-size:24px;font-weight:900;margin-bottom:4px;">📚 All Courses</h2>
+  <h2 style="font-size:24px;font-weight:900;margin-bottom:4px;">All Courses</h2>
   <p style="color:rgba(255,255,255,.38);font-size:14px;margin-bottom:20px;">Choose a language and begin your journey</p>
-  <input class="minp" style="max-width:400px;margin-bottom:20px;" placeholder="🔍  Search languages…" oninput="filterC(this.value)" id="cs"/>
+  <input class="minp" style="max-width:400px;margin-bottom:20px;" placeholder="Search languages..." oninput="filterC(this.value)" id="cs"/>
   <div class="lgrid" id="cg"></div>`;
   const g=document.getElementById('cg');
   LANGS.forEach(l=>g.appendChild(mkCard(l)));
@@ -1103,8 +1242,8 @@ function subQ(){if(qSel===null)return;qSub=true;renderLesBody();}
 function claimXP(){
   const les=curLesson;
   if(!P.done[les.id]){
-    P.done[les.id]=true;P.xp+=les.xp;tokens+=10;saveP();
-    showXP(les.xp);toast('🪙 +10 tokens earned!');
+    P.done[les.id]=true;P.xp+=les.xp;saveP();
+    showXP(les.xp);toast('Progress saved.');
   }
   setTimeout(()=>openCourse(curLang),350);
 }
@@ -1152,63 +1291,6 @@ function renderLB(){
   </div>`;
 }
 
-// ─── FRIENDS ───────────────────────────────────
-function renderFriends(){
-  document.getElementById('friends-pi').innerHTML=`
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-    <h2 style="font-size:24px;font-weight:900;">👥 Friends</h2>
-    <button class="ai-fab-btn" onclick="document.getElementById('af-m').classList.add('on')">+ Add Friend</button>
-  </div>
-  <p style="color:rgba(255,255,255,.38);font-size:14px;margin-bottom:20px;">Connect and compete with coders</p>
-  <div class="fl">
-    <div>
-      <div class="ftabs" id="ftabs"></div>
-      <div id="flist"></div>
-    </div>
-    <div>
-      <div class="tok-card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:800;font-size:15px;">🪙 Tokens</div><button class="ai-fab-btn" style="padding:6px 13px;font-size:12px;" onclick="showShop()">🛒 Shop</button></div>
-        <div style="font-size:34px;font-weight:900;color:#F59E0B;" id="tok-big">${tokens}</div>
-        <div style="font-size:12px;color:rgba(255,255,255,.35);margin-top:4px;">+10 per lesson completed</div>
-      </div>
-      <div class="card">
-        <div style="font-weight:700;margin-bottom:12px;">⚡ Power-Ups</div>
-        <div class="shop-g" id="shop-prev"></div>
-      </div>
-    </div>
-  </div>`;
-  const tabs=document.getElementById('ftabs');
-  [['friends','My Friends'],['requests','Requests'],['discover','Discover']].forEach(([id,label])=>{
-    const b=document.createElement('button');b.className='ftab'+(fTab===id?' on':'');
-    b.innerHTML=label+(id==='requests'?` <span style="background:#EF4444;color:#fff;border-radius:99px;padding:1px 7px;font-size:10px;">${REQS.length}</span>`:'');
-    b.onclick=()=>{fTab=id;renderFriends();};tabs.appendChild(b);
-  });
-  const fl=document.getElementById('flist');fl.innerHTML='';
-  (fTab==='friends'?FRIENDS:fTab==='requests'?REQS:DISCOVER).forEach(f=>fl.appendChild(mkFriend(f,fTab)));
-  const sp=document.getElementById('shop-prev');
-  POWERUPS.forEach(p=>{const d=document.createElement('div');d.className='si';d.innerHTML=`<div class="si-ico">${p.ico}</div><div class="si-n">${p.n}</div><div class="si-d">${p.d}</div><div class="si-c">🪙 ${p.cost}</div>`;d.onclick=()=>buyPU(p);sp.appendChild(d);});
-}
-function mkFriend(f,type){
-  const d=document.createElement('div');d.className='fcard';
-  let btn='';
-  if(type==='friends')btn=`<span style="font-size:13px;font-weight:700;color:#F59E0B;margin-left:auto;">${f.xp.toLocaleString()} XP</span>`;
-  else if(type==='requests')btn=`<div style="margin-left:auto;display:flex;gap:6px;"><button onclick="toast('Friend added! 🎉')" style="background:#22C55E;color:#fff;border:none;border-radius:99px;padding:5px 11px;font-size:12px;font-weight:700;">✓</button><button onclick="toast('Declined.')" style="background:rgba(255,255,255,.07);border:none;border-radius:99px;padding:5px 11px;font-size:12px;font-weight:700;color:rgba(255,255,255,.4);">✕</button></div>`;
-  else{const added=dAdded[f.h];btn=`<button class="fbtn ${added?'added':'add'}" onclick="addD('${f.h}',this)" style="margin-left:auto;">${added?'✓ Added':'+ Add'}</button>`;}
-  const online=f.online!==undefined;
-  d.innerHTML=`<img src="${av(f.av)}" class="fav"/>${online?`<div class="${f.online?'odot':'xdot'}"></div>`:''}<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:700;">${f.c||''} ${f.n}</div><div style="font-size:12px;color:rgba(255,255,255,.35);">${f.h||''} · ${(f.xp||0).toLocaleString()} XP</div></div>${btn}`;
-  return d;
-}
-function addD(h,btn){dAdded[h]=true;btn.textContent='✓ Added';btn.className='fbtn added';toast('Request sent! 👋');}
-function searchF(q){
-  const r=document.getElementById('af-res');if(!q.trim()){r.innerHTML='';return;}
-  const all=[...FRIENDS,...DISCOVER,...LB.filter(u=>!u.me)];
-  const found=all.filter(u=>(u.n||'').toLowerCase().includes(q.toLowerCase()));
-  r.innerHTML=found.slice(0,6).map(u=>`<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);">
-    <img src="${av(u.av||u.n)}" style="width:36px;height:36px;border-radius:50%;"/>
-    <div style="flex:1;"><div style="font-weight:700;font-size:14px;">${u.n}</div><div style="font-size:12px;color:rgba(255,255,255,.35);">${(u.xp||0).toLocaleString()} XP</div></div>
-    <button class="fbtn add" onclick="toast('Request sent! 👋')">+ Add</button></div>`).join('')||`<div style="color:rgba(255,255,255,.3);padding:12px 0;">No users found.</div>`;
-}
-
 // ─── PROFILE ───────────────────────────────────
 function renderProfile(){
   updNav();
@@ -1234,7 +1316,7 @@ function renderProfile(){
           <div class="pbar-t" style="height:6px;"><div class="pfill" style="background:${lg.col};width:${Math.min(100,((x-lg.min)/Math.max(1,lg.max-lg.min))*100)}%;height:100%;"></div></div>
           <div style="font-size:12px;color:rgba(255,255,255,.3);margin-top:6px;">${x} XP · ${lg.n} League</div>
         </div>
-        <button onclick="showSettings()" class="msec" style="width:100%;margin:0;">⚙️ Edit Profile & API Key</button>
+        <button onclick="showSettings()" class="msec" style="width:100%;margin:0;">Edit Profile</button>
       </div>
       <div class="card">
         <div style="font-weight:800;margin-bottom:12px;">🏅 Badges</div>
@@ -1253,7 +1335,7 @@ function renderProfile(){
     const done=LESSONS[l.id].filter(x=>P.done[x.id]).length;if(!done)return;any=true;
     const total=LESSONS[l.id].length,p=pct(done,total);
     const d=document.createElement('div');
-    d.style.cssText='display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);cursor:none;';
+    d.style.cssText='display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;';
     d.innerHTML=`<div style="width:32px;height:32px;border-radius:9px;background:${l.bg};border:1px solid ${l.c}33;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">${l.ico}</div>
     <div style="flex:1;"><div style="font-weight:700;font-size:14px;margin-bottom:4px;">${l.n}</div><div class="pbar-t" style="height:5px;"><div class="pfill" style="background:${l.c};width:${p}%;height:100%;"></div></div></div>
     <span style="font-size:13px;font-weight:800;color:${l.c};">${p===100?'✓':p+'%'}</span>`;
@@ -1261,14 +1343,6 @@ function renderProfile(){
   });
   if(!any)pl.innerHTML='<div style="color:rgba(255,255,255,.3);text-align:center;padding:24px;">Start a course to see progress here!</div>';
 }
-
-// ─── SHOP ──────────────────────────────────────
-function showShop(){
-  const g=document.getElementById('shop-g');if(g){g.innerHTML='';POWERUPS.forEach(p=>{const d=document.createElement('div');d.className='si';d.innerHTML=`<div class="si-ico">${p.ico}</div><div class="si-n">${p.n}</div><div class="si-d">${p.d}</div><div class="si-c">🪙 ${p.cost}</div>`;d.onclick=()=>{buyPU(p);document.getElementById('shop-tok').textContent=tokens+' 🪙';};g.appendChild(d);});}
-  document.getElementById('shop-tok').textContent=tokens+' 🪙';
-  document.getElementById('shop-m').classList.add('on');
-}
-function buyPU(p){if(tokens<p.cost){toast('Not enough tokens! 🪙');return;}tokens-=p.cost;saveP();toast(p.ico+' '+p.ef);updNav();}
 
 // ─── SETTINGS ──────────────────────────────────
 function showSettings(){

@@ -7,8 +7,8 @@
 ![AI Powered](https://img.shields.io/badge/AI%20Powered-Groq%20API-A855F7?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-F59E0B?style=for-the-badge)
 
-**An interactive, gamified coding learning platform powered by Groq AI.**  
-Learn Python, JavaScript, Java, SQL, and 20+ more languages — with a live AI tutor, leagues, friends, and XP rewards.
+**An interactive coding learning platform powered by Groq AI.**  
+Learn Python, JavaScript, Java, SQL, and 20+ more languages with lessons, leagues, XP, and a Mission Lab that turns project ideas into guided build paths.
 
 [🚀 Live Demo](#) · [📖 How to Use](#how-to-use) · [🔑 API Setup](#api-key-setup) · [🚢 Deploy](#deploy-to-vercel)
 
@@ -22,22 +22,21 @@ Learn Python, JavaScript, Java, SQL, and 20+ more languages — with a live AI t
 |---|---|
 | 🤖 **AI Tutor** | Powered by Groq — gives hints, explains concepts, reviews code |
 | 📚 **20+ Languages** | Python, JavaScript, Java, SQL, C++, Rust, Go, Swift, and more |
+| 🧭 **Mission Lab** | Turns an idea into a checkpoint-based mini-project with AI guidance |
 | 🏆 **5 Leagues** | Rookie → Emerald → Diamond → Amethyst → Gold |
-| 👥 **Friends** | Add friends, see their XP, compete on the leaderboard |
 | ⚡ **XP & Levels** | Earn XP for every lesson, level up, climb the ranks |
-| 🪙 **Token Shop** | Buy power-ups like 2× XP Boost, Streak Shield, Hint Packs |
 | 🔥 **Streaks** | Daily streak tracking to keep you motivated |
-| 🌑 **Moonshot UI** | Cursor-tracking orb, animated landing page, pure black theme |
+| 🌑 **Moonshot-Inspired UI** | Stark black landing page, orb centerpiece, minimal controls |
 | 📱 **Responsive** | Works on desktop and mobile |
-| 💾 **No Backend** | All progress saved in `localStorage` — no account needed |
+| 💾 **Local Progress** | Progress is saved in `localStorage`; AI calls stay server-side |
 
 ---
 
 ## 🖥️ Preview
 
 ```
-Landing Page → Moonshot-style black orb, animated scrolling text, cursor dot
-App → Home, Courses, Leagues, Friends, Profile, AI Tutor panel
+Landing Page → Moonshot-style black orb, minimal prompt, direct CTAs
+App → Home, Courses, Mission Lab, Leagues, Profile, AI Tutor panel
 Lesson Flow → Learn → Code → Quiz → Earn XP
 ```
 
@@ -171,16 +170,9 @@ Your app will be live at `https://your-app.vercel.app` in ~30 seconds.
 
 ---
 
-## 🪙 Token Shop
+## 🧭 Mission Lab
 
-Earn **10 tokens** per lesson completed. Spend them on:
-
-| Power-Up | Cost | Effect |
-|---|---|---|
-| ⚡ 2× XP Boost | 100 🪙 | Double XP for next 5 lessons |
-| 🛡️ Streak Shield | 150 🪙 | Protect streak for 1 day |
-| 💡 Hint Pack | 75 🪙 | 10 AI hints |
-| ⏭️ Lesson Skip | 200 🪙 | Skip 1 lesson and still earn XP |
+Mission Lab is Syntaxia's project-first learning mode. Instead of choosing only from courses, learners can pick a practical mission such as building a portfolio page, habit tracker, or debugging drill. The AI tutor converts the goal into beginner-sized checkpoints and asks the learner to complete one step at a time.
 
 ---
 
