@@ -1,307 +1,324 @@
-// Auto-extracted from syntaxia.html
+// Syntaxia course roadmap definitions. Weave lessons, challenges, games, projects, boss battles, exams.
 import { LANGS } from './languages.js';
 
-export const LESSONS={
-python:[
-  {id:'py1',t:'Hello, World!',lv:'Beginner',xp:20,
-   exp:'Every coder starts with printing "Hello, World!". In Python the print() function outputs text to the console — it is that simple. Python was designed to be readable, so your first program is just one line.',
-   task:'Print the text "Hello, World!" to the console.',
-   starter:'# Write your first Python program below\n# Use print() to display Hello, World!\n',
-   code:'print("Hello, World!")',
-   out:'Hello, World!',
-   quiz:{q:'What Python function displays text on the screen?',opts:['write()','show()','print()','display()'],ans:2}},
+// Base lessons that we'll wrap inside roadmap nodes
+const BASE_LESSONS = {
+  python: [
+    {id:'py1',t:'Hello, World!',lv:'Beginner',xp:20,
+     exp:'Every coder starts with printing "Hello, World!". In Python, the print() function outputs text to the console. Python was designed to be readable, so your first program is just one line.',
+     task:'Print the text "Hello, World!" to the console.',
+     starter:'# Write your first Python program below\n# Use print() to display Hello, World!\n',
+     code:'print("Hello, World!")',
+     out:'Hello, World!',
+     quiz:{q:'What Python function displays text on the screen?',opts:['write()','show()','print()','display()'],ans:2}},
 
-  {id:'py2',t:'Variables',lv:'Beginner',xp:25,
-   exp:'Variables store data so you can reuse it. In Python you just write name = value — no type keyword needed. Python figures out the type automatically. Variable names should be descriptive and use snake_case.',
-   task:'Create a variable called name set to your name, and age set to your age. Print both on separate lines.',
-   starter:'# Create two variables: name and age\n# Then print each one\n',
-   code:'name = "Alex"\nage = 20\nprint(name)\nprint(age)',
-   out:'Alex\n20',
-   quiz:{q:'Which style is correct for Python variable names?',opts:['myName','MyName','my_name','my-name'],ans:2}},
+    {id:'py2',t:'Variables',lv:'Beginner',xp:25,
+     exp:'Variables store data so you can reuse it. In Python you just write name = value. Python figures out the type automatically. Variable names should use snake_case.',
+     task:'Create a variable called name set to "Alex", and age set to 20. Print both on separate lines.',
+     starter:'# Create two variables: name and age\n# Then print each one\n',
+     code:'name = "Alex"\nage = 20\nprint(name)\nprint(age)',
+     out:'Alex\n20',
+     quiz:{q:'Which style is correct for Python variable names?',opts:['myName','MyName','my_name','my-name'],ans:2}},
 
-  {id:'py3',t:'If / Else',lv:'Beginner',xp:30,
-   exp:'if/else lets your code make decisions. The condition goes after if, and the block is indented 4 spaces. elif checks additional conditions. else catches everything that did not match. Indentation is crucial in Python — it defines the block.',
-   task:'Given score = 85, print "A" if >=90, "B" if >=70, "C" if >=50, else "F".',
-   starter:'score = 85\n# Write if/elif/else to print the grade\n',
-   code:'score = 85\nif score >= 90:\n    print("A")\nelif score >= 70:\n    print("B")\nelif score >= 50:\n    print("C")\nelse:\n    print("F")',
-   out:'B',
-   quiz:{q:'What keyword checks an additional condition in Python?',opts:['else if','otherwise','elif','elseif'],ans:2}},
+    {id:'py3',t:'If / Else',lv:'Beginner',xp:30,
+     exp:'if/else lets your code make decisions. The condition goes after if, and the block is indented 4 spaces. elif checks additional conditions. else catches everything that did not match.',
+     task:'Given score = 85, print "B" because score is >= 70 but < 90.',
+     starter:'score = 85\n# Write if/elif/else to print "A" if >=90, "B" if >=70, "C" if >=50, else "F"\n',
+     code:'score = 85\nif score >= 90:\n    print("A")\nelif score >= 70:\n    print("B")\nelif score >= 50:\n    print("C")\nelse:\n    print("F")',
+     out:'B',
+     quiz:{q:'What keyword checks an additional condition in Python?',opts:['else if','otherwise','elif','elseif'],ans:2}},
 
-  {id:'py4',t:'Loops',lv:'Beginner',xp:35,
-   exp:'for loops iterate over a sequence. range(start, stop, step) generates numbers. The loop variable takes each value in turn. break exits early, continue skips to the next iteration. while loops run until a condition is False.',
-   task:'Use a for loop with range() to print even numbers from 2 to 10.',
-   starter:'# Print even numbers 2, 4, 6, 8, 10 using a for loop\n',
-   code:'for i in range(2, 11, 2):\n    print(i)',
-   out:'2\n4\n6\n8\n10',
-   quiz:{q:'What does range(0, 10, 2) produce?',opts:['0 to 10','0,2,4,6,8','2,4,6,8,10','1,3,5,7,9'],ans:1}},
+    {id:'py4',t:'Loops',lv:'Beginner',xp:35,
+     exp:'for loops iterate over a sequence. range(start, stop, step) generates numbers. The loop variable takes each value in turn. while loops run until a condition is False.',
+     task:'Use a for loop with range() to print numbers 2, 4, 6, 8, 10.',
+     starter:'# Print even numbers 2, 4, 6, 8, 10 using a for loop\n',
+     code:'for i in range(2, 11, 2):\n    print(i)',
+     out:'2\n4\n6\n8\n10',
+     quiz:{q:'What does range(0, 10, 2) produce?',opts:['0 to 10','0,2,4,6,8','2,4,6,8,10','1,3,5,7,9'],ans:1}}
+  ],
+  javascript: [
+    {id:'js1',t:'Hello, World!',lv:'Beginner',xp:20,
+     exp:'JavaScript is the language of the web. console.log() prints output. Every interactive element on a website uses JavaScript.',
+     task:'Use console.log() to print "Hello, World!" to the console.',
+     starter:'// Print Hello, World! using console.log\n',
+     code:'console.log("Hello, World!");',
+     out:'Hello, World!',
+     quiz:{q:'What function prints output in JavaScript?',opts:['print()','echo()','console.log()','output()'],ans:2}},
 
-  {id:'py5',t:'Functions',lv:'Intermediate',xp:40,
-   exp:'Functions are reusable blocks of code defined with def. They can accept parameters and return values with return. Define once, call many times. Good functions do one thing well and have descriptive names.',
-   task:'Write a function called area(width, height) that returns width times height. Call it with 5 and 4.',
-   starter:'# Define a function called area(width, height)\n# It should return width * height\n\n# Then call it with 5 and 4 and print the result\n',
-   code:'def area(width, height):\n    return width * height\n\nprint(area(5, 4))',
-   out:'20',
-   quiz:{q:'Which keyword sends a value back from a function?',opts:['send','output','yield','return'],ans:3}},
+    {id:'js2',t:'Variables',lv:'Beginner',xp:25,
+     exp:'Use const for values that never change and let for values that do. Avoid var — it has confusing scope rules. JavaScript is loosely typed: you do not declare the type.',
+     task:'Declare a const name = "Alex", and let age = 20. Print both to console.',
+     starter:'// Declare const name and let age\n// Log each value\n',
+     code:'const name = "Alex";\nlet age = 20;\nconsole.log(name);\nconsole.log(age);',
+     out:'Alex\n20',
+     quiz:{q:'Which keyword declares a block-scoped variable that can be reassigned?',opts:['const','let','var','def'],ans:1}},
 
-  {id:'py6',t:'Lists',lv:'Intermediate',xp:45,
-   exp:'Lists store multiple values in order. Create with square brackets. Access by index starting at 0. Use -1 for the last item. .append() adds, .remove() deletes, len() counts, sorted() sorts without changing the original.',
-   task:'Create a list of 5 numbers. Sort it and print the largest 3.',
-   starter:'# Create a list called numbers with 5 values\n# Sort it and print only the top 3 largest\n',
-   code:'numbers = [42, 7, 19, 55, 3]\nnumbers.sort(reverse=True)\nfor n in numbers[:3]:\n    print(n)',
-   out:'55\n42\n19',
-   quiz:{q:'What index accesses the last item in a Python list?',opts:['last','len-1','-1','0'],ans:2}},
+    {id:'js3',t:'Arrow Functions',lv:'Intermediate',xp:30,
+     exp:'Arrow functions are a concise syntax for writing functions. e.g., const add = (a, b) => a + b; They are commonly used for callbacks and arrays.',
+     task:'Define an arrow function square(n) that returns n * n. Call it with 5 and print the result.',
+     starter:'// Write arrow function square(n) and console.log square(5)\n',
+     code:'const square = (n) => n * n;\nconsole.log(square(5));',
+     out:'25',
+     quiz:{q:'How do arrow functions declare parameters?',opts:['fn(x)','x => x','function(x)','def(x)'],ans:1}}
+  ],
+  html: [
+    {id:'html1',t:'HTML Structure',lv:'Beginner',xp:20,
+     exp:'HTML defines the structure of web pages using tags. An element consists of an opening tag, content, and a closing tag. The boilerplate starts with <html>, <head>, and <body>.',
+     task:'Create an h1 tag with text "Hello, Web!" inside the body.',
+     starter:'<!DOCTYPE html>\n<html>\n<body>\n  <!-- Add h1 here -->\n</body>\n</html>',
+     code:'<!DOCTYPE html>\n<html>\n<body>\n  <h1>Hello, Web!</h1>\n</body>\n</html>',
+     out:'<h1>Hello, Web!</h1>',
+     quiz:{q:'Which HTML tag represents the main heading?',opts:['<head>','<h6>','<h1>','<p>'],ans:2}}
+  ],
+  css: [
+    {id:'css1',t:'CSS Styling',lv:'Beginner',xp:20,
+     exp:'CSS styles HTML elements. Select elements by tag name, class (.classname), or ID (#idname). Apply properties like color, background-color, border, and margin.',
+     task:'Add a style block to color h1 elements red.',
+     starter:'<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    /* Style h1 red */\n  </style>\n</head>\n<body>\n  <h1>Alert!</h1>\n</body>\n</html>',
+     code:'<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    h1 { color: red; }\n  </style>\n</head>\n<body>\n  <h1>Alert!</h1>\n</body>\n</html>',
+     out:'h1 { color: red; }',
+     quiz:{q:'Which CSS selector styles elements with a specific class?',opts:['#classname','.classname','*classname','@classname'],ans:1}}
+  ],
+  sql: [
+    {id:'sql1',t:'SELECT Basics',lv:'Beginner',xp:20,
+     exp:'SQL (Structured Query Language) manages databases. SELECT retrieves columns, FROM targets a table. Use "*" to get all columns. Statements end with a semicolon.',
+     task:'Retrieve the name and email columns from the users table.',
+     starter:'-- SELECT name and email FROM users\n',
+     code:'SELECT name, email FROM users;',
+     out:'name  | email\nAlice | alice@test.com\nBob   | bob@test.com',
+     quiz:{q:'Which SQL command retrieves data?',opts:['GET','SELECT','FETCH','READ'],ans:1}},
 
-  {id:'py7',t:'Dictionaries',lv:'Intermediate',xp:50,
-   exp:'Dictionaries store key-value pairs using curly braces. Access values with dict[key]. .keys() lists all keys, .values() all values, .items() both. Use .get(key, default) to safely access without raising an error.',
-   task:'Create a dictionary of 3 countries and their capitals. Print each pair on one line.',
-   starter:'# Create a dict called capitals with 3 country:capital pairs\n# Loop through .items() and print each\n',
-   code:'capitals = {"France": "Paris", "Japan": "Tokyo", "Brazil": "Brasilia"}\nfor country, capital in capitals.items():\n    print(country + ": " + capital)',
-   out:'France: Paris\nJapan: Tokyo\nBrazil: Brasilia',
-   quiz:{q:'Which method returns both keys and values from a dict?',opts:['.pairs()','.both()','.items()','.entries()'],ans:2}},
-
-  {id:'py8',t:'Classes',lv:'Advanced',xp:55,
-   exp:'Classes are blueprints for objects. __init__ is the constructor that runs when an object is created. self refers to the current instance. Attributes store state, methods define behaviour. This is the foundation of object-oriented programming.',
-   task:'Create a Dog class with name and breed. Add a bark() method that prints a message. Create one instance and call bark().',
-   starter:'# Create a Dog class\n# __init__ should accept name and breed\n# Add a bark() method\n\n# Create a Dog instance and call bark()\n',
-   code:'class Dog:\n    def __init__(self, name, breed):\n        self.name = name\n        self.breed = breed\n    def bark(self):\n        print(self.name + " says: Woof!")\n\ndog = Dog("Rex", "Labrador")\ndog.bark()',
-   out:'Rex says: Woof!',
-   quiz:{q:'What is the first parameter of every Python class method?',opts:['this','me','cls','self'],ans:3}},
-
-  {id:'py9',t:'File Handling',lv:'Advanced',xp:60,
-   exp:'Python can read and write files with the open() function. Use "w" mode to write, "r" to read, "a" to append. The with statement closes the file automatically even if an error occurs. Always use with open() for safe file handling.',
-   task:'Write three lines to a file called notes.txt, then read and print the file.',
-   starter:'# Write to notes.txt using with open(..., "w")\n# Write at least 3 lines\n# Then read and print the file contents\n',
-   code:'with open("notes.txt", "w") as f:\n    f.write("Line 1: Python is fun\\n")\n    f.write("Line 2: Files are easy\\n")\n    f.write("Line 3: Keep coding!\\n")\n\nwith open("notes.txt", "r") as f:\n    print(f.read())',
-   out:'Line 1: Python is fun\nLine 2: Files are easy\nLine 3: Keep coding!',
-   quiz:{q:'Which "with open" mode appends to an existing file?',opts:['"w"','"r"','"a"','"x"'],ans:2}},
-
-  {id:'py10',t:'Error Handling',lv:'Advanced',xp:65,
-   exp:'Exceptions handle runtime errors gracefully. try contains risky code, except catches errors, else runs if no error occurred, finally always runs. You can catch specific exceptions like ValueError or ZeroDivisionError for fine-grained control.',
-   task:'Write a safe_divide(a, b) function that handles ZeroDivisionError. Test with valid and zero inputs.',
-   starter:'# Write safe_divide(a, b)\n# Use try/except to handle ZeroDivisionError\n# Test with safe_divide(10, 2) and safe_divide(5, 0)\n',
-   code:'def safe_divide(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return "Error: cannot divide by zero"\n\nprint(safe_divide(10, 2))\nprint(safe_divide(5, 0))',
-   out:'5.0\nError: cannot divide by zero',
-   quiz:{q:'Which block ALWAYS runs in a try/except statement?',opts:['try','except','else','finally'],ans:3}},
-],
-
-javascript:[
-  {id:'js1',t:'Hello, World!',lv:'Beginner',xp:20,
-   exp:'JavaScript is the language of the web. console.log() prints output. JS runs in browsers and in Node.js. Every interactive element on a website uses JavaScript.',
-   task:'Use console.log() to print "Hello, World!" to the console.',
-   starter:'// Print Hello, World! using console.log\n',
-   code:'console.log("Hello, World!");',
-   out:'Hello, World!',
-   quiz:{q:'What function prints output in JavaScript?',opts:['print()','echo()','console.log()','output()'],ans:2}},
-
-  {id:'js2',t:'Variables',lv:'Beginner',xp:25,
-   exp:'Use const for values that never change and let for values that do. Avoid var — it has confusing scope rules. JavaScript is loosely typed: you do not declare the type, it is inferred at runtime.',
-   task:'Declare a const for your name and a let for your age. Log both with typeof to see their types.',
-   starter:'// Declare const name and let age\n// Log each value and its typeof\n',
-   code:'const name = "Alex";\nlet age = 20;\nconsole.log(name, typeof name);\nconsole.log(age, typeof age);',
-   out:'Alex string\n20 number',
-   quiz:{q:'Which keyword declares a value that cannot be reassigned?',opts:['let','var','const','fixed'],ans:2}},
-
-  {id:'js3',t:'Functions',lv:'Beginner',xp:30,
-   exp:'JS has function declarations and arrow functions (=>). Arrow functions are shorter and do not have their own "this". Both create reusable code. Functions can return values or just perform actions.',
-   task:'Write a square() function declaration and a cube() arrow function. Log square(4) and cube(3).',
-   starter:'// Write square() as a function declaration\n// Write cube() as an arrow function\n// Log the results\n',
-   code:'function square(n) { return n * n; }\nconst cube = n => n * n * n;\nconsole.log(square(4));\nconsole.log(cube(3));',
-   out:'16\n27',
-   quiz:{q:'What symbol defines an arrow function?',opts:['->','>>','-->','=>'],ans:3}},
-
-  {id:'js4',t:'Arrays',lv:'Intermediate',xp:35,
-   exp:'.map() transforms every element. .filter() keeps elements matching a condition. .reduce() collapses to one value. These functional methods are the backbone of modern JS — avoid plain for loops when these are cleaner.',
-   task:'Start with [1,2,3,4,5]. Use .map() to double each number, then .filter() to keep only values above 5.',
-   starter:'const nums = [1, 2, 3, 4, 5];\n// Use .map() to double each number\n// Then .filter() to keep only values > 5\n// Log the result\n',
-   code:'const nums = [1, 2, 3, 4, 5];\nconst result = nums.map(n => n * 2).filter(n => n > 5);\nconsole.log(result);',
-   out:'[6, 8, 10]',
-   quiz:{q:'What does .filter() return?',opts:['The first match','A new array of matching elements','The count of matches','True or false'],ans:1}},
-
-  {id:'js5',t:'Objects',lv:'Intermediate',xp:40,
-   exp:'Objects group related data as key-value pairs. Destructuring extracts values cleanly. The spread operator (...) copies or merges objects. Optional chaining (?.) safely accesses nested properties that might not exist.',
-   task:'Create a user object with name, age, role. Destructure name and age. Create an updated copy with a new city property.',
-   starter:'// Create a user object with name, age, role\n// Destructure name and age\n// Spread-merge user with { city: "London" } and log it\n',
-   code:'const user = { name: "Alice", age: 25, role: "admin" };\nconst { name, age } = user;\nconsole.log(name, age);\nconst updated = { ...user, city: "London" };\nconsole.log(updated);',
-   out:'Alice 25\n{name: "Alice", age: 25, role: "admin", city: "London"}',
-   quiz:{q:'What does the spread operator (...) do to an object?',opts:['Deletes properties','Creates a shallow copy','Sorts the keys','Freezes the object'],ans:1}},
-
-  {id:'js6',t:'Promises & Async',lv:'Advanced',xp:50,
-   exp:'JavaScript is single-threaded. async/await makes async code look synchronous. async marks a function, await pauses until a Promise resolves. Always wrap await in try/catch to handle errors. This is how you fetch data from APIs.',
-   task:'Write an async function that uses Promise.resolve to simulate fetching a user, then logs the result.',
-   starter:'// Write an async function called getUser()\n// Use await with Promise.resolve({name:"Alex", xp:500})\n// Log the user name and xp\ngetUser();\n',
-   code:'async function getUser() {\n  const user = await Promise.resolve({ name: "Alex", xp: 500 });\n  console.log(user.name, user.xp);\n}\ngetUser();',
-   out:'Alex 500',
-   quiz:{q:'What does await do inside an async function?',opts:['Stops the entire program','Pauses until the Promise resolves','Runs code in parallel','Creates a new thread'],ans:1}},
-],
-
-html:[
-  {id:'h1',t:'First Webpage',lv:'Beginner',xp:20,
-   exp:'HTML structures every webpage. Tags use angle brackets. Most tags need opening and closing. The html tag wraps everything, head holds metadata, body holds visible content.',
-   task:'Write a complete HTML page with a title, an h1 heading saying "My First Page", and a paragraph saying "Hello!".',
-   starter:'<!-- Write a complete HTML page structure -->\n<!-- Include: html, head (with title), body, h1, and p -->\n',
-   code:'<html>\n  <head><title>My Page</title></head>\n  <body>\n    <h1>My First Page</h1>\n    <p>Hello!</p>\n  </body>\n</html>',
-   out:'My First Page\nHello!',
-   quiz:{q:'What does HTML stand for?',opts:['High-Tech Markup Language','HyperText Markup Language','HyperText Machine Language','Home Tool Markup Language'],ans:1}},
-
-  {id:'h2',t:'Headings & Text',lv:'Beginner',xp:25,
-   exp:'h1 to h6 are headings (h1 is largest). p is a paragraph. strong makes text bold, em makes it italic. These semantic tags tell the browser — and screen readers — what the content means.',
-   task:'Create an h1, an h2, and a paragraph. Inside the paragraph use strong and em.',
-   starter:'<!-- Create h1, h2, and a paragraph with bold and italic words -->\n',
-   code:'<h1>Main Title</h1>\n<h2>Subtitle</h2>\n<p>This is <strong>bold</strong> and <em>italic</em> text.</p>',
-   out:'Main Title\nSubtitle\nThis is bold and italic text.',
-   quiz:{q:'Which tag creates the LARGEST heading?',opts:['h6','heading','h1','big'],ans:2}},
-
-  {id:'h3',t:'Links & Images',lv:'Beginner',xp:30,
-   exp:'The a tag creates links — href sets the URL, target="_blank" opens in a new tab. The img tag embeds images — src is the image URL, alt is the description for accessibility and SEO. img is self-closing.',
-   task:'Create a link to https://google.com that opens in a new tab, and an image with meaningful alt text.',
-   starter:'<!-- Create an anchor tag linking to google.com (new tab) -->\n<!-- Create an img with src and a descriptive alt -->\n',
-   code:'<a href="https://google.com" target="_blank">Visit Google</a>\n<img src="photo.jpg" alt="A sunset over the mountains">',
-   out:'Visit Google\n[Image: A sunset over the mountains]',
-   quiz:{q:'What attribute sets where a link goes?',opts:['src','to','href','url'],ans:2}},
-
-  {id:'h4',t:'Lists',lv:'Intermediate',xp:35,
-   exp:'ul is an unordered (bullet) list, ol is ordered (numbered). li is a list item inside either. Lists can be nested. They are used for navigation menus, bullet points, and step-by-step instructions.',
-   task:'Make an unordered list of 3 favourite foods and an ordered list of 3 steps to make tea.',
-   starter:'<!-- Create a ul with 3 li items (foods) -->\n<!-- Create an ol with 3 li items (tea steps) -->\n',
-   code:'<ul>\n  <li>Pizza</li>\n  <li>Sushi</li>\n  <li>Tacos</li>\n</ul>\n<ol>\n  <li>Boil water</li>\n  <li>Add tea bag</li>\n  <li>Wait 3 minutes</li>\n</ol>',
-   out:'• Pizza\n• Sushi\n• Tacos\n1. Boil water\n2. Add tea bag\n3. Wait 3 minutes',
-   quiz:{q:'Which tag creates a numbered list?',opts:['ul','nl','ol','li'],ans:2}},
-
-  {id:'h5',t:'Tables',lv:'Intermediate',xp:40,
-   exp:'Tables organise data in rows and columns. table wraps everything. thead and tbody separate header rows from data. tr is a row, th is a header cell (bold by default), td is a data cell.',
-   task:'Create a table with Name and Score column headers, and 3 rows of data.',
-   starter:'<!-- Create a table with thead (Name, Score) and 3 tbody rows -->\n',
-   code:'<table>\n  <thead>\n    <tr><th>Name</th><th>Score</th></tr>\n  </thead>\n  <tbody>\n    <tr><td>Alice</td><td>95</td></tr>\n    <tr><td>Bob</td><td>88</td></tr>\n    <tr><td>Carol</td><td>92</td></tr>\n  </tbody>\n</table>',
-   out:'Name | Score\nAlice | 95\nBob | 88\nCarol | 92',
-   quiz:{q:'What tag defines a header cell in a table?',opts:['td','tc','th','tr'],ans:2}},
-
-  {id:'h6',t:'Forms',lv:'Advanced',xp:50,
-   exp:'Forms collect user input. input can be type text, email, password, number, checkbox, radio, file. label improves accessibility — pair it with input using for and id. button type="submit" sends the form.',
-   task:'Build a form with a text input for Name, an email input, and a Submit button. Add labels.',
-   starter:'<!-- Build a form with:\n     - label + text input for Name\n     - label + email input for Email\n     - a Submit button -->\n',
-   code:'<form>\n  <label for="name">Name:</label>\n  <input type="text" id="name" placeholder="Your name"><br>\n  <label for="email">Email:</label>\n  <input type="email" id="email" placeholder="you@email.com"><br>\n  <button type="submit">Submit</button>\n</form>',
-   out:'Form: [Name] [Email] [Submit]',
-   quiz:{q:'What attribute links a label to its input?',opts:['id','name','for','link'],ans:2}},
-],
-
-sql:[
-  {id:'sql1',t:'Your First Query',lv:'Beginner',xp:20,
-   exp:'SQL queries databases. SELECT retrieves data. * means all columns. FROM says which table. Every query ends with a semicolon. SQL is case-insensitive for keywords but convention is to CAPITALISE them.',
-   task:'Write a SELECT query to get all columns from a table called users. Then write one to get only name and email.',
-   starter:'-- Get all columns from users\n\n-- Get only name and email from users\n',
-   code:'SELECT * FROM users;\nSELECT name, email FROM users;',
-   out:'All columns from users\nname, email from users',
-   quiz:{q:'What does SELECT * do?',opts:['Deletes all rows','Gets all columns','Counts rows','Creates a table'],ans:1}},
-
-  {id:'sql2',t:'WHERE Clause',lv:'Beginner',xp:25,
-   exp:'WHERE filters rows. Use = for equality, != for not equal, > < >= <= for comparisons. LIKE with % matches patterns. AND / OR combine conditions. Always put WHERE before ORDER BY.',
-   task:'Find all users where age is between 18 and 30, and whose name starts with the letter A.',
-   starter:'-- Find users aged 18-30 AND name starts with "A"\n-- Order by age ascending\n',
-   code:'SELECT * FROM users\nWHERE age BETWEEN 18 AND 30\n  AND name LIKE "A%"\nORDER BY age ASC;',
-   out:'id | name  | age\n3  | Alice | 22\n7  | Ahmed | 27',
-   quiz:{q:'What operator matches a pattern in SQL?',opts:['MATCH','REGEX','LIKE','CONTAINS'],ans:2}},
-
-  {id:'sql3',t:'ORDER BY & LIMIT',lv:'Beginner',xp:30,
-   exp:'ORDER BY sorts results. ASC is ascending (default), DESC is descending. LIMIT caps how many rows are returned. Combine them to get "top N" results. This is how leaderboards and rankings are built.',
-   task:'Get the top 3 highest-paid employees showing their name, department, and salary.',
-   starter:'-- Get name, department, salary from employees\n-- Order by salary descending\n-- Limit to top 3\n',
-   code:'SELECT name, department, salary\nFROM employees\nORDER BY salary DESC\nLIMIT 3;',
-   out:'name    | department | salary\nAlice   | Engineering| 120000\nBob     | Product    | 115000\nCarol   | Engineering| 108000',
-   quiz:{q:'Which keyword limits the number of rows returned?',opts:['TOP','MAX','LIMIT','FETCH'],ans:2}},
-
-  {id:'sql4',t:'JOINs',lv:'Intermediate',xp:40,
-   exp:'JOINs combine data from two or more tables. INNER JOIN returns only rows that match in both tables. LEFT JOIN returns all rows from the left table plus any matches. You join ON a matching column, usually a foreign key.',
-   task:'Join orders and users tables to show order_id, customer name, and total for each order.',
-   starter:'-- SELECT order_id, user name, and total\n-- FROM orders\n-- INNER JOIN users on the user_id column\n',
-   code:'SELECT orders.id, users.name, orders.total\nFROM orders\nINNER JOIN users ON orders.user_id = users.id;',
-   out:'id | name  | total\n1  | Alice | 59.99\n2  | Bob   | 120.00\n3  | Alice | 35.50',
-   quiz:{q:'What does INNER JOIN return?',opts:['All rows from the left table','All rows from both tables','Only rows that match in both tables','Duplicate rows'],ans:2}},
-
-  {id:'sql5',t:'GROUP BY & Aggregates',lv:'Intermediate',xp:45,
-   exp:'COUNT() counts rows, SUM() totals values, AVG() averages, MAX() and MIN() find extremes. GROUP BY groups rows so aggregates apply per group. HAVING filters groups (like WHERE but after grouping).',
-   task:'Count employees per department. Only show departments where the average salary is above 70000.',
-   starter:'-- SELECT department, COUNT(*), AVG(salary)\n-- FROM employees\n-- GROUP BY department\n-- Filter with HAVING where avg salary > 70000\n',
-   code:'SELECT department, COUNT(*) AS headcount, AVG(salary) AS avg_sal\nFROM employees\nGROUP BY department\nHAVING AVG(salary) > 70000\nORDER BY avg_sal DESC;',
-   out:'department   | headcount | avg_sal\nEngineering  | 8         | 105000\nProduct      | 5         | 92000',
-   quiz:{q:'What filters groups in SQL (like WHERE but for grouped results)?',opts:['GROUPWHERE','FILTER','HAVING','GROUPFILTER'],ans:2}},
-
-  {id:'sql6',t:'INSERT, UPDATE, DELETE',lv:'Advanced',xp:55,
-   exp:'INSERT INTO adds new rows. UPDATE changes existing rows — always use WHERE or you update every row. DELETE removes rows — always use WHERE. Wrap multiple changes in a TRANSACTION so they all succeed or all fail.',
-   task:'Insert a new product, update its price, then verify with a SELECT.',
-   starter:'-- INSERT a new product (name, price, stock)\n-- UPDATE its price with WHERE\n-- SELECT to verify it\n',
-   code:'INSERT INTO products (name, price, stock) VALUES ("Keyboard", 49.99, 100);\nUPDATE products SET price = 44.99 WHERE name = "Keyboard";\nSELECT name, price FROM products WHERE name = "Keyboard";',
-   out:'1 row inserted.\n1 row updated.\nname     | price\nKeyboard | 44.99',
-   quiz:{q:'What happens if you run DELETE FROM users with no WHERE clause?',opts:['Deletes the first row','Deletes nothing','Asks for confirmation','Deletes ALL rows'],ans:3}},
-],
-
-java:[
-  {id:'j1',t:'Hello, World!',lv:'Beginner',xp:20,
-   exp:'Every Java program lives inside a class. The main() method is the entry point — the JVM calls it first. System.out.println() prints a line. Java is compiled, strongly typed, and runs on any platform via the JVM.',
-   task:'Write a complete Java program that prints "Hello, World!".',
-   starter:'public class Main {\n    public static void main(String[] args) {\n        // Print Hello, World!\n    }\n}',
-   code:'public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}',
-   out:'Hello, World!',
-   quiz:{q:'What is the entry point of a Java program?',opts:['start()','run()','main()','init()'],ans:2}},
-
-  {id:'j2',t:'Variables & Types',lv:'Beginner',xp:25,
-   exp:'Java is statically typed. Declare type before the name: int, double, String, boolean. final makes a constant. Java converts smaller types to larger ones automatically (widening). Always initialise before use.',
-   task:'Declare int, double, String, and boolean variables. Print them all on one line.',
-   starter:'public class Main {\n    public static void main(String[] args) {\n        // Declare: int age, double height, String name, boolean isCoder\n        // Print them all on one line\n    }\n}',
-   code:'public class Main {\n    public static void main(String[] args) {\n        int age = 20;\n        double height = 5.9;\n        String name = "Alex";\n        boolean isCoder = true;\n        System.out.println(name + " | " + age + " | " + height + " | " + isCoder);\n    }\n}',
-   out:'Alex | 20 | 5.9 | true',
-   quiz:{q:'Which keyword makes a Java variable a constant?',opts:['const','static','final','fixed'],ans:2}},
-
-  {id:'j3',t:'Loops',lv:'Beginner',xp:30,
-   exp:'Java has for, while, do-while, and enhanced for-each loops. A classic for loop: init; condition; update. break exits, continue skips. For-each (for(Type item : collection)) is cleaner for arrays and lists.',
-   task:'Print a 5x5 multiplication table using nested for loops.',
-   starter:'public class Main {\n    public static void main(String[] args) {\n        // Nested for loops to print a 5x5 multiplication table\n    }\n}',
-   code:'public class Main {\n    public static void main(String[] args) {\n        for (int i = 1; i <= 5; i++) {\n            for (int j = 1; j <= 5; j++) {\n                System.out.printf("%4d", i * j);\n            }\n            System.out.println();\n        }\n    }\n}',
-   out:'   1   2   3   4   5\n   2   4   6   8  10\n   3   6   9  12  15\n   4   8  12  16  20\n   5  10  15  20  25',
-   quiz:{q:'Which loop always executes at least once?',opts:['for','while','do-while','for-each'],ans:2}},
-
-  {id:'j4',t:'Classes & Objects',lv:'Intermediate',xp:40,
-   exp:'A class is a blueprint; an object is an instance of it. The constructor (__init__ in Python, but here it has the same name as the class) initialises fields. this refers to the current instance. private hides fields; public exposes them.',
-   task:'Create a Person class with name and age. Add a greet() method. Create one instance and call greet().',
-   starter:'public class Main {\n    static class Person {\n        // Add name and age fields\n        // Add a constructor\n        // Add a greet() method\n    }\n    public static void main(String[] args) {\n        // Create a Person and call greet()\n    }\n}',
-   code:'public class Main {\n    static class Person {\n        String name;\n        int age;\n        Person(String name, int age) {\n            this.name = name;\n            this.age = age;\n        }\n        void greet() {\n            System.out.println("Hi, I\'m " + name + ", age " + age);\n        }\n    }\n    public static void main(String[] args) {\n        Person p = new Person("Alice", 25);\n        p.greet();\n    }\n}',
-   out:"Hi, I'm Alice, age 25",
-   quiz:{q:'What does a Java constructor do?',opts:['Destroys an object','Initialises a new object','Copies an object','Inherits a parent class'],ans:1}},
-
-  {id:'j5',t:'Exception Handling',lv:'Advanced',xp:50,
-   exp:'Exceptions handle runtime errors. try wraps risky code. catch handles specific exceptions. finally always runs. throw creates exceptions. Checked exceptions must be caught or declared. RuntimeExceptions are unchecked.',
-   task:'Handle ArithmeticException (divide by zero) and NumberFormatException. Include a finally block.',
-   starter:'public class Main {\n    public static void main(String[] args) {\n        // try dividing by zero -> catch ArithmeticException\n        // try parsing "abc" as int -> catch NumberFormatException\n        // Add a finally block\n    }\n}',
-   code:'public class Main {\n    public static void main(String[] args) {\n        try {\n            int r = 10 / 0;\n        } catch (ArithmeticException e) {\n            System.out.println("Math error: " + e.getMessage());\n        } finally {\n            System.out.println("Finally block ran!");\n        }\n        try {\n            int n = Integer.parseInt("abc");\n        } catch (NumberFormatException e) {\n            System.out.println("Bad number format!");\n        }\n    }\n}',
-   out:'Math error: / by zero\nFinally block ran!\nBad number format!',
-   quiz:{q:'What does the finally block do?',opts:['Only runs on error','Only runs on success','Always runs','Catches all exceptions'],ans:2}},
-],
+    {id:'sql2',t:'WHERE Clause',lv:'Beginner',xp:25,
+     exp:'WHERE filters rows based on a condition. Use operators like =, >, <, AND, OR, and BETWEEN. Use LIKE for pattern matching (e.g. name LIKE "A%").',
+     task:'Filter users who are between 18 and 30, and name starts with "A".',
+     starter:'-- SELECT all from users WHERE age between 18 and 30 AND name like "A%"\n',
+     code:'SELECT * FROM users\nWHERE age BETWEEN 18 AND 30\n  AND name LIKE "A%"\nORDER BY age ASC;',
+     out:'id | name  | age\n3  | Alice | 22\n7  | Ahmed | 27',
+     quiz:{q:'What operator matches a pattern in SQL?',opts:['MATCH','REGEX','LIKE','CONTAINS'],ans:2}}
+  ]
 };
 
-// Fill remaining languages with default lessons
-LANGS.forEach(l => {
-  if (!LESSONS[l.id]) {
-    LESSONS[l.id] = [
-      {id:l.id+'1',t:'Hello, World!',lv:'Beginner',xp:20,
-       exp:'Welcome to ' + l.n + '! Every programming journey starts with the classic Hello World program. ' + l.n + ' is used by millions of developers worldwide.',
-       task:'Write your first ' + l.n + ' program that prints "Hello, World!".',
-       starter:'// Write Hello World in ' + l.n + '\n',
-       code:'// Hello, World! in ' + l.n + '\n// console.log("Hello, World!");',
-       out:'Hello, World!',
-       quiz:{q:'What is ' + l.n + ' primarily used for?',opts:['Web development','Data science','Systems programming','All of the above'],ans:3}},
-      {id:l.id+'2',t:'Variables',lv:'Beginner',xp:25,
-       exp:'Variables store data. ' + l.n + ' has its own way of declaring variables and types. Understanding this is the foundation of all programming.',
-       task:'Declare variables of different types and print each one.',
-       starter:'// Declare a string, number, and boolean variable\n// Print each one\n',
-       code:'// Variables in ' + l.n + '\n// Declare and print different types',
-       out:'Variable values printed!',
-       quiz:{q:'What is a variable?',opts:['A fixed constant','A named data container','A type of loop','A function'],ans:1}},
-      {id:l.id+'3',t:'Functions',lv:'Intermediate',xp:35,
-       exp:'Functions are reusable named blocks of code. Define once, call many times. ' + l.n + ' has its own function syntax worth learning well.',
-       task:'Write a function that returns the square of a number. Call it and print the result.',
-       starter:'// Write a square(n) function\n// Call it with 5 and print the result\n',
-       code:'// Function in ' + l.n + '\n// Returns n * n',
-       out:'25',
-       quiz:{q:'What makes a function useful?',opts:['It runs once','It can be called many times','It stores data','It loops automatically'],ans:1}},
-    ];
+// Generates an entire roadmap path for a language, weaving lessons, challenges, mini-games, boss battles, projects, exams, and certificates.
+export function generateRoadmap(langId, langName) {
+  const base = BASE_LESSONS[langId] || [
+    {id: langId + '_l1', t:'Intro to ' + langName, lv:'Beginner', xp:20,
+     exp:'Welcome to ' + langName + '! Every programming journey starts with the basics. Let\'s write a simple statement.',
+     task:'Print "Hello, ' + langName + '!" to the console.',
+     starter:'// Write your code below\n',
+     code:'console.log("Hello, ' + langName + '!");',
+     out:'Hello, ' + langName + '!',
+     quiz:{q:'What is ' + langName + '?',opts:['A language','A framework','A tool','An IDE'],ans:0}},
+    {id: langId + '_l2', t:'Syntax & Variables', lv:'Beginner', xp:25,
+     exp:'Variables are containers for values. Define a variable x with a value of 10.',
+     task:'Declare a variable named x set to 10 and print it.',
+     starter:'// Declare x = 10 and print it\n',
+     code:'let x = 10;\nconsole.log(x);',
+     out:'10',
+     quiz:{q:'What is a variable?',opts:['A constant','A loop','A named container','A file'],ans:2}}
+  ];
+
+  const roadmap = [];
+  
+  // Chapter 1: The Gateway (Basics)
+  roadmap.push({
+    id: langId + '_ch1_start',
+    type: 'header',
+    title: 'Chapter 1: The Gateway',
+    desc: 'Unlocking the core syntax of ' + langName
+  });
+
+  // 1st Lesson (Hello World)
+  roadmap.push({
+    ...base[0],
+    type: 'lesson',
+    chapter: 1,
+    stars: 3
+  });
+
+  // Challenge node
+  roadmap.push({
+    id: langId + '_ch_1',
+    type: 'challenge',
+    title: 'Syntax Duel',
+    lv: 'Beginner',
+    xp: 30,
+    exp: 'A syntax speed drill. Match the keywords and resolve compiler checks.',
+    task: 'Write a statement that defines status = "online" and print it.',
+    starter: '// Define status and print it\n',
+    code: langId === 'python' ? 'status = "online"\nprint(status)' : 'let status = "online";\nconsole.log(status);',
+    out: 'online',
+    quiz: {q:'Which is correct syntax?',opts:['status="online"','var status == "online"','let status = "online"','status : online'],ans:2}
+  });
+
+  // Mini-Game: Debug Race
+  roadmap.push({
+    id: langId + '_game_debug',
+    type: 'game',
+    gameType: 'debug',
+    title: 'Bug Race',
+    desc: 'Race against time to squash syntax bugs!',
+    xp: 35,
+    coins: 50,
+    timeLimit: 40,
+    bugs: [
+      { broken: 'prnt("Hello")', fixed: 'print("Hello")', err: 'Typo in print' },
+      { broken: 'let x == 10', fixed: 'let x = 10', err: 'Incorrect assignment operator' },
+      { broken: 'if (x = 5)', fixed: 'if (x == 5)', err: 'Assignment inside condition' }
+    ]
+  });
+
+  // Chapter Project
+  roadmap.push({
+    id: langId + '_proj_intro',
+    type: 'project',
+    title: 'Project: Smart Calculator',
+    desc: 'Build a calculator that handles addition and subtraction.',
+    xp: 60,
+    coins: 80,
+    steps: [
+      'Define function add(a, b)',
+      'Define function subtract(a, b)',
+      'Add inputs and verify outputs'
+    ],
+    starterCode: langId === 'python' 
+      ? 'def add(a, b):\n    return a + b\n\ndef subtract(a, b):\n    return a - b\n\nprint(add(10, 5))\nprint(subtract(10, 5))'
+      : 'const add = (a, b) => a + b;\nconst subtract = (a, b) => a - b;\nconsole.log(add(10, 5));\nconsole.log(subtract(10, 5));',
+    out: '15\n5'
+  });
+
+  // Boss Battle
+  roadmap.push({
+    id: langId + '_boss_1',
+    type: 'boss',
+    title: 'Boss Battle: Compiler Guardian',
+    desc: 'Defeat the Guardian by solving a multi-stage logic task in under 90 seconds!',
+    xp: 100,
+    gems: 3,
+    timeLimit: 90,
+    stages: [
+      {
+        task: 'Stage 1: Return double of a number. Complete doubleNumber(n).',
+        starter: langId==='python'?'def doubleNumber(n):\n    # Return n * 2\n':'const doubleNumber = (n) => {\n    // Return n * 2\n};',
+        code: langId==='python'?'def doubleNumber(n):\n    return n * 2\nprint(doubleNumber(12))':'const doubleNumber = (n) => n * 2;\nconsole.log(doubleNumber(12));',
+        out: '24'
+      },
+      {
+        task: 'Stage 2: Filter negatives. Complete filterNegatives(arr).',
+        starter: langId==='python'?'def filterNegatives(arr):\n    # Return list of numbers >= 0\n':'const filterNegatives = (arr) => {\n    // Return array of numbers >= 0\n};',
+        code: langId==='python'?'def filterNegatives(arr):\n    return [x for x in arr if x >= 0]\nprint(filterNegatives([1, -2, 3, -4, 0]))':'const filterNegatives = (arr) => arr.filter(x => x >= 0);\nconsole.log(filterNegatives([1, -2, 3, -4, 0]).join(","));',
+        out: langId==='python'?'[1, 3, 0]':'1,3,0'
+      }
+    ]
+  });
+
+  // Chapter 2: The Ascent (Logic)
+  roadmap.push({
+    id: langId + '_ch2_start',
+    type: 'header',
+    title: 'Chapter 2: The Ascent',
+    desc: 'Harness loops, structures, and dynamic controls'
+  });
+
+  // 2nd Lesson
+  roadmap.push({
+    ...(base[1] || base[0]),
+    type: 'lesson',
+    chapter: 2,
+    stars: 3
+  });
+
+  // Mini-Game: Code Puzzle
+  roadmap.push({
+    id: langId + '_game_puzzle',
+    type: 'game',
+    gameType: 'puzzle',
+    title: 'Code Puzzle: Logic Reorder',
+    desc: 'Rearrange code snippets to reconstruct a valid program!',
+    xp: 40,
+    coins: 60,
+    lines: langId === 'python'
+      ? ['def greet(name):', '    if name:', '        print("Hi " + name)', 'greet("Alice")']
+      : ['const greet = (name) => {', '  if (name) {', '    console.log("Hi " + name);', '  }', '};', 'greet("Alice");'],
+    out: 'Hi Alice'
+  });
+
+  // 3rd Lesson (if available)
+  if (base[2]) {
+    roadmap.push({
+      ...base[2],
+      type: 'lesson',
+      chapter: 2,
+      stars: 3
+    });
   }
+
+  // Mini-Game: Typing Speed
+  roadmap.push({
+    id: langId + '_game_typing',
+    type: 'game',
+    gameType: 'typing',
+    title: 'Syntax Shooter',
+    desc: 'Type keywords as they fall to score points and blast bugs!',
+    xp: 35,
+    coins: 50,
+    words: ['function', 'return', 'import', 'class', 'const', 'while', 'execute', 'resolve']
+  });
+
+  // Boss Battle 2
+  roadmap.push({
+    id: langId + '_boss_2',
+    type: 'boss',
+    title: 'Boss Battle: The Recursion Beast',
+    desc: 'A timed race to implement a fibonacci or factorial checker.',
+    xp: 150,
+    gems: 5,
+    timeLimit: 120,
+    stages: [
+      {
+        task: 'Return the factorial of n. Complete factorial(n).',
+        starter: langId==='python'?'def factorial(n):\n    # Return factorial of n\n':'const factorial = (n) => {\n    // Return factorial of n\n};',
+        code: langId==='python'?'def factorial(n):\n    return 1 if n<=1 else n * factorial(n-1)\nprint(factorial(5))':'const factorial = (n) => n <= 1 ? 1 : n * factorial(n - 1);\nconsole.log(factorial(5));',
+        out: '120'
+      }
+    ]
+  });
+
+  // Chapter 3: The Peak (Exam & Certification)
+  roadmap.push({
+    id: langId + '_ch3_start',
+    type: 'header',
+    title: 'Chapter 3: The Peak',
+    desc: 'Showcase your mastery and earn credentials'
+  });
+
+  // Final Exam
+  roadmap.push({
+    id: langId + '_final_exam',
+    type: 'exam',
+    title: 'Final Mastery Exam',
+    desc: 'A rigorous evaluation of syntax, debugging, and programming theory.',
+    xp: 200,
+    coins: 100,
+    questions: [
+      { q: 'Which data structure is FIFO (First-In, First-Out)?', opts: ['Stack', 'Queue', 'Array', 'Tree'], ans: 1 },
+      { q: 'What is the time complexity of binary search?', opts: ['O(1)', 'O(n)', 'O(log n)', 'O(n^2)'], ans: 2 },
+      { q: 'What does API stand for?', opts: ['Application Program Interface', 'Application Programming Interface', 'Access Program Internet', 'Automated Protocol Interface'], ans: 1 }
+    ]
+  });
+
+  // Certificate Node
+  roadmap.push({
+    id: langId + '_certificate',
+    type: 'certificate',
+    title: langName + ' Developer Certificate',
+    desc: 'Unlocks a verified, downloadable credential with unique QR code.'
+  });
+
+  return roadmap;
+}
+
+// Assemble paths map
+export const LESSONS = {};
+LANGS.forEach(l => {
+  LESSONS[l.id] = generateRoadmap(l.id, l.n);
 });

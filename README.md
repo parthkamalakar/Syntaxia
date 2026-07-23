@@ -22,9 +22,14 @@ Learn Python, JavaScript, Java, SQL, and 20+ more languages with lessons, a real
 | ▶️ **Real Code Execution** | JavaScript/HTML/CSS run in-browser; Python, Java, C++, Go, Rust & more run via a serverless Judge0 proxy — with real output and syntax errors |
 | 📚 **20+ Languages** | Python, JavaScript, Java, SQL, C++, Rust, Go, Swift, and more |
 | 🧭 **Mission Lab** | Turns an idea into a checkpoint-based mini-project with AI guidance |
-| 🏆 **5 Leagues** | Rookie → Emerald → Diamond → Amethyst → Gold |
+| 🏆 **10 Leagues** | Bronze → Silver → Gold → Platinum → Diamond → Master → Grandmaster → Legend → Mythic → Radiant |
+| 🛒 **Shop & Currency** | Earn 🪙 coins & 💎 gems, spend them on themes, cursors, pets, titles & consumables (Streak Freeze/Repair) |
+| 🏅 **Badges** | Unlockable achievements (First Code, Python/JS mastery, Collector, Legend Status…) |
+| 📋 **Quests** | Daily & weekly quests that reward XP and coins |
 | ⚡ **XP & Levels** | Earn XP when your code's output matches the expected result |
 | 🔥 **Streaks** | Real daily streak tracking (increment on consecutive days) |
+| 🎨 **Avatar Builder** | Duolingo-style avatar builder (DiceBear) |
+| ✨ **Animations** | Confetti, streak-flame pulse, level-up flash |
 | 🖱️ **Custom Cursor** | OS cursor hidden behind a custom cursor (toggleable, motion-friendly) |
 | 📱 **Responsive** | Works on desktop and mobile |
 
@@ -124,13 +129,20 @@ Or import the GitHub repo on [vercel.com](https://vercel.com) → **Add New Proj
 
 ## 🏆 League System
 
+Climb through 10 tiers based on total XP. Your leaderboard filters to the competitors in your current tier.
+
 | League | XP Required | Badge |
 |---|---|---|
-| Rookie | 0 XP | 🥉 |
-| Emerald | 1,000 XP | 💚 |
-| Diamond | 3,000 XP | 💎 |
-| Amethyst | 6,000 XP | 💜 |
-| Gold | 10,000 XP | 🥇 |
+| Bronze | 0 XP | 🥉 |
+| Silver | 500 XP | 🥈 |
+| Gold | 1,200 XP | 🥇 |
+| Platinum | 2,200 XP | 💿 |
+| Diamond | 3,500 XP | 💎 |
+| Master | 5,000 XP | 🔮 |
+| Grandmaster | 7,000 XP | 👑 |
+| Legend | 9,500 XP | 🐉 |
+| Mythic | 12,500 XP | 🔥 |
+| Radiant | 16,000 XP | ⚡ |
 
 ---
 
@@ -151,9 +163,11 @@ Or import the GitHub repo on [vercel.com](https://vercel.com) → **Add New Proj
 Pull requests welcome! Ideas:
 
 - [ ] Deeper authored curricula for more languages (topic graph + syntax map)
-- [ ] Avatar builder UI (Duolingo-style)
-- [ ] XP/confetti animations
+- [x] Avatar builder UI (Duolingo-style) — shipped
+- [x] XP/confetti animations — shipped
+- [x] Shop, badges, quests & currency economy — shipped
 - [ ] Self-hosted Judge0 for higher execution limits
+- [ ] Server-backed leaderboards & friend leagues (currently seeded locally)
 
 ---
 

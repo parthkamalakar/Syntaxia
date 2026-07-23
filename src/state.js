@@ -2,9 +2,23 @@
 const KEY = 'syn_prog';
 
 const DEFAULTS = {
+  name: 'You',
+  title: 'Script Initiate',
   done: {},
   xp: 0,
   str: 0,
+  longestStr: 0,
+  coins: 200,
+  gems: 10,
+  level: 1,
+  purchasedThemes: ['default'],
+  purchasedCursors: ['default'],
+  equippedTheme: 'default',
+  equippedCursor: 'default',
+  unlockedAchievements: [],
+  completedQuests: {}, // 'YYYY-MM-DD': [questIds]
+  friends: [],
+  messages: [],
   lastActive: null, // ISO 'YYYY-MM-DD' of last lesson completion
   avatar: { style: 'avataaars', seed: 'user', bg: '0b0c10', options: {} },
   settings: { customCursor: true },
@@ -30,6 +44,9 @@ export function recordActivity(P, todayISO) {
       P.str = 1; // gap: reset
     }
   }
+  if ((P.str || 0) > (P.longestStr || 0)) {
+    P.longestStr = P.str;
+  }
   P.lastActive = todayISO;
   return P;
 }
@@ -45,6 +62,12 @@ export function hydrate() {
     ...DEFAULTS,
     ...parsed,
     done: { ...(parsed.done || {}) },
+    purchasedThemes: [...new Set([...DEFAULTS.purchasedThemes, ...(parsed.purchasedThemes || [])])],
+    purchasedCursors: [...new Set([...DEFAULTS.purchasedCursors, ...(parsed.purchasedCursors || [])])],
+    unlockedAchievements: [...new Set([...(parsed.unlockedAchievements || [])])],
+    completedQuests: { ...(parsed.completedQuests || {}) },
+    friends: [...(parsed.friends || [])],
+    messages: [...(parsed.messages || [])],
     avatar: {
       ...DEFAULTS.avatar,
       ...(parsed.avatar || {}),
